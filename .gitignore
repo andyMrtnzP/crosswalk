@@ -4,6 +4,9 @@ data/metadata/*
 data/music/*
 !data/music/.gitkeep
 
+**/.DS_Store
+Thumbs.db
+
 # Logs
 logs
 *.log

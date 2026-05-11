@@ -35,3 +35,17 @@ export type UseNavidromeRequestResult<T> = {
   isLoading: boolean
   refetch: () => Promise<T | null>
 }
+
+export type AuthCredentials = {
+  username: string
+  password: string
+}
+
+export type AuthContextValue = {
+  credentials: AuthCredentials | null
+  isAuthenticated: boolean
+  isAuthenticating: boolean
+  error: string | null
+  login: (credentials: AuthCredentials) => Promise<boolean>
+  logout: () => void
+}

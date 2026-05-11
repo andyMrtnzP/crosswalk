@@ -3,61 +3,97 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.2138 0.0019 286.2347);
-  --foreground: oklch(0.8688 0.0978 187.4223);
-  --card: oklch(0.2570 0.0037 286.1360);
-  --card-foreground: oklch(0.9851 0 0);
-  --popover: oklch(0.2686 0 0);
-  --popover-foreground: oklch(0.9851 0 0);
-  --primary: oklch(0.8688 0.0978 187.4223);
-  --primary-foreground: oklch(0.2138 0.0019 286.2347);
-  --secondary: oklch(0.2686 0 0);
-  --secondary-foreground: oklch(1.0000 0 0);
-  --muted: oklch(0.2686 0 0);
-  --muted-foreground: oklch(0.7090 0 0);
-  --accent: oklch(0.3715 0 0);
-  --accent-foreground: oklch(1.0000 0 0);
-  --destructive: oklch(0.7036 0.1881 22.1462);
-  --destructive-foreground: oklch(0.9851 0 0);
-  --border: oklch(0.2768 0 0);
-  --input: oklch(0.3250 0 0);
-  --ring: oklch(0.5555 0 0);
-  --chart-1:  #5aa6a6;
-  --chart-2: oklch(0.3728 0.0388 195.6161);
-  --chart-3: oklch(0.2870 0.0280 195.7035);
-  --chart-4: oklch(0.2943 0.0290 195.6892);
-  --chart-5:  #132323;
-  --sidebar: oklch(0.2138 0.0019 286.2347);
-  --sidebar-foreground: oklch(1.0000 0 0);
-  --sidebar-primary: oklch(0.8688 0.0978 187.4223);
-  --sidebar-primary-foreground: oklch(0.2138 0.0019 286.2347);
-  --sidebar-accent: oklch(0.3715 0 0);
-  --sidebar-accent-foreground: oklch(1.0000 0 0);
-  --sidebar-border: oklch(0.2768 0 0);
-  --sidebar-ring: oklch(0.5555 0 0);
-  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --radius: 0.625rem;
-  --shadow-x: 0;
-  --shadow-y: 1px;
-  --shadow-blur: 3px;
-  --shadow-spread: 0px;
-  --shadow-opacity: 0.15;
-  --shadow-color: oklch(0 0 0);
-  --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.07);
-  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.07);
-  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.15), 0 1px 2px -1px hsl(0 0% 0% / 0.15);
-  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.15), 0 1px 2px -1px hsl(0 0% 0% / 0.15);
-  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.15), 0 2px 4px -1px hsl(0 0% 0% / 0.15);
-  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.15), 0 4px 6px -1px hsl(0 0% 0% / 0.15);
-  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.15), 0 8px 10px -1px hsl(0 0% 0% / 0.15);
-  --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.38);
+  /* surfaces */
+  --background: #0a0a0a;
+  --panel: #0f0f0f;
+  --panel-2: #161616;
+  --panel-3: #1c1c1c;
+
+  /* hairlines */
+  --hairline: #1f1f1f;
+  --hairline-2: #2a2a2a;
+
+  /* ink (text) */
+  --foreground: #f2efea;
+  --ink-2: #c4c0b8;
+  --ink-3: #8a857c;
+  --muted-strong: #6b6760;
+  --muted-deep: #4a463f;
+
+  /* gold accent */
+  --accent-gold: #e8b65a;
+  --accent-deep: #c99840;
+  --accent-soft: rgba(232, 182, 90, 0.10);
+  --on-accent: #1a1408;
+
+  /* shadcn-compatible semantic tokens */
+  --card: var(--panel-2);
+  --card-foreground: var(--foreground);
+  --popover: var(--panel-3);
+  --popover-foreground: var(--foreground);
+  --primary: var(--accent-gold);
+  --primary-foreground: var(--on-accent);
+  --secondary: var(--panel-2);
+  --secondary-foreground: var(--foreground);
+  --muted: var(--panel-2);
+  --muted-foreground: var(--ink-3);
+  --accent: var(--panel-3);
+  --accent-foreground: var(--foreground);
+  --destructive: #e25c5c;
+  --destructive-foreground: var(--foreground);
+  --border: var(--hairline);
+  --input: var(--hairline-2);
+  --ring: var(--accent-gold);
+
+  --chart-1: var(--accent-gold);
+  --chart-2: var(--accent-deep);
+  --chart-3: var(--ink-2);
+  --chart-4: var(--ink-3);
+  --chart-5: var(--muted-strong);
+
+  --sidebar: var(--background);
+  --sidebar-foreground: var(--ink-2);
+  --sidebar-primary: var(--accent-gold);
+  --sidebar-primary-foreground: var(--on-accent);
+  --sidebar-accent: var(--panel-3);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--hairline);
+  --sidebar-ring: var(--accent-gold);
+
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'GT Sectra', 'Fraunces', Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  --radius: 6px;
+  --radius-lg-token: 10px;
+
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --shadow-2xs: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.35), 0 1px 2px -1px rgba(0, 0, 0, 0.35);
+  --shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 10px 0 rgba(0, 0, 0, 0.45), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 28px 0 rgba(0, 0, 0, 0.5), 0 4px 8px -1px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 24px 48px 0 rgba(0, 0, 0, 0.55), 0 8px 16px -1px rgba(0, 0, 0, 0.45);
+  --shadow-2xl: 0 32px 64px 0 rgba(0, 0, 0, 0.6);
+  --shadow-accent: 0 8px 24px rgba(232, 182, 90, 0.25);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-panel-3: var(--panel-3);
+  --color-hairline: var(--hairline);
+  --color-hairline-2: var(--hairline-2);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-muted-strong: var(--muted-strong);
+  --color-accent-gold: var(--accent-gold);
+  --color-accent-deep: var(--accent-deep);
+  --color-on-accent: var(--on-accent);
+
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -93,10 +129,10 @@
   --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
 
   --shadow-2xs: var(--shadow-2xs);
   --shadow-xs: var(--shadow-xs);
@@ -110,9 +146,91 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
+    box-sizing: border-box;
   }
+  html,
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.005em;
+    min-height: 100vh;
   }
+  body {
+    margin: 0;
+  }
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--foreground);
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+}
+
+@layer components {
+  .font-display {
+    font-family: var(--font-serif);
+    letter-spacing: -0.015em;
+  }
+
+  .text-accent-italic {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--accent-gold);
+  }
+
+  .surface-panel {
+    background: var(--panel);
+    border: 1px solid var(--hairline);
+  }
+
+  .surface-panel-2 {
+    background: var(--panel-2);
+    border: 1px solid var(--hairline);
+  }
+
+  .hairline-b {
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .kicker {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent-gold);
+    font-weight: 600;
+  }
+
+  .section-eyebrow {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted-strong);
+    font-weight: 600;
+  }
+
+  .brand-mark {
+    display: inline-flex;
+    gap: 2px;
+    align-items: flex-end;
+    height: 18px;
+  }
+  .brand-mark span {
+    width: 2.5px;
+    background: var(--accent-gold);
+    border-radius: 1px;
+    display: block;
+  }
+  .brand-mark span:nth-child(1) { height: 40%; }
+  .brand-mark span:nth-child(2) { height: 75%; }
+  .brand-mark span:nth-child(3) { height: 100%; }
+  .brand-mark span:nth-child(4) { height: 55%; }
+  .brand-mark span:nth-child(5) { height: 30%; }
 }

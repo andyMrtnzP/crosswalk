@@ -149,6 +149,42 @@ export type AlbumList2Response = {
   };
 };
 
+export type ArtistDetail = ArtistRecord & {
+  album?: AlbumRecord[];
+};
+
+export type ArtistDetailResponse = {
+  'subsonic-response': {
+    status: 'ok' | 'failed';
+    artist?: ArtistDetail;
+  };
+};
+
+export type ArtistInfo2 = {
+  biography?: string;
+  musicBrainzId?: string;
+  lastFmUrl?: string;
+  smallImageUrl?: string;
+  mediumImageUrl?: string;
+  largeImageUrl?: string;
+};
+
+export type ArtistInfo2Response = {
+  'subsonic-response': {
+    status: 'ok' | 'failed';
+    artistInfo2?: ArtistInfo2;
+  };
+};
+
+export type TopSongsResponse = {
+  'subsonic-response': {
+    status: 'ok' | 'failed';
+    topSongs?: {
+      song?: Song[];
+    };
+  };
+};
+
 export type RepeatMode = 'none' | 'one' | 'all';
 
 export type PlayerContextValue = {

@@ -1,10 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Song, RepeatMode, AuthCredentials } from '@/@types/types';
 import useAuth from '@/hooks/useAuth';
-import { createContext } from 'react';
-import type { PlayerContextValue } from '@/@types/types';
-
-export const PlayerContext = createContext<PlayerContextValue | null>(null);
+import { PlayerContext } from '@/providers/PlayerContext';
 
 function buildStreamUrl(songId: string, credentials: AuthCredentials): string {
   const params = new URLSearchParams({

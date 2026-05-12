@@ -1,32 +1,33 @@
-import { useState } from 'react';
-import Sidebar from '@/components/Sidebar/Sidebar';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import Layout from '@/components/Layout/Layout';
 import Home from '@/pages/Home';
+import Artists from '@/pages/Artists';
+import Library from '@/pages/Library';
+import Playlists from '@/pages/Playlists';
+import Search from '@/pages/Search';
 import Login from '@/pages/Login';
 import useAuth from '@/hooks/useAuth';
 
 function App() {
-  const { credentials, isAuthenticated, logout } = useAuth();
-  const [activeNav, setActiveNav] = useState('Home');
+  const { isAuthenticated } = useAuth();
 
-  if (!isAuthenticated || !credentials) {
+  if (!isAuthenticated) {
     return <Login />;
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <div className="mx-auto grid min-h-screen w-full grid-cols-[232px_1fr]">
-        <Sidebar
-          activeItem={activeNav}
-          onNavClick={setActiveNav}
-          onLogout={logout}
-          username={credentials.username}
-        />
-
-        <main className="px-4 py-8 sm:px-6 lg:px-8">
-          <Home />
-        </main>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/library" element={<Library />} />
+          <Route path="/artists" element={<Artists />} />
+          <Route path="/playlists" element={<Playlists />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

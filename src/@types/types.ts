@@ -5,6 +5,10 @@ export type AlbumRecord = {
   name: string;
   artist?: string;
   year?: number;
+  artistId?: string;
+  coverArt?: string;
+  songCount?: number;
+  duration?: number;
 };
 
 export type Playlist = {
@@ -69,6 +73,7 @@ export type AuthContextValue = {
 
 export type NavItem = {
   label: string;
+  path: string;
   icon: React.ComponentType<{ className?: string }>;
 };
 
@@ -81,10 +86,42 @@ export type PlaylistsResponse = {
   };
 };
 
+export type ArtistRecord = {
+  id: string;
+  name: string;
+  coverArt?: string;
+  albumCount?: number;
+  artistImageUrl?: string;
+};
+
+export type ArtistIndex = {
+  name: string;
+  artist?: ArtistRecord[];
+};
+
+export type ArtistsResponse = {
+  'subsonic-response': {
+    status: 'ok' | 'failed';
+    artists?: {
+      ignoredArticles?: string;
+      index?: ArtistIndex[];
+    };
+  };
+};
+
+export type AlbumList2Response = {
+  'subsonic-response': {
+    status: 'ok' | 'failed';
+    albumList2?: {
+      album?: AlbumRecord[];
+    };
+  };
+};
+
 export const NAV_ITEMS: NavItem[] = [
-  { label: 'Home', icon: Home },
-  { label: 'Search', icon: Search },
-  { label: 'Library', icon: BookOpen },
-  { label: 'Artists', icon: Users },
-  { label: 'Playlists', icon: ListMusic },
+  { label: 'Home', path: '/', icon: Home },
+  { label: 'Search', path: '/search', icon: Search },
+  { label: 'Library', path: '/library', icon: BookOpen },
+  { label: 'Artists', path: '/artists', icon: Users },
+  { label: 'Playlists', path: '/playlists', icon: ListMusic },
 ];

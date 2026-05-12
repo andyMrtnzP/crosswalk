@@ -1,26 +1,25 @@
 import { useMemo } from 'react';
+import { NavLink } from 'react-router-dom';
 import { ChevronRight, Plus } from 'lucide-react';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 import PlaylistNavItem from './PlaylistNavItem/PlaylistNavItem';
 import { NAV_ITEMS, type PlaylistsResponse } from '@/@types/types';
 
 type SidebarProps = {
-  activeItem?: string;
-  onNavClick?: (item: string) => void;
   onLogout?: () => void;
   username?: string;
 };
 
-export default function Sidebar({
-  activeItem = 'Home',
-  onNavClick,
-  onLogout,
-  username,
-}: SidebarProps) {
+export default function Sidebar({ onLogout, username }: SidebarProps) {
   const { data } = useNavidromeRequest<PlaylistsResponse>('/rest/getPlaylists.view');
   const playlists = data?.['subsonic-response']?.playlists?.playlist ?? [];
 
   const initials = useMemo(() => (username ? username.slice(0, 2).toUpperCase() : '?'), [username]);
+
+  const baseClass =
+    'flex items-center gap-[11px] rounded-md px-2.5 py-2 text-[13px] font-[450] transition-colors';
+  const inactiveClass = `${baseClass} text-ink-2 hover:bg-panel-2 hover:text-foreground`;
+  const activeClass = `${baseClass} bg-panel-3 text-foreground before:-ml-2.5 before:mr-2 before:block before:h-[14px] before:w-[2px] before:flex-shrink-0 before:rounded-[1px] before:bg-accent-gold before:content-['']`;
 
   return (
     <aside className="sticky top-0 flex h-screen flex-col gap-[26px] overflow-y-auto border-r border-hairline bg-background px-[18px] pt-7 pb-6 [&::-webkit-scrollbar]:hidden">
@@ -32,24 +31,17 @@ export default function Sidebar({
       </div>
 
       <nav className="flex flex-col gap-px">
-        {NAV_ITEMS.map((item) => {
-          const isActive = activeItem === item.label;
-          return (
-            <button
-              key={item.label}
-              type="button"
-              onClick={() => onNavClick?.(item.label)}
-              className={
-                isActive
-                  ? "flex items-center gap-[11px] rounded-md bg-panel-3 px-2.5 py-2 text-[13px] font-[450] text-foreground transition-colors before:-ml-2.5 before:mr-2 before:block before:h-[14px] before:w-[2px] before:flex-shrink-0 before:rounded-[1px] before:bg-accent-gold before:content-['']"
-                  : 'flex items-center gap-[11px] rounded-md px-2.5 py-2 text-[13px] font-[450] text-ink-2 transition-colors hover:bg-panel-2 hover:text-foreground'
-              }
-            >
-              <item.icon className="h-[15px] w-[15px] flex-shrink-0" />
-              <span>{item.label}</span>
-            </button>
-          );
-        })}
+        {NAV_ITEMS.map((item) => (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            end={item.path === '/'}
+            className={({ isActive }) => (isActive ? activeClass : inactiveClass)}
+          >
+            <item.icon className="h-[15px] w-[15px] flex-shrink-0" />
+            <span>{item.label}</span>
+          </NavLink>
+        ))}
       </nav>
 
       {playlists.length > 0 && (

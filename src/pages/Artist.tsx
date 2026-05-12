@@ -55,11 +55,19 @@ function PopularRow({ song, index, isCurrentlyPlaying, onPlay }: PopularRowProps
             />
             <span
               className="w-[2px] rounded-sm bg-accent-gold"
-              style={{ animation: 'eq 1s ease-in-out infinite', animationDelay: '0.2s', height: '100%' }}
+              style={{
+                animation: 'eq 1s ease-in-out infinite',
+                animationDelay: '0.2s',
+                height: '100%',
+              }}
             />
             <span
               className="w-[2px] rounded-sm bg-accent-gold"
-              style={{ animation: 'eq 1s ease-in-out infinite', animationDelay: '0.4s', height: '60%' }}
+              style={{
+                animation: 'eq 1s ease-in-out infinite',
+                animationDelay: '0.4s',
+                height: '60%',
+              }}
             />
           </span>
         ) : (

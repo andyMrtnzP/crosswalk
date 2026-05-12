@@ -1,12 +1,25 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { RequestParams, SubsonicEnvelope, UseNavidromeRequestResult } from '@/@types/types';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type {
+  RequestOptions,
+  RequestParams,
+  SubsonicEnvelope,
+  UseNavidromeRequestResult,
+} from '@/@types/types';
 import useAuth from './useAuth';
 
-function useNavidromeRequest<T>(url: string, params?: RequestParams): UseNavidromeRequestResult<T> {
+function useNavidromeRequest<T>(
+  url: string,
+  params?: RequestParams,
+  options?: RequestOptions,
+): UseNavidromeRequestResult<T> {
   const { credentials } = useAuth();
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const blobUrlRef = useRef<string | null>(null);
+
+  const responseType = options?.responseType ?? 'json';
+  const skip = options?.skip ?? false;
 
   const serializedParams = useMemo(() => {
     const entries = Object.entries(params ?? {})
@@ -18,7 +31,7 @@ function useNavidromeRequest<T>(url: string, params?: RequestParams): UseNavidro
   }, [params]);
 
   const refetch = useCallback(async () => {
-    if (!credentials?.username || !credentials?.password) {
+    if (skip || !credentials?.username || !credentials?.password) {
       return null;
     }
 
@@ -31,8 +44,11 @@ function useNavidromeRequest<T>(url: string, params?: RequestParams): UseNavidro
         p: credentials.password,
         v: '1.16.1',
         c: 'crosswalk-web',
-        f: 'json',
       });
+
+      if (responseType === 'json') {
+        searchParams.set('f', 'json');
+      }
 
       const parsedEntries = JSON.parse(serializedParams) as Array<[string, string]>;
       parsedEntries.forEach(([key, value]) => {
@@ -41,11 +57,24 @@ function useNavidromeRequest<T>(url: string, params?: RequestParams): UseNavidro
 
       const separator = url.includes('?') ? '&' : '?';
       const response = await fetch(`${url}${separator}${searchParams.toString()}`);
-      const payload = (await response.json()) as T;
 
       if (!response.ok) {
         throw new Error(`Request failed with status ${response.status}.`);
       }
+
+      if (responseType === 'blobUrl') {
+        const blob = await response.blob();
+        if (blobUrlRef.current) {
+          URL.revokeObjectURL(blobUrlRef.current);
+        }
+        const objectUrl = URL.createObjectURL(blob);
+        blobUrlRef.current = objectUrl;
+        const payload = objectUrl as T;
+        setData(payload);
+        return payload;
+      }
+
+      const payload = (await response.json()) as T;
 
       const subsonic = (payload as SubsonicEnvelope)['subsonic-response'];
       if (subsonic?.status === 'failed') {
@@ -63,11 +92,19 @@ function useNavidromeRequest<T>(url: string, params?: RequestParams): UseNavidro
     } finally {
       setIsLoading(false);
     }
-  }, [credentials?.password, credentials?.username, serializedParams, url]);
+  }, [credentials?.password, credentials?.username, responseType, serializedParams, url]);
 
   useEffect(() => {
     void refetch();
   }, [refetch]);
+
+  useEffect(() => {
+    return () => {
+      if (blobUrlRef.current) {
+        URL.revokeObjectURL(blobUrlRef.current);
+      }
+    };
+  }, []);
 
   return {
     error,

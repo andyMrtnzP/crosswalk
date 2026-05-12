@@ -1,36 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Home, Search, BookOpen, Users, ListMusic } from 'lucide-react';
+import { useMemo } from 'react';
+import { ChevronRight, Plus, } from 'lucide-react';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
-import type { Playlist } from '@/@types/types';
 import PlaylistNavItem from './PlaylistNavItem/PlaylistNavItem';
-
-type NavItem = {
-  label: string;
-  icon: React.ComponentType<{ className?: string }>;
-};
-
-const NAV_ITEMS: NavItem[] = [
-  {
-    label: 'Home',
-    icon: Home,
-  },
-  {
-    label: 'Search',
-    icon: Search,
-  },
-  {
-    label: 'Library',
-    icon: BookOpen,
-  },
-  {
-    label: 'Artists',
-    icon: Users,
-  },
-  {
-    label: 'Playlists',
-    icon: ListMusic,
-  },
-];
+import { NAV_ITEMS, type PlaylistsResponse } from '@/@types/types';
 
 type SidebarProps = {
   activeItem?: string;
@@ -39,86 +11,83 @@ type SidebarProps = {
   username?: string;
 };
 
-type PlaylistsResponse = {
-  'subsonic-response': {
-    status: 'ok' | 'failed';
-    playlists?: {
-      playlist?: Playlist[];
-    };
-  };
-};
 
-export default function Sidebar({
-  activeItem = 'Home',
-  onNavClick,
-  onLogout,
-  username,
-}: SidebarProps) {
+
+export default function Sidebar({ activeItem = 'Home', onNavClick, onLogout, username }: SidebarProps) {
   const { data } = useNavidromeRequest<PlaylistsResponse>('/rest/getPlaylists.view');
-  const [playlists, setPlaylists] = useState<Playlist[]>([]);
+  const playlists = data?.['subsonic-response']?.playlists?.playlist ?? [];
 
-  useEffect(() => {
-    if (data?.['subsonic-response']?.playlists?.playlist) {
-      setPlaylists(data['subsonic-response'].playlists.playlist);
-    }
-  }, [data]);
+  const initials = useMemo(() => (username ? username.slice(0, 2).toUpperCase() : '?'), [username]);
 
   return (
-    <aside className="flex h-screen w-[232px] flex-col border-r border-hairline bg-background sticky">
-      {/* Brand */}
-      <div className="border-b border-hairline px-6 py-8">
-        <div className="space-y-1">
-          <p className="text-xs uppercase tracking-wider text-muted-strong">Crosswalk</p>
-          {username && <p className="text-sm text-ink-2">{username}</p>}
-        </div>
+    <aside className="sticky top-0 flex h-screen flex-col gap-[26px] overflow-y-auto border-r border-hairline bg-background px-[18px] pt-7 pb-6 [&::-webkit-scrollbar]:hidden">
+      <div className="mb-1 flex items-center gap-2.5 px-2">
+        <span className="brand-mark">
+          <img src="/logo.svg" alt="Crosswalk logo" className="h-6 w-6" />
+        </span>
+        <span className="font-display text-[18px] font-medium tracking-[-0.01em]">Crosswalk</span>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto px-3 py-4">
-        <ul className="space-y-1">
-          {NAV_ITEMS.map((item) => (
-            <li key={item.label}>
-              <button
-                onClick={() => onNavClick?.(item.label)}
-                className={`relative flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors ${
-                  activeItem === item.label
-                    ? 'bg-panel-3 text-accent-gold before:absolute before:left-0 before:h-full before:w-0.5 before:bg-accent-gold before:rounded-r'
-                    : 'text-ink-2 hover:text-foreground hover:bg-panel-3'
-                }`}
-                type="button"
-              >
-                <item.icon className="h-5 w-5" />
-                <span>{item.label}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-
-        {/* Playlists Section */}
-        {playlists.length > 0 && (
-          <div className="mt-8 space-y-2">
-            <div className="px-3 py-2">
-              <p className="text-xs uppercase tracking-wider text-muted-strong">Playlists</p>
-            </div>
-            <ul className="space-y-1">
-              {playlists.map((playlist) => (
-                <PlaylistNavItem key={playlist.id} playlist={playlist} />
-              ))}
-            </ul>
-          </div>
-        )}
+      <nav className="flex flex-col gap-px">
+        {NAV_ITEMS.map((item) => {
+          const isActive = activeItem === item.label;
+          return (
+            <button
+              key={item.label}
+              type="button"
+              onClick={() => onNavClick?.(item.label)}
+              className={
+                isActive
+                  ? "flex items-center gap-[11px] rounded-md bg-panel-3 px-2.5 py-2 text-[13px] font-[450] text-foreground transition-colors before:-ml-2.5 before:mr-2 before:block before:h-[14px] before:w-[2px] before:flex-shrink-0 before:rounded-[1px] before:bg-accent-gold before:content-['']"
+                  : 'flex items-center gap-[11px] rounded-md px-2.5 py-2 text-[13px] font-[450] text-ink-2 transition-colors hover:bg-panel-2 hover:text-foreground'
+              }
+            >
+              <item.icon className="h-[15px] w-[15px] flex-shrink-0" />
+              <span>{item.label}</span>
+            </button>
+          );
+        })}
       </nav>
 
-      {/* Sign out */}
-      <div className="border-t border-hairline px-3 py-4">
-        <button
-          onClick={onLogout}
-          className="w-full rounded-md px-3 py-2 text-sm font-medium text-ink-2 transition-colors hover:bg-panel-3 hover:text-foreground"
-          type="button"
+      {playlists.length > 0 && (
+        <div>
+          <div className="mb-2 flex items-center justify-between px-2.5">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-strong">Playlists</p>
+            <button
+              type="button"
+              aria-label="Add playlist"
+              className="grid h-4 w-4 place-items-center rounded-[3px] text-ink-3 transition-colors hover:bg-panel-2 hover:text-foreground"
+            >
+              <Plus className="h-[11px] w-[11px]" strokeWidth={2.5} />
+            </button>
+          </div>
+          <ul className="flex flex-col gap-px">
+            {playlists.map((playlist) => (
+              <PlaylistNavItem key={playlist.id} playlist={playlist} />
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <button
+        type="button"
+        onClick={onLogout}
+        aria-label="Sign out"
+        title="Sign out"
+        className="mt-auto flex w-full items-center gap-2.5 rounded-[10px] border border-hairline p-2.5 text-left transition-colors hover:border-hairline-2"
+      >
+        <span
+          className="grid h-[30px] w-[30px] flex-shrink-0 place-items-center rounded-full text-[11px] font-bold text-on-accent"
+          style={{ background: 'linear-gradient(135deg, var(--accent-gold), var(--accent-deep))' }}
         >
-          Sign out
-        </button>
-      </div>
+          {initials}
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-[12.5px] font-medium text-foreground">{username ?? 'Guest'}</span>
+          <span className="mt-px block text-[10.5px] uppercase tracking-[0.04em] text-muted-strong">Sign out</span>
+        </span>
+        <ChevronRight className="h-[13px] w-[13px] flex-shrink-0 text-muted-strong" strokeWidth={2} />
+      </button>
     </aside>
   );
 }

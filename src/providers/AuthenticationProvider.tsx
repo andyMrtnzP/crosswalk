@@ -1,8 +1,8 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useMemo, useState, type ReactNode, createContext } from 'react';
 import type { AuthContextValue, AuthCredentials, SubsonicEnvelope } from '@/@types/types';
-import AuthenticationContext from '@/providers/auth-context';
 
 const AUTH_STORAGE_KEY = 'crosswalk.auth';
+export const AuthenticationContext = createContext<AuthContextValue | null>(null);
 
 function readStoredCredentials(): AuthCredentials | null {
   try {

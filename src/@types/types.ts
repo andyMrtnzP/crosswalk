@@ -1,3 +1,5 @@
+import { BookOpen, Home, ListMusic, Search, Users } from "lucide-react";
+
 export type AlbumRecord = {
   id: string;
   name: string;
@@ -8,6 +10,7 @@ export type AlbumRecord = {
 export type Playlist = {
   id: string;
   name: string;
+  coverArt?: string;
   songCount?: number;
   duration?: number;
   created?: string;
@@ -28,6 +31,11 @@ export type SubsonicResponse = {
 };
 
 export type RequestParams = Record<string, string | number | boolean | null | undefined>;
+
+export type RequestOptions = {
+  responseType?: 'json' | 'blobUrl';
+  skip?: boolean;
+};
 
 export type SubsonicEnvelope = {
   'subsonic-response'?: {
@@ -58,3 +66,25 @@ export type AuthContextValue = {
   login: (credentials: AuthCredentials) => Promise<boolean>;
   logout: () => void;
 };
+
+export type NavItem = {
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+};
+
+export type PlaylistsResponse = {
+  'subsonic-response': {
+    status: 'ok' | 'failed';
+    playlists?: {
+      playlist?: Playlist[];
+    };
+  };
+};
+
+export const NAV_ITEMS: NavItem[] = [
+  { label: 'Home', icon: Home },
+  { label: 'Search', icon: Search },
+  { label: 'Library', icon: BookOpen },
+  { label: 'Artists', icon: Users },
+  { label: 'Playlists', icon: ListMusic },
+];

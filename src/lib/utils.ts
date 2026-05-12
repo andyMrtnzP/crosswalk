@@ -15,3 +15,18 @@ export const formatDuration = (seconds?: number): string | null => {
 export const sortByDateDesc = <T extends { created?: string }>(arr: T[]): T[] => {
   return arr.sort((a, b) => (b.created ?? '').localeCompare(a.created ?? ''));
 };
+
+export const formatTrackDuration = (seconds?: number): string => {
+  if (!seconds) return '—';
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${s.toString().padStart(2, '0')}`;
+};
+
+export const formatAlbumDuration = (seconds?: number): string => {
+  if (!seconds) return '';
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  return h > 0 ? `${h} hr ${m} min` : `${m} min`;
+};
+

@@ -109,6 +109,37 @@ export type ArtistsResponse = {
   };
 };
 
+export type Song = {
+  id: string;
+  title: string;
+  album?: string;
+  albumId?: string;
+  artist?: string;
+  artistId?: string;
+  track?: number;
+  discNumber?: number;
+  year?: number;
+  genre?: string;
+  coverArt?: string;
+  duration?: number;
+  bitRate?: number;
+  playCount?: number;
+  starred?: string;
+  contentType?: string;
+};
+
+export type AlbumDetail = AlbumRecord & {
+  genre?: string;
+  song?: Song[];
+};
+
+export type AlbumDetailResponse = {
+  'subsonic-response': {
+    status: 'ok' | 'failed';
+    album?: AlbumDetail;
+  };
+};
+
 export type AlbumList2Response = {
   'subsonic-response': {
     status: 'ok' | 'failed';

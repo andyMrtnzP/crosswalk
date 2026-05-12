@@ -100,6 +100,7 @@ export default function Library() {
                   coverArtId={album.coverArt}
                   title={album.name}
                   meta={albumMeta(album)}
+                  to={`/album/${album.id}`}
                 />
               ))}
             </div>

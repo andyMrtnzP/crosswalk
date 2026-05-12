@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -23,7 +23,7 @@
   /* gold accent */
   --accent-gold: #e8b65a;
   --accent-deep: #c99840;
-  --accent-soft: rgba(232, 182, 90, 0.10);
+  --accent-soft: rgba(232, 182, 90, 0.1);
   --on-accent: #1a1408;
 
   /* shadcn-compatible semantic tokens */
@@ -60,9 +60,12 @@
   --sidebar-border: var(--hairline);
   --sidebar-ring: var(--accent-gold);
 
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans:
+    'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-serif: 'GT Sectra', 'Fraunces', Georgia, Cambria, 'Times New Roman', Times, serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
 
   --radius: 6px;
   --radius-lg-token: 10px;
@@ -153,7 +156,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
-    font-feature-settings: "ss01", "cv11";
+    font-feature-settings: 'ss01', 'cv11';
     -webkit-font-smoothing: antialiased;
     letter-spacing: -0.005em;
     min-height: 100vh;

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { ChevronRight, Plus, } from 'lucide-react';
+import { ChevronRight, Plus } from 'lucide-react';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 import PlaylistNavItem from './PlaylistNavItem/PlaylistNavItem';
 import { NAV_ITEMS, type PlaylistsResponse } from '@/@types/types';
@@ -11,9 +11,12 @@ type SidebarProps = {
   username?: string;
 };
 
-
-
-export default function Sidebar({ activeItem = 'Home', onNavClick, onLogout, username }: SidebarProps) {
+export default function Sidebar({
+  activeItem = 'Home',
+  onNavClick,
+  onLogout,
+  username,
+}: SidebarProps) {
   const { data } = useNavidromeRequest<PlaylistsResponse>('/rest/getPlaylists.view');
   const playlists = data?.['subsonic-response']?.playlists?.playlist ?? [];
 
@@ -52,7 +55,9 @@ export default function Sidebar({ activeItem = 'Home', onNavClick, onLogout, use
       {playlists.length > 0 && (
         <div>
           <div className="mb-2 flex items-center justify-between px-2.5">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-strong">Playlists</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-strong">
+              Playlists
+            </p>
             <button
               type="button"
               aria-label="Add playlist"
@@ -83,10 +88,17 @@ export default function Sidebar({ activeItem = 'Home', onNavClick, onLogout, use
           {initials}
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block truncate text-[12.5px] font-medium text-foreground">{username ?? 'Guest'}</span>
-          <span className="mt-px block text-[10.5px] uppercase tracking-[0.04em] text-muted-strong">Sign out</span>
+          <span className="block truncate text-[12.5px] font-medium text-foreground">
+            {username ?? 'Guest'}
+          </span>
+          <span className="mt-px block text-[10.5px] uppercase tracking-[0.04em] text-muted-strong">
+            Sign out
+          </span>
         </span>
-        <ChevronRight className="h-[13px] w-[13px] flex-shrink-0 text-muted-strong" strokeWidth={2} />
+        <ChevronRight
+          className="h-[13px] w-[13px] flex-shrink-0 text-muted-strong"
+          strokeWidth={2}
+        />
       </button>
     </aside>
   );

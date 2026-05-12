@@ -10,7 +10,7 @@ import useAuth from './useAuth';
 function useNavidromeRequest<T>(
   url: string,
   params?: RequestParams,
-  options?: RequestOptions,
+  options?: RequestOptions
 ): UseNavidromeRequestResult<T> {
   const { credentials } = useAuth();
   const [data, setData] = useState<T | null>(null);

@@ -8,11 +8,15 @@ export type PlaylistNavItemProps = {
   onClick?: (playlist: Playlist) => void;
 };
 
-export default function PlaylistNavItem({ playlist, isActive = false, onClick }: PlaylistNavItemProps) {
+export default function PlaylistNavItem({
+  playlist,
+  isActive = false,
+  onClick,
+}: PlaylistNavItemProps) {
   const { data: coverArtUrl } = useNavidromeRequest<string>(
     '/rest/getCoverArt.view',
     { id: playlist.coverArt, size: 48 },
-    { responseType: 'blobUrl' },
+    { responseType: 'blobUrl' }
   );
 
   return (
@@ -28,7 +32,11 @@ export default function PlaylistNavItem({ playlist, isActive = false, onClick }:
         }
       >
         {coverArtUrl ? (
-          <img src={coverArtUrl} alt="" className="h-6 w-6 flex-shrink-0 rounded-[3px] object-cover" />
+          <img
+            src={coverArtUrl}
+            alt=""
+            className="h-6 w-6 flex-shrink-0 rounded-[3px] object-cover"
+          />
         ) : (
           <span className="grid h-6 w-6 flex-shrink-0 place-items-center rounded-[3px] bg-panel-3 text-ink-3">
             <Music className="h-3 w-3" />

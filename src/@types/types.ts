@@ -1,4 +1,4 @@
-import { BookOpen, Home, ListMusic, Search, Users } from "lucide-react";
+import { BookOpen, Home, ListMusic, Search, Users } from 'lucide-react';
 
 export type AlbumRecord = {
   id: string;

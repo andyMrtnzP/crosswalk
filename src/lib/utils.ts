@@ -29,4 +29,3 @@ export const formatAlbumDuration = (seconds?: number): string => {
   const m = Math.floor((seconds % 3600) / 60);
   return h > 0 ? `${h} hr ${m} min` : `${m} min`;
 };
-

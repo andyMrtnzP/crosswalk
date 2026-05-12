@@ -22,7 +22,7 @@ export default function LibraryCard({
   const { data: src } = useNavidromeRequest<string>(
     '/rest/getCoverArt.view',
     { id: coverArtId, size: 400 },
-    { responseType: 'blobUrl', skip: !coverArtId },
+    { responseType: 'blobUrl', skip: !coverArtId }
   );
 
   const isArtist = variant === 'artist';
@@ -67,7 +67,9 @@ export default function LibraryCard({
         {title}
       </div>
       {meta && (
-        <div className={`mt-0.5 truncate text-[11.5px] text-ink-3 ${isArtist ? 'text-center' : ''}`}>
+        <div
+          className={`mt-0.5 truncate text-[11.5px] text-ink-3 ${isArtist ? 'text-center' : ''}`}
+        >
           {meta}
         </div>
       )}

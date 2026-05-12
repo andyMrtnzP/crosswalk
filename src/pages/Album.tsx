@@ -21,7 +21,7 @@ export default function Album() {
   const { data: albumData } = useNavidromeRequest<AlbumDetailResponse>(
     '/rest/getAlbum.view',
     { id },
-    { skip: !id },
+    { skip: !id }
   );
 
   const album = albumData?.['subsonic-response']?.album;
@@ -29,7 +29,7 @@ export default function Album() {
   const { data: coverArtSrc } = useNavidromeRequest<string>(
     '/rest/getCoverArt.view',
     { id: album?.coverArt, size: 400 },
-    { responseType: 'blobUrl', skip: !album?.coverArt },
+    { responseType: 'blobUrl', skip: !album?.coverArt }
   );
 
   const songs = album?.song ?? [];

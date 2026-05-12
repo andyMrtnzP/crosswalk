@@ -219,3 +219,8 @@
     font-weight: 600;
   }
 }
+
+@keyframes eq {
+  0%, 100% { height: 30%; }
+  50% { height: 100%; }
+}

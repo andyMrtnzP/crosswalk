@@ -149,6 +149,28 @@ export type AlbumList2Response = {
   };
 };
 
+export type RepeatMode = 'none' | 'one' | 'all';
+
+export type PlayerContextValue = {
+  queue: Song[];
+  currentIndex: number;
+  currentSong: Song | null;
+  isPlaying: boolean;
+  volume: number;
+  shuffle: boolean;
+  repeat: RepeatMode;
+  currentTime: number;
+  duration: number;
+  playQueue: (songs: Song[], startIndex?: number) => void;
+  togglePlay: () => void;
+  next: () => void;
+  prev: () => void;
+  seek: (time: number) => void;
+  setVolume: (vol: number) => void;
+  toggleShuffle: () => void;
+  cycleRepeat: () => void;
+};
+
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Home', path: '/', icon: Home },
   { label: 'Search', path: '/search', icon: Search },

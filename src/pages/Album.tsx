@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Clock, Download, Heart, MoreVertical, Play } from 'lucide-react';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import usePlayer from '@/hooks/usePlayer';
 import type { AlbumDetailResponse } from '@/@types/types';
 import { formatAlbumDuration } from '@/lib/utils';
 import AlbumTrackRow, { TRACK_COLS } from '@/components/AlbumTrackRow/AlbumTrackRow';
@@ -17,6 +18,7 @@ const TABS: { key: Tab; label: string }[] = [
 export default function Album() {
   const { id } = useParams<{ id: string }>();
   const [activeTab, setActiveTab] = useState<Tab>('tracks');
+  const player = usePlayer();
 
   const { data: albumData } = useNavidromeRequest<AlbumDetailResponse>(
     '/rest/getAlbum.view',
@@ -104,6 +106,7 @@ export default function Album() {
         <div className="flex items-center gap-2.5 self-end">
           <button
             type="button"
+            onClick={() => songs.length > 0 && player.playQueue(songs, 0)}
             className="inline-flex h-10 items-center gap-2.5 rounded-full bg-accent-gold pl-[18px] pr-[22px] text-[13px] font-semibold tracking-[-0.005em] text-on-accent transition hover:-translate-y-px hover:bg-accent-deep"
           >
             <Play className="h-3 w-3 fill-current" />
@@ -172,7 +175,13 @@ export default function Album() {
           </div>
 
           {songs.map((song, i) => (
-            <AlbumTrackRow key={song.id} song={song} index={i + 1} />
+            <AlbumTrackRow
+              key={song.id}
+              song={song}
+              index={i + 1}
+              onPlay={() => player.playQueue(songs, i)}
+              isCurrentlyPlaying={player.currentSong?.id === song.id}
+            />
           ))}
         </div>
       )}

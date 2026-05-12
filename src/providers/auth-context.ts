@@ -1,6 +1,6 @@
-import { createContext } from 'react'
-import type { AuthContextValue } from '@/@types/types'
+import { createContext } from 'react';
+import type { AuthContextValue } from '@/@types/types';
 
-const AuthenticationContext = createContext<AuthContextValue | null>(null)
+const AuthenticationContext = createContext<AuthContextValue | null>(null);
 
-export default AuthenticationContext
+export default AuthenticationContext;

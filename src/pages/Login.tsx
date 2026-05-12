@@ -1,31 +1,30 @@
-import { useState, type FormEvent } from 'react'
-import useAuth from '@/hooks/useAuth'
+import { useState, type FormEvent } from 'react';
+import useAuth from '@/hooks/useAuth';
 
 function Login() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [inputError, setInputError] = useState<string | null>(null)
-  const { login, error, isAuthenticating } = useAuth()
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [inputError, setInputError] = useState<string | null>(null);
+  const { login, error, isAuthenticating } = useAuth();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
 
     if (!username || !password) {
-      setInputError('Please provide both username and password.')
-      return
+      setInputError('Please provide both username and password.');
+      return;
     }
 
-    setInputError(null)
-    await login({ username, password })
-  }
+    setInputError(null);
+    await login({ username, password });
+  };
 
   return (
     <main className="relative grid min-h-screen w-full place-items-center px-6 py-16">
       <div
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
-          background:
-            'radial-gradient(60% 50% at 50% 0%, rgba(232,182,90,0.08), transparent 70%)',
+          background: 'radial-gradient(60% 50% at 50% 0%, rgba(232,182,90,0.08), transparent 70%)',
         }}
       />
 
@@ -94,7 +93,7 @@ function Login() {
         </p>
       </section>
     </main>
-  )
+  );
 }
 
-export default Login
+export default Login;

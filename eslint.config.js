@@ -19,5 +19,8 @@ export default defineConfig([
       ecmaVersion: 2022,
       globals: globals.browser,
     },
+    rules: {
+      semi: ['error', 'always'],
+    },
   },
 ])

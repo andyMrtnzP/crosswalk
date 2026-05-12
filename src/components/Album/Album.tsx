@@ -1,8 +1,8 @@
-import type { AlbumRecord } from '@/@types/types'
+import type { AlbumRecord } from '@/@types/types';
 
 type AlbumProps = {
-  album: AlbumRecord
-}
+  album: AlbumRecord;
+};
 
 function Album({ album }: AlbumProps) {
   return (
@@ -11,7 +11,7 @@ function Album({ album }: AlbumProps) {
       <p className="mt-1 text-sm text-muted-foreground">{album.artist || 'Unknown artist'}</p>
       {album.year ? <p className="mt-2 text-xs font-medium text-primary">{album.year}</p> : null}
     </article>
-  )
+  );
 }
 
-export default Album
+export default Album;

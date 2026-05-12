@@ -1,45 +1,45 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react'
-import type { AuthContextValue, AuthCredentials, SubsonicEnvelope } from '@/@types/types'
-import AuthenticationContext from '@/providers/auth-context'
+import { useCallback, useMemo, useState, type ReactNode } from 'react';
+import type { AuthContextValue, AuthCredentials, SubsonicEnvelope } from '@/@types/types';
+import AuthenticationContext from '@/providers/auth-context';
 
-const AUTH_STORAGE_KEY = 'crosswalk.auth'
+const AUTH_STORAGE_KEY = 'crosswalk.auth';
 
 function readStoredCredentials(): AuthCredentials | null {
   try {
-    const raw = localStorage.getItem(AUTH_STORAGE_KEY)
+    const raw = localStorage.getItem(AUTH_STORAGE_KEY);
     if (!raw) {
-      return null
+      return null;
     }
 
-    const parsed = JSON.parse(raw) as AuthCredentials
+    const parsed = JSON.parse(raw) as AuthCredentials;
     if (!parsed.username || !parsed.password) {
-      return null
+      return null;
     }
 
-    return parsed
+    return parsed;
   } catch {
-    return null
+    return null;
   }
 }
 
 type AuthenticationProviderProps = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 function AuthenticationProvider({ children }: AuthenticationProviderProps) {
   const [credentials, setCredentials] = useState<AuthCredentials | null>(() => {
     if (typeof window === 'undefined') {
-      return null
+      return null;
     }
 
-    return readStoredCredentials()
-  })
-  const [error, setError] = useState<string | null>(null)
-  const [isAuthenticating, setIsAuthenticating] = useState(false)
+    return readStoredCredentials();
+  });
+  const [error, setError] = useState<string | null>(null);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   const login = useCallback(async (nextCredentials: AuthCredentials) => {
-    setError(null)
-    setIsAuthenticating(true)
+    setError(null);
+    setIsAuthenticating(true);
 
     try {
       const params = new URLSearchParams({
@@ -48,34 +48,34 @@ function AuthenticationProvider({ children }: AuthenticationProviderProps) {
         f: 'json',
         u: nextCredentials.username,
         p: nextCredentials.password,
-      })
+      });
 
-      const response = await fetch(`/rest/ping.view?${params.toString()}`)
-      const payload = (await response.json()) as SubsonicEnvelope
-      const subsonic = payload['subsonic-response']
+      const response = await fetch(`/rest/ping.view?${params.toString()}`);
+      const payload = (await response.json()) as SubsonicEnvelope;
+      const subsonic = payload['subsonic-response'];
 
       if (!response.ok || subsonic?.status !== 'ok') {
-        throw new Error(subsonic?.error?.message ?? 'Invalid Navidrome credentials.')
+        throw new Error(subsonic?.error?.message ?? 'Invalid Navidrome credentials.');
       }
 
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(nextCredentials))
-      setCredentials(nextCredentials)
-      setError(null)
-      return true
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(nextCredentials));
+      setCredentials(nextCredentials);
+      setError(null);
+      return true;
     } catch (caughtError) {
-      setCredentials(null)
-      setError(caughtError instanceof Error ? caughtError.message : 'Unable to authenticate.')
-      return false
+      setCredentials(null);
+      setError(caughtError instanceof Error ? caughtError.message : 'Unable to authenticate.');
+      return false;
     } finally {
-      setIsAuthenticating(false)
+      setIsAuthenticating(false);
     }
-  }, [])
+  }, []);
 
   const logout = useCallback(() => {
-    localStorage.removeItem(AUTH_STORAGE_KEY)
-    setCredentials(null)
-    setError(null)
-  }, [])
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+    setCredentials(null);
+    setError(null);
+  }, []);
 
   const value = useMemo<AuthContextValue>(
     () => ({
@@ -87,9 +87,9 @@ function AuthenticationProvider({ children }: AuthenticationProviderProps) {
       logout,
     }),
     [credentials, isAuthenticating, error, login, logout]
-  )
+  );
 
-  return <AuthenticationContext.Provider value={value}>{children}</AuthenticationContext.Provider>
+  return <AuthenticationContext.Provider value={value}>{children}</AuthenticationContext.Provider>;
 }
 
-export { AuthenticationProvider }
+export { AuthenticationProvider };

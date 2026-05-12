@@ -1,4 +1,14 @@
-import { Heart, Pause, Play, Repeat, Repeat1, Shuffle, SkipBack, SkipForward, Volume2 } from 'lucide-react';
+import {
+  Heart,
+  Pause,
+  Play,
+  Repeat,
+  Repeat1,
+  Shuffle,
+  SkipBack,
+  SkipForward,
+  Volume2,
+} from 'lucide-react';
 import usePlayer from '@/hooks/usePlayer';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 
@@ -10,7 +20,22 @@ function formatTime(secs: number): string {
 }
 
 export default function Player() {
-  const { currentSong, isPlaying, volume, shuffle, repeat, currentTime, duration, togglePlay, next, prev, seek, setVolume, toggleShuffle, cycleRepeat } = usePlayer();
+  const {
+    currentSong,
+    isPlaying,
+    volume,
+    shuffle,
+    repeat,
+    currentTime,
+    duration,
+    togglePlay,
+    next,
+    prev,
+    seek,
+    setVolume,
+    toggleShuffle,
+    cycleRepeat,
+  } = usePlayer();
 
   const { data: coverArtSrc } = useNavidromeRequest<string>(
     '/rest/getCoverArt.view',
@@ -34,15 +59,16 @@ export default function Player() {
   }
 
   if (!currentSong) {
-    return (
-      <></>
-    );
+    return <></>;
   }
 
   return (
     <div
       className="fixed inset-x-0 bottom-0 z-50 flex h-[76px] items-center border-t border-hairline bg-panel px-6"
-      style={{ display: 'grid', gridTemplateColumns: 'minmax(220px,1fr) minmax(360px,2fr) minmax(220px,1fr)' }}
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'minmax(220px,1fr) minmax(360px,2fr) minmax(220px,1fr)',
+      }}
     >
       {/* Left — now playing */}
       <div className="flex min-w-0 items-center gap-3">
@@ -123,7 +149,10 @@ export default function Player() {
         </div>
 
         {/* Progress bar */}
-        <div className="grid w-full max-w-[540px] items-center gap-[10px]" style={{ gridTemplateColumns: '32px 1fr 32px' }}>
+        <div
+          className="grid w-full max-w-[540px] items-center gap-[10px]"
+          style={{ gridTemplateColumns: '32px 1fr 32px' }}
+        >
           <span className="text-center text-[10.5px] tabular-nums text-muted-strong">
             {formatTime(currentTime)}
           </span>
@@ -137,7 +166,7 @@ export default function Player() {
             tabIndex={0}
             className="relative h-[3px] cursor-pointer overflow-hidden rounded-sm bg-hairline-2"
             onClick={handleProgressClick}
-            onKeyDown={e => {
+            onKeyDown={(e) => {
               if (e.key === 'ArrowRight') seek(Math.min(duration, currentTime + 5));
               if (e.key === 'ArrowLeft') seek(Math.max(0, currentTime - 5));
             }}
@@ -167,15 +196,12 @@ export default function Player() {
             tabIndex={0}
             className="h-[3px] flex-1 cursor-pointer overflow-hidden rounded-sm bg-hairline-2"
             onClick={handleVolumeClick}
-            onKeyDown={e => {
+            onKeyDown={(e) => {
               if (e.key === 'ArrowRight') setVolume(Math.min(1, volume + 0.05));
               if (e.key === 'ArrowLeft') setVolume(Math.max(0, volume - 0.05));
             }}
           >
-            <div
-              className="h-full rounded-sm bg-ink-2"
-              style={{ width: `${volume * 100}%` }}
-            />
+            <div className="h-full rounded-sm bg-ink-2" style={{ width: `${volume * 100}%` }} />
           </div>
         </div>
       </div>

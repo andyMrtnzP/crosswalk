@@ -6,7 +6,6 @@ import type { PlayerContextValue } from '@/@types/types';
 
 export const PlayerContext = createContext<PlayerContextValue | null>(null);
 
-
 function buildStreamUrl(songId: string, credentials: AuthCredentials): string {
   const params = new URLSearchParams({
     id: songId,
@@ -157,7 +156,7 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
       setCurrentTime(0);
       return;
     }
-    setCurrentIndex(idx => Math.max(0, idx - 1));
+    setCurrentIndex((idx) => Math.max(0, idx - 1));
   }, []);
 
   const seek = useCallback((time: number) => {
@@ -170,10 +169,10 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
     setVolumeState(vol);
   }, []);
 
-  const toggleShuffle = useCallback(() => setShuffle(s => !s), []);
+  const toggleShuffle = useCallback(() => setShuffle((s) => !s), []);
 
   const cycleRepeat = useCallback(() => {
-    setRepeat(r => {
+    setRepeat((r) => {
       if (r === 'none') return 'all';
       if (r === 'all') return 'one';
       return 'none';

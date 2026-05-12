@@ -56,9 +56,7 @@ export default function LibraryCard({
             e.stopPropagation();
             onPlay?.();
           }}
-          className={`absolute grid h-9 w-9 translate-y-2 place-items-center rounded-full bg-accent-gold text-on-accent opacity-0 transition duration-200 ease-out group-hover:translate-y-0 group-hover:opacity-100 ${
-           'bottom-1/2 right-1/2 translate-x-1/2 translate-y-1/2 group-hover:translate-x-1/2 group-hover:translate-y-1/2'
-          }`}
+          className={`absolute grid h-9 w-9 translate-y-2 place-items-center rounded-full bg-accent-gold text-on-accent opacity-0 transition duration-200 ease-out group-hover:translate-y-0 group-hover:opacity-100 ${'bottom-1/2 right-1/2 translate-x-1/2 translate-y-1/2 group-hover:translate-x-1/2 group-hover:translate-y-1/2'}`}
           style={{ boxShadow: '0 12px 28px rgba(0,0,0,0.4)' }}
         >
           <Play className="ml-0.5 h-3.5 w-3.5 fill-current" />

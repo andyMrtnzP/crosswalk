@@ -5,7 +5,12 @@ type LibrarySectionHeaderProps = {
   onAction?: () => void;
 };
 
-export default function LibrarySectionHeader({ title, count, action, onAction }: LibrarySectionHeaderProps) {
+export default function LibrarySectionHeader({
+  title,
+  count,
+  action,
+  onAction,
+}: LibrarySectionHeaderProps) {
   return (
     <div className="mb-[18px] flex items-baseline justify-between border-b border-hairline pb-3">
       <h2 className="flex items-baseline gap-2.5 font-display text-[18px] font-medium tracking-[-0.01em]">

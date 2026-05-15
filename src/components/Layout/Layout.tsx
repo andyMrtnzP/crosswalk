@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import Sidebar from '@/components/Sidebar/Sidebar';
+import Topbar from '@/components/Topbar/Topbar';
 import Player from '@/components/Player/Player';
 import PlayerProvider from '@/providers/PlayerProvider';
 import useAuth from '@/hooks/useAuth';
@@ -13,6 +14,7 @@ export default function Layout() {
         <div className="mx-auto grid min-h-screen w-full grid-cols-[232px_1fr]">
           <Sidebar onLogout={logout} username={credentials?.username} />
           <main className="min-w-0 pb-[76px]">
+            <Topbar />
             <Outlet />
           </main>
         </div>

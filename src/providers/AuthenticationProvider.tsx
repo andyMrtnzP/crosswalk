@@ -10,7 +10,11 @@ type AuthenticationProviderProps = {
 };
 
 const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
-  const { get: getCredentials, set: setCredentials, del: deleteCredentials } = useLocalStorage<AuthCredentials>(AUTH_STORAGE_KEY);
+  const {
+    get: getCredentials,
+    set: setCredentials,
+    del: deleteCredentials,
+  } = useLocalStorage<AuthCredentials>(AUTH_STORAGE_KEY);
   const [error, setError] = useState<string | null>(null);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
@@ -65,6 +69,6 @@ const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
   );
 
   return <AuthenticationContext.Provider value={value}>{children}</AuthenticationContext.Provider>;
-}
+};
 
 export { AuthenticationProvider };

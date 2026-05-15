@@ -11,13 +11,16 @@ export function useLocalStorage<T>(key: string) {
     }
   }, [key]);
 
-  const set = useCallback((value: T) => {
-    try {
-      window.localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.error(`Error writing to localStorage key "${key}":`, error);
-    }
-  }, [key]);
+  const set = useCallback(
+    (value: T) => {
+      try {
+        window.localStorage.setItem(key, JSON.stringify(value));
+      } catch (error) {
+        console.error(`Error writing to localStorage key "${key}":`, error);
+      }
+    },
+    [key]
+  );
 
   const del = useCallback(() => {
     try {

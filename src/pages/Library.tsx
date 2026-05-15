@@ -1,11 +1,12 @@
 import LibraryCard from '@/components/LibraryCard/LibraryCard';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
-import type {
-  AlbumList2Response,
-  ArtistsResponse,
-  PlaylistsResponse,
-} from '@/@types/types';
-import { getAlbumMetadata, getArtistMetadata, getPlaylistMetadata, sortByDateDesc } from '@/lib/utils';
+import type { AlbumList2Response, ArtistsResponse, PlaylistsResponse } from '@/@types/types';
+import {
+  getAlbumMetadata,
+  getArtistMetadata,
+  getPlaylistMetadata,
+  sortByDateDesc,
+} from '@/lib/utils';
 import LibrarySectionHeader from '@/components/LibrarySectionHeader/LibrarySectionHeader';
 
 export default function Library() {

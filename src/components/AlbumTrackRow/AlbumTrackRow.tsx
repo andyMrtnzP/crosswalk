@@ -30,18 +30,16 @@ export default function AlbumTrackRow({
       )}
 
       <div className="relative h-4 text-center text-[12.5px] tabular-nums text-ink-3">
-        {isCurrentlyPlaying && (
-          <AnimatedEqBars />
-        )}
+        {isCurrentlyPlaying && <AnimatedEqBars />}
 
-        {!isCurrentlyPlaying &&
+        {!isCurrentlyPlaying && (
           <>
             <span className="group-hover:hidden">{index}</span>
             <span className="hidden items-center justify-center group-hover:flex">
               <Play className="h-3 w-3 fill-current text-foreground" />
             </span>
           </>
-        }
+        )}
       </div>
 
       {/* Title */}

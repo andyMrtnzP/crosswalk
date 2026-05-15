@@ -36,9 +36,7 @@ export default function Album() {
         style={{ gridTemplateColumns: '160px 1fr auto' }}
       >
         {/* Cover */}
-        <div
-          className="relative h-40 w-40 overflow-hidden rounded-lg bg-panel-2"
-        >
+        <div className="relative h-40 w-40 overflow-hidden rounded-lg bg-panel-2">
           {coverArtSrc && (
             <img
               src={coverArtSrc}
@@ -46,9 +44,7 @@ export default function Album() {
               className="h-full w-full object-cover brightness-90"
             />
           )}
-          <div
-            className="absolute inset-0 record-page-cover-gradient"
-          />
+          <div className="absolute inset-0 record-page-cover-gradient" />
         </div>
 
         {/* Meta */}
@@ -99,30 +95,17 @@ export default function Album() {
             <Play className="h-3 w-3 fill-current" />
             Play
           </Button>
-          <Button
-            type="button"
-            aria-label="Like album"
-            variant="icon"
-          >
+          <Button type="button" aria-label="Like album" variant="icon">
             <Heart className="h-4 w-4" />
           </Button>
-          <Button
-            type="button"
-            aria-label="Download"
-            variant="icon"
-          >
+          <Button type="button" aria-label="Download" variant="icon">
             <Download className="h-4 w-4" />
           </Button>
-          <Button
-            type="button"
-            aria-label="More options"
-            variant="icon"
-          >
+          <Button type="button" aria-label="More options" variant="icon">
             <MoreVertical className="h-4 w-4" />
           </Button>
         </div>
       </div>
-
 
       {/* Track table */}
       <div className="pb-15 pt-2">

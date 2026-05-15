@@ -45,13 +45,19 @@ function QueueRow({ song, isPlaying = false, coverUrl, onClick }: QueueRowProps)
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
       onClick={onClick}
-      onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') onClick(); } : undefined}
+      onKeyDown={
+        onClick
+          ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') onClick();
+            }
+          : undefined
+      }
       className={`grid items-center gap-[10px] rounded-[10px] p-2 transition-colors ${
         isPlaying
           ? 'bg-[color:var(--accent-soft)] text-foreground outline outline-1 outline-[rgba(232,182,90,0.18)]'
           : onClick
-          ? 'cursor-pointer text-ink-2 hover:bg-white/[0.04]'
-          : 'text-ink-2'
+            ? 'cursor-pointer text-ink-2 hover:bg-white/[0.04]'
+            : 'text-ink-2'
       }`}
       style={{ gridTemplateColumns: '34px 1fr auto' }}
     >
@@ -104,11 +110,8 @@ export default function Queue({ queue, currentIndex, isOpen, onClose }: QueuePro
         </div>
 
         {/* Scrollable body */}
-        <div
-          className="flex-1 overflow-y-auto px-[10px] pb-4"
-          style={{ scrollbarWidth: 'none' }}
-        >
-            {queue.length === 0 && (
+        <div className="flex-1 overflow-y-auto px-[10px] pb-4" style={{ scrollbarWidth: 'none' }}>
+          {queue.length === 0 && (
             <p className="px-2 py-8 text-center text-[13px] text-ink-3">Queue is empty</p>
           )}
 
@@ -143,7 +146,11 @@ export default function Queue({ queue, currentIndex, isOpen, onClose }: QueuePro
                 isPlaying
                 coverUrl={
                   credentials
-                    ? buildCoverUrl(currentSong.coverArt, credentials.username, credentials.password)
+                    ? buildCoverUrl(
+                        currentSong.coverArt,
+                        credentials.username,
+                        credentials.password
+                      )
                     : null
                 }
               />

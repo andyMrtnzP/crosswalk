@@ -92,21 +92,25 @@ export default function Queue({ queue, currentIndex, isOpen, onClose }: QueuePro
 
   return (
     <>
-      {/* Click-outside backdrop */}
-      <div className="fixed inset-0 z-40" onClick={onClose} />
-
       <div
         className="fixed bottom-[84px] right-4 z-50 flex w-[320px] flex-col overflow-hidden rounded-[18px] border border-hairline bg-[rgba(15,15,15,0.92)] shadow-2xl backdrop-blur-[18px]"
         style={{ maxHeight: 'calc(100vh - 104px)' }}
       >
         {/* Header */}
-        <div className="flex flex-shrink-0 items-baseline justify-between border-b border-hairline px-[18px] pb-3 pt-[18px]">
+        <div className="flex flex-shrink-0 items-center justify-between border-b border-hairline px-[18px] pb-3 pt-[18px]">
           <h2 className="font-serif text-2xl font-normal tracking-[-0.02em] text-foreground">
             Queue
           </h2>
-          <span className="text-[11px] tabular-nums text-ink-3">
-            {queue.length} {queue.length === 1 ? 'track' : 'tracks'}
-          </span>
+          <button
+            type="button"
+            aria-label="Close queue"
+            onClick={onClose}
+            className="grid h-6 w-6 place-items-center rounded-md text-ink-3 transition-colors hover:bg-panel-3 hover:text-foreground focus:outline-none"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="h-[13px] w-[13px]">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
         </div>
 
         {/* Scrollable body */}

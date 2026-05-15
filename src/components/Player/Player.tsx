@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import {
   Heart,
+  ListMusic,
   Pause,
   Play,
   Repeat,
@@ -11,6 +13,7 @@ import {
 } from 'lucide-react';
 import usePlayer from '@/hooks/usePlayer';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import Queue from '@/components/Queue/Queue';
 
 function formatTime(secs: number): string {
   if (!isFinite(secs) || isNaN(secs)) return '0:00';
@@ -21,6 +24,8 @@ function formatTime(secs: number): string {
 
 export default function Player() {
   const {
+    queue,
+    currentIndex,
     currentSong,
     isPlaying,
     volume,
@@ -36,6 +41,8 @@ export default function Player() {
     toggleShuffle,
     cycleRepeat,
   } = usePlayer();
+
+  const [queueOpen, setQueueOpen] = useState(false);
 
   const { data: coverArtSrc } = useNavidromeRequest<string>(
     '/rest/getCoverArt.view',
@@ -63,6 +70,7 @@ export default function Player() {
   }
 
   return (
+    <>
     <div
       className="fixed inset-x-0 bottom-0 z-50 flex h-[76px] items-center border-t border-hairline bg-panel px-6"
       style={{
@@ -183,7 +191,7 @@ export default function Player() {
         </div>
       </div>
 
-      {/* Right — volume */}
+      {/* Right — volume + queue */}
       <div className="flex items-center justify-end gap-[14px]">
         <div className="flex min-w-[100px] items-center gap-2">
           <Volume2 className="h-[14px] w-[14px] flex-shrink-0 text-ink-3" />
@@ -204,7 +212,29 @@ export default function Player() {
             <div className="h-full rounded-sm bg-ink-2" style={{ width: `${volume * 100}%` }} />
           </div>
         </div>
+
+        <button
+          type="button"
+          aria-label="Queue"
+          aria-pressed={queueOpen}
+          onClick={() => setQueueOpen((o) => !o)}
+          className={`grid place-items-center rounded-full p-1 transition-colors ${
+            queueOpen
+              ? 'text-accent-gold'
+              : 'text-ink-3 hover:text-foreground'
+          } focus:outline-none focus:ring-2 focus:ring-accent-gold/20`}
+        >
+          <ListMusic className="h-[15px] w-[15px]" />
+        </button>
       </div>
     </div>
+
+      <Queue
+        queue={queue}
+        currentIndex={currentIndex}
+        isOpen={queueOpen}
+        onClose={() => setQueueOpen(false)}
+      />
+    </>
   );
 }

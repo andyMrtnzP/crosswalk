@@ -1,39 +1,16 @@
 import { useCallback, useMemo, useState, type ReactNode, createContext } from 'react';
 import type { AuthContextValue, AuthCredentials, SubsonicEnvelope } from '@/@types/types';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 const AUTH_STORAGE_KEY = 'crosswalk.auth';
 export const AuthenticationContext = createContext<AuthContextValue | null>(null);
-
-function readStoredCredentials(): AuthCredentials | null {
-  try {
-    const raw = localStorage.getItem(AUTH_STORAGE_KEY);
-    if (!raw) {
-      return null;
-    }
-
-    const parsed = JSON.parse(raw) as AuthCredentials;
-    if (!parsed.username || !parsed.password) {
-      return null;
-    }
-
-    return parsed;
-  } catch {
-    return null;
-  }
-}
 
 type AuthenticationProviderProps = {
   children: ReactNode;
 };
 
-function AuthenticationProvider({ children }: AuthenticationProviderProps) {
-  const [credentials, setCredentials] = useState<AuthCredentials | null>(() => {
-    if (typeof window === 'undefined') {
-      return null;
-    }
-
-    return readStoredCredentials();
-  });
+const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
+  const { get: getCredentials, set: setCredentials, del: deleteCredentials } = useLocalStorage<AuthCredentials>(AUTH_STORAGE_KEY);
   const [error, setError] = useState<string | null>(null);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
@@ -58,12 +35,11 @@ function AuthenticationProvider({ children }: AuthenticationProviderProps) {
         throw new Error(subsonic?.error?.message ?? 'Invalid Navidrome credentials.');
       }
 
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(nextCredentials));
       setCredentials(nextCredentials);
       setError(null);
       return true;
     } catch (caughtError) {
-      setCredentials(null);
+      deleteCredentials();
       setError(caughtError instanceof Error ? caughtError.message : 'Unable to authenticate.');
       return false;
     } finally {
@@ -72,21 +48,20 @@ function AuthenticationProvider({ children }: AuthenticationProviderProps) {
   }, []);
 
   const logout = useCallback(() => {
-    localStorage.removeItem(AUTH_STORAGE_KEY);
-    setCredentials(null);
+    deleteCredentials();
     setError(null);
   }, []);
 
   const value = useMemo<AuthContextValue>(
     () => ({
-      credentials,
-      isAuthenticated: credentials !== null,
+      credentials: getCredentials(),
+      isAuthenticated: getCredentials() !== null,
       isAuthenticating,
       error,
       login,
       logout,
     }),
-    [credentials, isAuthenticating, error, login, logout]
+    [isAuthenticating, error, login, logout]
   );
 
   return <AuthenticationContext.Provider value={value}>{children}</AuthenticationContext.Provider>;

@@ -11,7 +11,7 @@ export default function LibrarySectionHeader({
   title,
   count,
   action,
-  to
+  to,
 }: LibrarySectionHeaderProps) {
   return (
     <div className="mb-[18px] flex items-baseline justify-between border-b border-hairline pb-3">

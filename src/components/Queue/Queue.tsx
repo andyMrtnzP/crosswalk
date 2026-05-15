@@ -107,7 +107,14 @@ export default function Queue({ queue, currentIndex, isOpen, onClose }: QueuePro
             onClick={onClose}
             className="grid h-6 w-6 place-items-center rounded-md text-ink-3 transition-colors hover:bg-panel-3 hover:text-foreground focus:outline-none"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="h-[13px] w-[13px]">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              className="h-[13px] w-[13px]"
+            >
               <path d="M18 6 6 18M6 6l12 12" />
             </svg>
           </button>

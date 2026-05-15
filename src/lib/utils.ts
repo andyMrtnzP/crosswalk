@@ -1,6 +1,7 @@
-import type { AlbumRecord } from '@/@types/types';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+
+import type { AlbumRecord, ArtistRecord, Playlist } from '@/@types/types';
 
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
@@ -36,4 +37,19 @@ export const getAlbumMetadata = (album: AlbumRecord): string | undefined => {
   if (album.artist) parts.push(album.artist);
   if (album.year) parts.push(String(album.year));
   return parts.length > 0 ? parts.join(' · ') : undefined;
+};
+
+export const getPlaylistMetadata = (playlist: Playlist): string | undefined => {
+  const parts: string[] = [];
+  if (playlist.songCount != null) {
+    parts.push(`${playlist.songCount} ${playlist.songCount === 1 ? 'track' : 'tracks'}`);
+  }
+  const duration = formatDuration(playlist.duration);
+  if (duration) parts.push(duration);
+  return parts.length > 0 ? parts.join(' · ') : undefined;
+};
+
+export const getArtistMetadata = (artist: ArtistRecord): string | undefined => {
+  if (artist.albumCount == null) return undefined;
+  return `${artist.albumCount} ${artist.albumCount === 1 ? 'album' : 'albums'}`;
 };

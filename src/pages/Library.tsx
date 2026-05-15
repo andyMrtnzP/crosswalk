@@ -2,36 +2,11 @@ import LibraryCard from '@/components/LibraryCard/LibraryCard';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 import type {
   AlbumList2Response,
-  AlbumRecord,
-  ArtistRecord,
   ArtistsResponse,
-  Playlist,
   PlaylistsResponse,
 } from '@/@types/types';
-import { formatDuration, sortByDateDesc } from '@/lib/utils';
+import { getAlbumMetadata, getArtistMetadata, getPlaylistMetadata, sortByDateDesc } from '@/lib/utils';
 import LibrarySectionHeader from '@/components/LibrarySectionHeader/LibrarySectionHeader';
-
-const playlistMeta = (playlist: Playlist): string | undefined => {
-  const parts: string[] = [];
-  if (playlist.songCount != null) {
-    parts.push(`${playlist.songCount} ${playlist.songCount === 1 ? 'track' : 'tracks'}`);
-  }
-  const duration = formatDuration(playlist.duration);
-  if (duration) parts.push(duration);
-  return parts.length > 0 ? parts.join(' · ') : undefined;
-};
-
-const artistMeta = (artist: ArtistRecord): string | undefined => {
-  if (artist.albumCount == null) return undefined;
-  return `${artist.albumCount} ${artist.albumCount === 1 ? 'album' : 'albums'}`;
-};
-
-const albumMeta = (album: AlbumRecord): string | undefined => {
-  const parts: string[] = [];
-  if (album.artist) parts.push(album.artist);
-  if (album.year) parts.push(String(album.year));
-  return parts.length > 0 ? parts.join(' · ') : undefined;
-};
 
 export default function Library() {
   const { data: playlistsData } = useNavidromeRequest<PlaylistsResponse>('/rest/getPlaylists.view');
@@ -65,7 +40,7 @@ export default function Library() {
         </div>
       </div>
 
-      <div className="px-9 pb-[60px]">
+      <div className="px-9 pb-15">
         {playlists.length > 0 && (
           <div className="mb-12">
             <LibrarySectionHeader
@@ -74,13 +49,13 @@ export default function Library() {
               action="View All"
               to="/playlists"
             />
-            <div className="grid grid-cols-2 gap-[22px] sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+            <div className="grid grid-cols-2 gap-5.5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
               {playlists.map((playlist) => (
                 <LibraryCard
                   key={playlist.id}
                   coverArtId={playlist.coverArt}
                   title={playlist.name}
-                  meta={playlistMeta(playlist)}
+                  meta={getPlaylistMetadata(playlist)}
                 />
               ))}
             </div>
@@ -95,13 +70,13 @@ export default function Library() {
               action="View All"
               to="/albums"
             />
-            <div className="grid grid-cols-2 gap-[22px] sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+            <div className="grid grid-cols-2 gap-5.5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
               {albums.map((album) => (
                 <LibraryCard
                   key={album.id}
                   coverArtId={album.coverArt}
                   title={album.name}
-                  meta={albumMeta(album)}
+                  meta={getAlbumMetadata(album)}
                   to={`/album/${album.id}`}
                 />
               ))}
@@ -116,13 +91,13 @@ export default function Library() {
               count={`${artists.length} total`}
               action="View All"
             />
-            <div className="grid grid-cols-2 gap-[22px] sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+            <div className="grid grid-cols-2 gap-5.5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
               {artists.map((artist) => (
                 <LibraryCard
                   key={artist.id}
                   coverArtId={artist.coverArt}
                   title={artist.name}
-                  meta={artistMeta(artist)}
+                  meta={getArtistMetadata(artist)}
                   variant="artist"
                   to={`/artist/${artist.id}`}
                 />

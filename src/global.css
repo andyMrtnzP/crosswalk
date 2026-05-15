@@ -229,3 +229,12 @@
     height: 100%;
   }
 }
+
+.record-page-cover-gradient {
+  background: linear-gradient(
+    135deg,
+    rgba(232, 182, 90, 0.05),
+    transparent 50%,
+    rgba(0, 0, 0, 0.4)
+  );
+}

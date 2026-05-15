@@ -32,7 +32,7 @@ function buildCoverUrl(
   coverArt: string | undefined,
   username: string,
   password: string,
-  size = 64,
+  size = 64
 ): string | null {
   if (!coverArt) return null;
   const params = new URLSearchParams({
@@ -240,8 +240,7 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
                 style={{
                   borderRadius: '18px',
                   border: '1px solid rgba(255,255,255,0.08)',
-                  boxShadow:
-                    '0 34px 90px rgba(0,0,0,0.52), 0 1px 0 rgba(255,255,255,0.08) inset',
+                  boxShadow: '0 34px 90px rgba(0,0,0,0.52), 0 1px 0 rgba(255,255,255,0.08) inset',
                 }}
               >
                 {largeCoverSrc && (
@@ -370,7 +369,10 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
               <span className="text-[11.5px] tabular-nums text-ink-3">{queue.length} tracks</span>
             </div>
 
-            <div className="min-h-0 flex-1 overflow-y-auto pr-0.5" style={{ scrollbarWidth: 'none' }}>
+            <div
+              className="min-h-0 flex-1 overflow-y-auto pr-0.5"
+              style={{ scrollbarWidth: 'none' }}
+            >
               {/* Played */}
               {playedSongs.length > 0 && (
                 <>
@@ -383,7 +385,11 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
                         song={song}
                         coverUrl={
                           credentials
-                            ? buildCoverUrl(song.coverArt, credentials.username, credentials.password)
+                            ? buildCoverUrl(
+                                song.coverArt,
+                                credentials.username,
+                                credentials.password
+                              )
                             : null
                         }
                         onClick={() => playQueue(queue, i)}
@@ -405,7 +411,7 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
                     ? buildCoverUrl(
                         currentSong.coverArt,
                         credentials.username,
-                        credentials.password,
+                        credentials.password
                       )
                     : null
                 }
@@ -455,7 +461,7 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
                         buildCoverUrl(
                           nextSong.coverArt,
                           credentials.username,
-                          credentials.password,
+                          credentials.password
                         ) ?? undefined
                       }
                       alt=""
@@ -469,9 +475,7 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
                   </p>
                   <p className="mt-0.5 truncate text-[13px] text-ink-2">
                     {nextSong.title}
-                    {nextSong.artist && (
-                      <span className="text-ink-3"> — {nextSong.artist}</span>
-                    )}
+                    {nextSong.artist && <span className="text-ink-3"> — {nextSong.artist}</span>}
                   </p>
                 </div>
               </>
@@ -592,10 +596,7 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
                   if (e.key === 'ArrowLeft') setVolume(Math.max(0, volume - 0.05));
                 }}
               >
-                <div
-                  className="h-full rounded-sm bg-ink-2"
-                  style={{ width: `${volume * 100}%` }}
-                />
+                <div className="h-full rounded-sm bg-ink-2" style={{ width: `${volume * 100}%` }} />
               </div>
             </div>
           </div>

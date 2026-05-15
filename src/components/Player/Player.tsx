@@ -102,7 +102,9 @@ export default function Player() {
               </div>
             </div>
             <div className="min-w-0 text-left">
-              <p className="truncate text-[13px] font-medium text-foreground">{currentSong.title}</p>
+              <p className="truncate text-[13px] font-medium text-foreground">
+                {currentSong.title}
+              </p>
               <p className="mt-0.5 truncate text-[11.5px] text-ink-3">{currentSong.artist}</p>
             </div>
           </button>
@@ -251,10 +253,7 @@ export default function Player() {
         onClose={() => setQueueOpen(false)}
       />
 
-      <NowPlayingView
-        isOpen={nowPlayingOpen}
-        onClose={() => setNowPlayingOpen(false)}
-      />
+      <NowPlayingView isOpen={nowPlayingOpen} onClose={() => setNowPlayingOpen(false)} />
     </>
   );
 }

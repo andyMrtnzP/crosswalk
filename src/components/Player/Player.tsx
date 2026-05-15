@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  ChevronUp,
   Heart,
   ListMusic,
   Pause,
@@ -14,6 +15,7 @@ import {
 import usePlayer from '@/hooks/usePlayer';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 import Queue from '@/components/Queue/Queue';
+import NowPlayingView from '@/components/NowPlayingView/NowPlayingView';
 
 function formatTime(secs: number): string {
   if (!isFinite(secs) || isNaN(secs)) return '0:00';
@@ -43,6 +45,7 @@ export default function Player() {
   } = usePlayer();
 
   const [queueOpen, setQueueOpen] = useState(false);
+  const [nowPlayingOpen, setNowPlayingOpen] = useState(false);
 
   const { data: coverArtSrc } = useNavidromeRequest<string>(
     '/rest/getCoverArt.view',
@@ -80,23 +83,33 @@ export default function Player() {
       >
         {/* Left — now playing */}
         <div className="flex min-w-0 items-center gap-3">
-          <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-[4px] bg-panel-2">
-            {coverArtSrc && (
-              <img
-                src={coverArtSrc}
-                alt={currentSong.title}
-                className="h-full w-full object-cover"
-              />
-            )}
-          </div>
-          <div className="min-w-0">
-            <p className="truncate text-[13px] font-medium text-foreground">{currentSong.title}</p>
-            <p className="mt-0.5 truncate text-[11.5px] text-ink-3">{currentSong.artist}</p>
-          </div>
+          <button
+            type="button"
+            aria-label="Open now playing view"
+            onClick={() => setNowPlayingOpen(true)}
+            className="group flex min-w-0 items-center gap-3 rounded-md p-0.5 transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-soft)]"
+          >
+            <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-[4px] bg-panel-2">
+              {coverArtSrc && (
+                <img
+                  src={coverArtSrc}
+                  alt={currentSong.title}
+                  className="h-full w-full object-cover"
+                />
+              )}
+              <div className="absolute inset-0 grid place-items-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+                <ChevronUp className="h-4 w-4 text-white" />
+              </div>
+            </div>
+            <div className="min-w-0 text-left">
+              <p className="truncate text-[13px] font-medium text-foreground">{currentSong.title}</p>
+              <p className="mt-0.5 truncate text-[11.5px] text-ink-3">{currentSong.artist}</p>
+            </div>
+          </button>
           <button
             type="button"
             aria-label="Like"
-            className="ml-2 grid flex-shrink-0 place-items-center text-accent-gold"
+            className="ml-1 grid flex-shrink-0 place-items-center text-accent-gold"
           >
             <Heart className="h-[15px] w-[15px] fill-current" />
           </button>
@@ -236,6 +249,11 @@ export default function Player() {
         currentIndex={currentIndex}
         isOpen={queueOpen}
         onClose={() => setQueueOpen(false)}
+      />
+
+      <NowPlayingView
+        isOpen={nowPlayingOpen}
+        onClose={() => setNowPlayingOpen(false)}
       />
     </>
   );

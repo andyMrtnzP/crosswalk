@@ -1,3 +1,4 @@
+import type { AlbumRecord } from '@/@types/types';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -28,4 +29,11 @@ export const formatAlbumDuration = (seconds?: number): string => {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
   return h > 0 ? `${h} hr ${m} min` : `${m} min`;
+};
+
+export const getAlbumMetadata = (album: AlbumRecord): string | undefined => {
+  const parts: string[] = [];
+  if (album.artist) parts.push(album.artist);
+  if (album.year) parts.push(String(album.year));
+  return parts.length > 0 ? parts.join(' · ') : undefined;
 };

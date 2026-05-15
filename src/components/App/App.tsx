@@ -9,6 +9,7 @@ import Playlists from '@/pages/Playlists';
 import Search from '@/pages/Search';
 import Login from '@/pages/Login';
 import useAuth from '@/hooks/useAuth';
+import Albums from '@/pages/Albums';
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -28,6 +29,7 @@ function App() {
           <Route path="/library" element={<Library />} />
           <Route path="/artists" element={<Artists />} />
           <Route path="/playlists" element={<Playlists />} />
+          <Route path="/albums" element={<Albums />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

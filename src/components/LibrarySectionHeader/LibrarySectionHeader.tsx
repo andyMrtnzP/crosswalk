@@ -1,15 +1,17 @@
+import { Link } from 'react-router-dom';
+
 type LibrarySectionHeaderProps = {
   title: string;
   count?: string;
   action?: string;
-  onAction?: () => void;
+  to?: string;
 };
 
 export default function LibrarySectionHeader({
   title,
   count,
   action,
-  onAction,
+  to
 }: LibrarySectionHeaderProps) {
   return (
     <div className="mb-[18px] flex items-baseline justify-between border-b border-hairline pb-3">
@@ -22,13 +24,14 @@ export default function LibrarySectionHeader({
         )}
       </h2>
       {action && (
-        <button
-          type="button"
-          onClick={onAction}
-          className="bg-transparent text-[11.5px] uppercase tracking-[0.08em] text-ink-3 transition-colors hover:text-accent-gold"
-        >
-          {action}
-        </button>
+        <Link to={to || '#'}>
+          <button
+            type="button"
+            className="bg-transparent text-[11.5px] uppercase tracking-[0.08em] text-ink-3 transition-colors hover:text-accent-gold"
+          >
+            {action}
+          </button>
+        </Link>
       )}
     </div>
   );

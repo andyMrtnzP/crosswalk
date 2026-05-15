@@ -72,6 +72,7 @@ export default function Library() {
               title="Playlists"
               count={`${playlists.length} total`}
               action="View All"
+              to="/playlists"
             />
             <div className="grid grid-cols-2 gap-[22px] sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
               {playlists.map((playlist) => (
@@ -92,6 +93,7 @@ export default function Library() {
               title="Albums"
               count={`${albums.length} total`}
               action="View All"
+              to="/albums"
             />
             <div className="grid grid-cols-2 gap-[22px] sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
               {albums.map((album) => (
@@ -122,6 +124,7 @@ export default function Library() {
                   title={artist.name}
                   meta={artistMeta(artist)}
                   variant="artist"
+                  to={`/artist/${artist.id}`}
                 />
               ))}
             </div>

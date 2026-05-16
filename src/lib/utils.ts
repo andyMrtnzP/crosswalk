@@ -25,6 +25,14 @@ export const formatTrackDuration = (seconds?: number): string => {
   return `${m}:${s.toString().padStart(2, '0')}`;
 };
 
+export const formatPlayingTime = (secs: number | undefined): string => {
+  if (secs == null || !isFinite(secs) || isNaN(secs)) return '0:00';
+
+  const m = Math.floor(secs / 60);
+  const s = Math.floor(secs % 60);
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
 export const formatAlbumDuration = (seconds?: number): string => {
   if (!seconds) return '';
   const h = Math.floor(seconds / 3600);
@@ -53,3 +61,8 @@ export const getArtistMetadata = (artist: ArtistRecord): string | undefined => {
   if (artist.albumCount == null) return undefined;
   return `${artist.albumCount} ${artist.albumCount === 1 ? 'album' : 'albums'}`;
 };
+
+/** Strip HTML tags from Last.fm biography strings to avoid XSS. */
+export const sanitizeHTML = (html: string): string => {
+  return html.replace(/<[^>]*>/g, '');
+}

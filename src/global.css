@@ -238,3 +238,27 @@
     rgba(0, 0, 0, 0.4)
   );
 }
+
+.artist-hero-gradient {
+  background: linear-gradient(
+      to right,
+      rgba(10, 10, 10, 0.85) 0%,
+      rgba(10, 10, 10, 0.5) 50%,
+      rgba(10, 10, 10, 0.4) 100%
+    ),
+    linear-gradient(to bottom, transparent 40%, #0a0a0a 100%);
+}
+
+.artist-hero-cover {
+  background-position: center 30%;
+  filter: brightness(0.4) saturate(0.6) contrast(1.05);
+}
+
+.controls-wrapper {
+  display: grid;
+  grid-template-columns: minmax(220px,1fr) minmax(360px,2fr) minmax(220px,1fr);
+}
+
+.progress-bar-wrapper {
+  grid-template-columns: 32px 1fr 32px;
+}

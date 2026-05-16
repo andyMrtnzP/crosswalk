@@ -1,13 +1,14 @@
-import { useState, type FormEvent } from 'react';
+import { useState, type SubmitEvent } from 'react';
 import useAuth from '@/hooks/useAuth';
+import { Button } from '@/components/ui/button';
 
-function Login() {
+export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [inputError, setInputError] = useState<string | null>(null);
   const { login, error, isAuthenticating } = useAuth();
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!username || !password) {
@@ -28,7 +29,7 @@ function Login() {
         }}
       />
 
-      <section className="w-full max-w-[420px]">
+      <section className="w-full max-w-105">
         <div className="mb-10 flex flex-col items-center gap-4">
           <div className="brand-mark">
             <span />
@@ -40,17 +41,17 @@ function Login() {
           <h1 className="font-display text-3xl font-normal">
             Welcome to <span className="text-accent-italic">Crosswalk</span>
           </h1>
-          <p className="text-sm text-[color:var(--ink-3)]">
+          <p className="text-sm text-ink-3">
             Sign in with your Navidrome credentials.
           </p>
         </div>
 
-        <div className="surface-panel-2 rounded-[10px] p-7">
+        <div className="surface-panel-2 rounded-lg p-7">
           <form className="grid gap-5" onSubmit={handleSubmit}>
             <label className="grid gap-2">
               <span className="section-eyebrow">Username</span>
               <input
-                className="h-10 w-full rounded-md border border-[color:var(--hairline)] bg-[color:var(--panel)] px-3 text-sm text-foreground outline-none transition placeholder:text-[color:var(--muted-strong)] focus:border-[color:var(--hairline-2)] focus:ring-2 focus:ring-[color:var(--accent-soft)]"
+                className="h-10 w-full rounded-md border border-hairline bg-panel px-3 text-sm text-foreground outline-none transition placeholder:text-muted-strong focus:border-hairline-2 focus:ring-2 focus:ring-accent-soft"
                 type="text"
                 autoComplete="username"
                 value={username}
@@ -62,7 +63,7 @@ function Login() {
             <label className="grid gap-2">
               <span className="section-eyebrow">Password</span>
               <input
-                className="h-10 w-full rounded-md border border-[color:var(--hairline)] bg-[color:var(--panel)] px-3 text-sm text-foreground outline-none transition placeholder:text-[color:var(--muted-strong)] focus:border-[color:var(--hairline-2)] focus:ring-2 focus:ring-[color:var(--accent-soft)]"
+                className="h-10 w-full rounded-md border border-hairline bg-panel px-3 text-sm text-foreground outline-none transition placeholder:text-muted-strong focus:border-hairline-2 focus:ring-2 focus:ring-(--accent-soft)"
                 type="password"
                 autoComplete="current-password"
                 value={password}
@@ -71,29 +72,27 @@ function Login() {
               />
             </label>
 
-            <button
+            <Button
               type="submit"
               disabled={isAuthenticating}
-              className="mt-2 inline-flex h-10 w-full items-center justify-center rounded-md bg-[color:var(--accent-gold)] text-sm font-semibold text-[color:var(--on-accent)] shadow-[var(--shadow-accent)] transition hover:bg-[color:var(--accent-deep)] disabled:cursor-not-allowed disabled:opacity-60"
+              variant='glow'
             >
               {isAuthenticating ? 'Signing in…' : 'Sign in'}
-            </button>
+            </Button>
           </form>
 
           {inputError ? (
-            <p className="mt-4 text-sm text-[color:var(--destructive)]">{inputError}</p>
+            <p className="mt-4 text-sm text-destructive">{inputError}</p>
           ) : null}
           {!inputError && error ? (
-            <p className="mt-4 text-sm text-[color:var(--destructive)]">{error}</p>
+            <p className="mt-4 text-sm text-destructive">{error}</p>
           ) : null}
         </div>
 
-        <p className="mt-6 text-center text-[11.5px] uppercase tracking-[0.16em] text-[color:var(--muted-strong)]">
+        <p className="mt-6 text-center text-[11.5px] uppercase tracking-[0.16em] text-muted-strong">
           A Navidrome client
         </p>
       </section>
     </main>
   );
 }
-
-export default Login;

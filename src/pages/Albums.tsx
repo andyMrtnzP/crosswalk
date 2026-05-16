@@ -22,10 +22,10 @@ export default function Albums() {
           </h2>
         </div>
 
-        <div className="px-9 pt-5 pb-[60px]">
+        <div className="px-9 pt-5 pb-15">
           {albums.length > 0 && (
             <div className="mb-12">
-              <div className="grid grid-cols-2 gap-[22px] sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+              <div className="grid grid-cols-2 gap-5.5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
                 {albums.map((album) => (
                   <LibraryCard
                     key={album.id}

@@ -2,6 +2,7 @@ import { Heart, Play } from 'lucide-react';
 import type { Song } from '@/@types/types';
 import { cn, formatTrackDuration } from '@/lib/utils';
 import AnimatedEqBars from '../AnimatedEqBars/AnimatedEqBars';
+import { Button } from '../ui/button';
 
 export const TRACK_COLS = '28px 1fr 1fr 72px 36px';
 
@@ -24,7 +25,6 @@ export default function AlbumTrackRow({
       style={{ gridTemplateColumns: TRACK_COLS }}
       onClick={onPlay}
     >
-      {/* Indicate is currently playing */}
       {isCurrentlyPlaying && (
         <span className="absolute bottom-2 left-0 top-2 w-0.5 rounded-sm bg-accent-gold" />
       )}
@@ -61,14 +61,14 @@ export default function AlbumTrackRow({
       </p>
 
       {/* Heart */}
-      <button
+      <Button
         type="button"
         aria-label={`Like ${song.title}`}
         onClick={(e) => e.stopPropagation()}
-        className="grid place-items-center rounded p-1 text-ink-3 opacity-0 transition hover:text-accent-gold group-hover:opacity-100"
+        variant="icon-invisible"
       >
         <Heart className="h-3.5 w-3.5" />
-      </button>
+      </Button>
     </div>
   );
 }

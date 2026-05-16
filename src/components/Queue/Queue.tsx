@@ -1,6 +1,8 @@
-import useAuth from '@/hooks/useAuth';
 import usePlayer from '@/hooks/usePlayer';
 import type { Song } from '@/@types/types';
+import { X } from 'lucide-react';
+import { Button } from '../ui/button';
+import { QueueRow } from './QueueRow';
 
 type QueueProps = {
   queue: Song[];
@@ -9,79 +11,7 @@ type QueueProps = {
   onClose: () => void;
 };
 
-function buildCoverUrl(
-  coverArt: string | undefined,
-  username: string,
-  password: string
-): string | null {
-  if (!coverArt) return null;
-  const params = new URLSearchParams({
-    id: coverArt,
-    size: '64',
-    u: username,
-    p: password,
-    v: '1.16.1',
-    c: 'crosswalk-web',
-  });
-  return `/rest/getCoverArt.view?${params.toString()}`;
-}
-
-function formatTime(secs: number): string {
-  const m = Math.floor(secs / 60);
-  const s = Math.floor(secs % 60);
-  return `${m}:${s.toString().padStart(2, '0')}`;
-}
-
-type QueueRowProps = {
-  song: Song;
-  isPlaying?: boolean;
-  coverUrl: string | null;
-  onClick?: () => void;
-};
-
-function QueueRow({ song, isPlaying = false, coverUrl, onClick }: QueueRowProps) {
-  return (
-    <div
-      role={onClick ? 'button' : undefined}
-      tabIndex={onClick ? 0 : undefined}
-      onClick={onClick}
-      onKeyDown={
-        onClick
-          ? (e) => {
-              if (e.key === 'Enter' || e.key === ' ') onClick();
-            }
-          : undefined
-      }
-      className={`grid items-center gap-2.5 rounded-lg p-2 transition-colors ${
-        isPlaying
-          ? 'bg-(--accent-soft) text-foreground outline-1 outline-[rgba(232,182,90,0.18)]'
-          : onClick
-            ? 'cursor-pointer text-ink-2 hover:bg-white/4'
-            : 'text-ink-2'
-      }`}
-      style={{ gridTemplateColumns: '34px 1fr auto' }}
-    >
-      <div className="h-8.5 w-8.5 shrink-0 overflow-hidden rounded-[5px] bg-panel-2">
-        {coverUrl && <img src={coverUrl} alt="" className="h-full w-full object-cover" />}
-      </div>
-      <div className="min-w-0">
-        <p className="truncate text-[12.5px] font-semibold">
-          {isPlaying && (
-            <span className="mr-1.5 inline-block h-1.5 w-1.5 -translate-y-px rounded-full bg-accent-gold shadow-[0_0_14px_rgba(232,182,90,0.8)]" />
-          )}
-          {song.title}
-        </p>
-        <p className="mt-0.5 truncate text-[11px] text-ink-3">{song.artist}</p>
-      </div>
-      <span className="shrink-0 text-[10.5px] tabular-nums text-muted-strong">
-        {song.duration ? formatTime(song.duration) : ''}
-      </span>
-    </div>
-  );
-}
-
 export default function Queue({ queue, currentIndex, isOpen, onClose }: QueueProps) {
-  const { credentials } = useAuth();
   const { playQueue } = usePlayer();
 
   if (!isOpen) return null;
@@ -101,27 +31,18 @@ export default function Queue({ queue, currentIndex, isOpen, onClose }: QueuePro
           <h2 className="font-serif text-2xl font-normal tracking-[-0.02em] text-foreground">
             Queue
           </h2>
-          <button
+          <Button
             type="button"
             aria-label="Close queue"
             onClick={onClose}
-            className="grid h-6 w-6 place-items-center rounded-md text-ink-3 transition-colors hover:bg-panel-3 hover:text-foreground focus:outline-none"
+            variant="icon-transparent"
           >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              className="h-3.25 w-3.25"
-            >
-              <path d="M18 6 6 18M6 6l12 12" />
-            </svg>
-          </button>
+            <X className="h-3.5 w-3.5" />
+          </Button>
         </div>
 
-        {/* Scrollable body */}
-        <div className="flex-1 overflow-y-auto px-2.5 pb-4" style={{ scrollbarWidth: 'none' }}>
+        {/* Body */}
+        <div className="flex-1 overflow-y-auto px-2.5 pb-4">
           {queue.length === 0 && (
             <p className="px-2 py-8 text-center text-[13px] text-ink-3">Queue is empty</p>
           )}
@@ -136,11 +57,6 @@ export default function Queue({ queue, currentIndex, isOpen, onClose }: QueuePro
                   <QueueRow
                     song={song}
                     onClick={() => playQueue(queue, i)}
-                    coverUrl={
-                      credentials
-                        ? buildCoverUrl(song.coverArt, credentials.username, credentials.password)
-                        : null
-                    }
                   />
                 </div>
               ))}
@@ -154,16 +70,8 @@ export default function Queue({ queue, currentIndex, isOpen, onClose }: QueuePro
               </p>
               <QueueRow
                 song={currentSong}
+                onClick={() => playQueue(queue, currentIndex)}
                 isPlaying
-                coverUrl={
-                  credentials
-                    ? buildCoverUrl(
-                        currentSong.coverArt,
-                        credentials.username,
-                        credentials.password
-                      )
-                    : null
-                }
               />
             </>
           )}
@@ -178,11 +86,6 @@ export default function Queue({ queue, currentIndex, isOpen, onClose }: QueuePro
                   key={song.id}
                   song={song}
                   onClick={() => playQueue(queue, currentIndex + 1 + i)}
-                  coverUrl={
-                    credentials
-                      ? buildCoverUrl(song.coverArt, credentials.username, credentials.password)
-                      : null
-                  }
                 />
               ))}
             </>

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Button } from '../ui/button';
 
 type LibrarySectionHeaderProps = {
   title: string;
@@ -14,7 +15,7 @@ export default function LibrarySectionHeader({
   to,
 }: LibrarySectionHeaderProps) {
   return (
-    <div className="mb-[18px] flex items-baseline justify-between border-b border-hairline pb-3">
+    <div className="mb-4.5 flex items-baseline justify-between border-b border-hairline pb-3">
       <h2 className="flex items-baseline gap-2.5 font-display text-[18px] font-medium tracking-[-0.01em]">
         {title}
         {count && (
@@ -25,12 +26,12 @@ export default function LibrarySectionHeader({
       </h2>
       {action && (
         <Link to={to || '#'}>
-          <button
+          <Button
             type="button"
-            className="bg-transparent text-[11.5px] uppercase tracking-[0.08em] text-ink-3 transition-colors hover:text-accent-gold"
+            variant="link"
           >
             {action}
-          </button>
+          </Button>
         </Link>
       )}
     </div>

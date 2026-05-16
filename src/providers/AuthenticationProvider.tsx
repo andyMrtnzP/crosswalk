@@ -1,9 +1,9 @@
-import { useCallback, useMemo, useState, type ReactNode, createContext } from 'react';
+import { useCallback, useMemo, useState, type ReactNode } from 'react';
 import type { AuthContextValue, AuthCredentials, SubsonicEnvelope } from '@/@types/types';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { AuthenticationContext } from './auth-context';
 
 const AUTH_STORAGE_KEY = 'crosswalk.auth';
-export const AuthenticationContext = createContext<AuthContextValue | null>(null);
 
 type AuthenticationProviderProps = {
   children: ReactNode;
@@ -49,12 +49,12 @@ const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
     } finally {
       setIsAuthenticating(false);
     }
-  }, []);
+  }, [deleteCredentials, setCredentials]);
 
   const logout = useCallback(() => {
     deleteCredentials();
     setError(null);
-  }, []);
+  }, [deleteCredentials]);
 
   const value = useMemo<AuthContextValue>(
     () => ({
@@ -65,7 +65,7 @@ const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
       login,
       logout,
     }),
-    [isAuthenticating, error, login, logout]
+    [isAuthenticating, error, login, logout, getCredentials]
   );
 
   return <AuthenticationContext.Provider value={value}>{children}</AuthenticationContext.Provider>;

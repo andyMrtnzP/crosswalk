@@ -7,7 +7,7 @@ import type {
 } from '@/@types/types';
 import useAuth from './useAuth';
 
-function useNavidromeRequest<T>(
+export default function useNavidromeRequest<T>(
   url: string,
   params?: RequestParams,
   options?: RequestOptions
@@ -92,7 +92,7 @@ function useNavidromeRequest<T>(
     } finally {
       setIsLoading(false);
     }
-  }, [credentials?.password, credentials?.username, responseType, serializedParams, url]);
+  }, [credentials, responseType, serializedParams, url, skip]);
 
   useEffect(() => {
     void refetch();
@@ -113,5 +113,3 @@ function useNavidromeRequest<T>(
     refetch,
   };
 }
-
-export default useNavidromeRequest;

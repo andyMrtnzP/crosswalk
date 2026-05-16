@@ -1,4 +1,4 @@
-import { AuthenticationContext } from '@/providers/AuthenticationProvider';
+import { AuthenticationContext } from '@/providers/auth-context';
 import { useContext } from 'react';
 
 export default function useAuth() {

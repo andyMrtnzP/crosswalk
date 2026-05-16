@@ -152,6 +152,7 @@
     @apply border-border;
     box-sizing: border-box;
   }
+
   html,
   body {
     @apply bg-background text-foreground;
@@ -161,13 +162,16 @@
     letter-spacing: -0.005em;
     min-height: 100vh;
   }
+
   body {
     margin: 0;
   }
+
   ::selection {
     background: var(--accent-soft);
     color: var(--foreground);
   }
+
   h1,
   h2,
   h3 {
@@ -221,32 +225,30 @@
 }
 
 @keyframes eq {
+
   0%,
   100% {
     height: 30%;
   }
+
   50% {
     height: 100%;
   }
 }
 
 .record-page-cover-gradient {
-  background: linear-gradient(
-    135deg,
-    rgba(232, 182, 90, 0.05),
-    transparent 50%,
-    rgba(0, 0, 0, 0.4)
-  );
+  background: linear-gradient(135deg,
+      rgba(232, 182, 90, 0.05),
+      transparent 50%,
+      rgba(0, 0, 0, 0.4));
 }
 
 .artist-hero-gradient {
   background:
-    linear-gradient(
-      to right,
+    linear-gradient(to right,
       rgba(10, 10, 10, 0.85) 0%,
       rgba(10, 10, 10, 0.5) 50%,
-      rgba(10, 10, 10, 0.4) 100%
-    ),
+      rgba(10, 10, 10, 0.4) 100%),
     linear-gradient(to bottom, transparent 40%, #0a0a0a 100%);
 }
 
@@ -262,4 +264,72 @@
 
 .progress-bar-wrapper {
   grid-template-columns: 32px 1fr 32px;
+}
+
+.full-player-gradient {
+  background: radial-gradient(circle at 22% 18%, rgba(232, 182, 90, 0.14), transparent 30%),
+    radial-gradient(circle at 78% 8%, rgba(255, 255, 255, 0.055), transparent 24%),
+    linear-gradient(180deg, #101010 0%, var(--background) 58%);
+  @apply pointer-events-none translate-y-4 opacity-0;
+}
+
+.full-player-gradient.open {
+  @apply pointer-events-auto translate-y-0 opacity-100;
+}
+
+.playing-cover-backdrop {
+  inset: -20%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(54px) saturate(1.15);
+  opacity: 0.085;
+  transform: scale(1.1);
+}
+
+.npv-content-grid {
+  grid-template-rows: auto 1fr auto;
+  padding: 26px 42px 30px;
+  gap: 24px;
+}
+
+.npv-stage-grid {
+  grid-template-columns: 1fr 350px;
+  gap: clamp(24px, 3vw, 48px);
+}
+
+.npv-left-grid {
+  grid-template-columns: min(40vh, 320px) 1fr;
+  gap: clamp(22px, 3vw, 34px);
+}
+
+.npv-cover-glow {
+  inset: 12%;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  filter: blur(70px);
+  opacity: 0.18;
+  transform: translateY(24px);
+  z-index: -1;
+}
+
+.npv-cover-art {
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.52), 0 1px 0 rgba(255, 255, 255, 0.08) inset;
+}
+
+.npv-cover-gloss {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.11), transparent 34%, rgba(0, 0, 0, 0.12));
+}
+
+.npv-title {
+  font-size: clamp(36px, 4.5vw, 64px);
+}
+
+.npv-now-playing-dot {
+  box-shadow: 0 0 18px rgba(232, 182, 90, 0.9);
+}
+
+.npv-play-button {
+  box-shadow: 0 16px 36px rgba(232, 182, 90, 0.16);
 }

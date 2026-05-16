@@ -40,9 +40,7 @@ export default function Player({ variant = 'bar' }: PlayerProps) {
     // Use a different layout for the "Now Playing" view
     // with different info
     return (
-      <div
-        className="grid items-center gap-7 rounded-[18px] border border-hairline bg-[rgba(15,15,15,0.76)] px-5.5 py-4.5 shadow-2xl backdrop-blur-lg grid-cols-[1fr_auto_1fr]"
-      >
+      <div className="grid items-center gap-7 rounded-[18px] border border-hairline bg-[rgba(15,15,15,0.76)] px-5.5 py-4.5 shadow-2xl backdrop-blur-lg grid-cols-[1fr_auto_1fr]">
         {/* Left (next track preview) */}
         <div className="flex min-w-0 items-center gap-3">
           {nextSong ? (
@@ -58,7 +56,9 @@ export default function Player({ variant = 'bar' }: PlayerProps) {
                 </p>
                 <p className="mt-0.5 truncate text-[13px] text-ink-2">
                   {nextSong.title}
-                  {nextSong.artist && <span className="text-ink-3"> &mdash; {nextSong.artist}</span>}
+                  {nextSong.artist && (
+                    <span className="text-ink-3"> &mdash; {nextSong.artist}</span>
+                  )}
                 </p>
               </div>
             </>
@@ -139,10 +139,7 @@ export default function Player({ variant = 'bar' }: PlayerProps) {
         </div>
       </div>
 
-      <Queue
-        isOpen={queueOpen}
-        onClose={() => setQueueOpen(false)}
-      />
+      <Queue isOpen={queueOpen} onClose={() => setQueueOpen(false)} />
 
       <NowPlayingView isOpen={nowPlayingOpen} onClose={() => setNowPlayingOpen(false)} />
     </>

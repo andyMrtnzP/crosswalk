@@ -1,6 +1,6 @@
-import type { Song } from "@/@types/types";
-import { cn, formatPlayingTime } from "@/lib/utils";
-import useNavidromeRequest from "@/hooks/useNavidromeRequest";
+import type { Song } from '@/@types/types';
+import { cn, formatPlayingTime } from '@/lib/utils';
+import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 
 type QueueRowProps = {
   song: Song;
@@ -12,12 +12,12 @@ export function QueueRow({ song, isPlaying = false, onClick }: QueueRowProps) {
   const { data: coverUrl } = useNavidromeRequest<string>(
     '/rest/getCoverArt.view',
     { id: song.coverArt, size: 64 },
-    { responseType: 'blobUrl', skip: !song.coverArt },
+    { responseType: 'blobUrl', skip: !song.coverArt }
   );
 
   return (
     <div
-      role='button'
+      role="button"
       onClick={onClick}
       className={cn(
         'grid items-center gap-2.5 rounded-lg p-2 transition-colors grid-cols-[34px_1fr_auto]',

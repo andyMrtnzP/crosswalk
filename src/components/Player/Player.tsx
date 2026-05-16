@@ -47,29 +47,27 @@ export default function Player() {
     { responseType: 'blobUrl', skip: !currentSong?.coverArt }
   );
 
-  const progress = duration > 0
-    ? (currentTime / duration) * 100
-    : 0;
+  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   const formatTime = (secs: number): string => {
     if (!isFinite(secs) || isNaN(secs)) return '0:00';
     const m = Math.floor(secs / 60);
     const s = Math.floor(secs % 60);
     return `${m}:${s.toString().padStart(2, '0')}`;
-  }
+  };
 
   const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (duration <= 0) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const ratio = (e.clientX - rect.left) / rect.width;
     seek(Math.max(0, Math.min(duration, ratio * duration)));
-  }
+  };
 
   const handleVolumeClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const ratio = (e.clientX - rect.left) / rect.width;
     setVolume(Math.max(0, Math.min(1, ratio)));
-  }
+  };
 
   if (!currentSong) {
     return <></>;
@@ -77,16 +75,14 @@ export default function Player() {
 
   return (
     <>
-      <div
-        className="fixed inset-x-0 bottom-0 z-50 flex h-19 items-center border-t border-hairline bg-panel px-6 controls-wrapper"
-      >
+      <div className="fixed inset-x-0 bottom-0 z-50 flex h-19 items-center border-t border-hairline bg-panel px-6 controls-wrapper">
         {/* Left (now playing) */}
         <div className="flex min-w-0 items-center gap-3">
           <Button
             type="button"
             aria-label="Open now playing view"
             onClick={() => setNowPlayingOpen(true)}
-            variant='icon-transparent'
+            variant="icon-transparent"
             className="group flex min-w-0 items-center gap-3 rounded-md p-0.5 transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-(--accent-soft)"
           >
             <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-sm bg-panel-2">
@@ -108,12 +104,7 @@ export default function Player() {
               <p className="mt-0.5 truncate text-[11.5px] text-ink-3">{currentSong.artist}</p>
             </div>
           </Button>
-          <Button
-            type="button"
-            aria-label="Like"
-            variant="icon"
-            className='border-0'
-          >
+          <Button type="button" aria-label="Like" variant="icon" className="border-0">
             <Heart className="h-3.75 w-3.75 fill-current" />
           </Button>
         </div>
@@ -131,12 +122,7 @@ export default function Player() {
               <Shuffle className="h-3.75 w-3.75" />
             </Button>
 
-            <Button
-              type="button"
-              aria-label="Previous"
-              onClick={prev}
-              variant="icon-transparent"
-            >
+            <Button type="button" aria-label="Previous" onClick={prev} variant="icon-transparent">
               <SkipBack className="h-3.75 w-3.75 fill-current" />
             </Button>
 
@@ -153,12 +139,7 @@ export default function Player() {
               )}
             </Button>
 
-            <Button
-              type="button"
-              aria-label="Next"
-              onClick={next}
-              variant="icon-transparent"
-            >
+            <Button type="button" aria-label="Next" onClick={next} variant="icon-transparent">
               <SkipForward className="h-3.75 w-3.75 fill-current" />
             </Button>
 
@@ -178,9 +159,7 @@ export default function Player() {
           </div>
 
           {/* Progress bar */}
-          <div
-            className="grid w-full max-w-135 items-center gap-2.5 progress-bar-wrapper"
-          >
+          <div className="grid w-full max-w-135 items-center gap-2.5 progress-bar-wrapper">
             <span className="text-center text-[10.5px] tabular-nums text-muted-strong">
               {formatTime(currentTime)}
             </span>
@@ -231,9 +210,7 @@ export default function Player() {
             aria-pressed={queueOpen}
             onClick={() => setQueueOpen((o) => !o)}
             variant="icon-transparent"
-            className={
-              queueOpen ? 'text-accent-gold' : 'text-ink-3 hover:text-foreground'
-            }
+            className={queueOpen ? 'text-accent-gold' : 'text-ink-3 hover:text-foreground'}
           >
             <ListMusic className="h-3.75 w-3.75" />
           </Button>

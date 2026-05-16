@@ -240,7 +240,8 @@
 }
 
 .artist-hero-gradient {
-  background: linear-gradient(
+  background:
+    linear-gradient(
       to right,
       rgba(10, 10, 10, 0.85) 0%,
       rgba(10, 10, 10, 0.5) 50%,
@@ -256,7 +257,7 @@
 
 .controls-wrapper {
   display: grid;
-  grid-template-columns: minmax(220px,1fr) minmax(360px,2fr) minmax(220px,1fr);
+  grid-template-columns: minmax(220px, 1fr) minmax(360px, 2fr) minmax(220px, 1fr);
 }
 
 .progress-bar-wrapper {

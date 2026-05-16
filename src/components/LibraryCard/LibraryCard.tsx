@@ -42,10 +42,7 @@ export default function LibraryCard({
   const Comp = (
     <div className="group min-w-0 cursor-pointer">
       <div
-        className={cn(
-          `relative aspect-square overflow-hidden bg-panel-2`,
-          styles[variant].wrapper
-        )}
+        className={cn(`relative aspect-square overflow-hidden bg-panel-2`, styles[variant].wrapper)}
         style={{ boxShadow: '0 1px 0 var(--hairline)' }}
       >
         {src ? (
@@ -67,7 +64,7 @@ export default function LibraryCard({
             onPlay?.();
           }}
           className={cn(
-            "absolute grid h-9 w-9 place-items-center rounded-full bg-accent-gold text-on-accent opacity-0 transition duration-200 ease-out group-hover:opacity-100",
+            'absolute grid h-9 w-9 place-items-center rounded-full bg-accent-gold text-on-accent opacity-0 transition duration-200 ease-out group-hover:opacity-100',
             styles[variant].btn
           )}
           style={{ boxShadow: '0 12px 28px rgba(0,0,0,0.4)' }}
@@ -85,10 +82,7 @@ export default function LibraryCard({
       </div>
       {meta && (
         <div
-          className={cn(
-            `mt-0.5 truncate text-[11.5px] text-ink-3`,
-            isArtist ? 'text-center' : ''
-          )}
+          className={cn(`mt-0.5 truncate text-[11.5px] text-ink-3`, isArtist ? 'text-center' : '')}
         >
           {meta}
         </div>

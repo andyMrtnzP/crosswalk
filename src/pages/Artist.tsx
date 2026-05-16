@@ -3,11 +3,7 @@ import { MoreVertical, Play, Shuffle } from 'lucide-react';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 import usePlayer from '@/hooks/usePlayer';
 import LibraryCard from '@/components/LibraryCard/LibraryCard';
-import type {
-  ArtistDetailResponse,
-  ArtistInfo2Response,
-  TopSongsResponse,
-} from '@/@types/types';
+import type { ArtistDetailResponse, ArtistInfo2Response, TopSongsResponse } from '@/@types/types';
 import { sanitizeHTML } from '@/lib/utils';
 import ArtistHero from '@/components/ArtistHero/ArtistHero';
 import { Button } from '@/components/ui/button';
@@ -44,7 +40,7 @@ export default function Artist() {
     if (topSongs.length > 0) {
       player.playQueue(topSongs, startIndex);
     }
-  }
+  };
 
   const biography = artistInfo?.biography ? sanitizeHTML(artistInfo.biography) : null;
 
@@ -58,12 +54,7 @@ export default function Artist() {
 
       {/* Action bar */}
       <div className="flex items-center gap-4 border-b border-hairline px-9 py-5.5">
-        <Button
-          type="button"
-          onClick={() => playTopSongs(0)}
-          variant='main'
-          size='hero'
-        >
+        <Button type="button" onClick={() => playTopSongs(0)} variant="main" size="hero">
           <Play className="h-3.25 w-3.25 fill-current" />
           Play
         </Button>
@@ -74,18 +65,14 @@ export default function Artist() {
             player.toggleShuffle();
             playTopSongs(0);
           }}
-          variant='icon'
-          size='hero'
+          variant="icon"
+          size="hero"
         >
           <Shuffle className="h-3.5 w-3.5" />
           Shuffle
         </Button>
 
-        <Button
-          type="button"
-          aria-label="More options"
-          variant='icon'
-        >
+        <Button type="button" aria-label="More options" variant="icon">
           <MoreVertical className="h-4 w-4" />
         </Button>
       </div>
@@ -153,14 +140,16 @@ export default function Artist() {
                   .filter(Boolean)
                   .join(' · ');
 
-                return <LibraryCard
-                  key={album.id}
-                  coverArtId={album.coverArt}
-                  title={album.name}
-                  meta={metaParts}
-                  to={`/album/${album.id}`}
-                  onPlay={() => { }}
-                />
+                return (
+                  <LibraryCard
+                    key={album.id}
+                    coverArtId={album.coverArt}
+                    title={album.name}
+                    meta={metaParts}
+                    to={`/album/${album.id}`}
+                    onPlay={() => {}}
+                  />
+                );
               })}
             </div>
           </div>

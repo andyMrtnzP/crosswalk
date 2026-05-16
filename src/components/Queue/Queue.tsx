@@ -54,10 +54,7 @@ export default function Queue({ queue, currentIndex, isOpen, onClose }: QueuePro
               </p>
               {played.map((song, i) => (
                 <div key={song.id} className="opacity-40">
-                  <QueueRow
-                    song={song}
-                    onClick={() => playQueue(queue, i)}
-                  />
+                  <QueueRow song={song} onClick={() => playQueue(queue, i)} />
                 </div>
               ))}
             </>

@@ -26,10 +26,7 @@ export default function LibrarySectionHeader({
       </h2>
       {action && (
         <Link to={to || '#'}>
-          <Button
-            type="button"
-            variant="link"
-          >
+          <Button type="button" variant="link">
             {action}
           </Button>
         </Link>

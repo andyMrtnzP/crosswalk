@@ -41,9 +41,7 @@ export default function Login() {
           <h1 className="font-display text-3xl font-normal">
             Welcome to <span className="text-accent-italic">Crosswalk</span>
           </h1>
-          <p className="text-sm text-ink-3">
-            Sign in with your Navidrome credentials.
-          </p>
+          <p className="text-sm text-ink-3">Sign in with your Navidrome credentials.</p>
         </div>
 
         <div className="surface-panel-2 rounded-lg p-7">
@@ -72,21 +70,13 @@ export default function Login() {
               />
             </label>
 
-            <Button
-              type="submit"
-              disabled={isAuthenticating}
-              variant='glow'
-            >
+            <Button type="submit" disabled={isAuthenticating} variant="glow">
               {isAuthenticating ? 'Signing in…' : 'Sign in'}
             </Button>
           </form>
 
-          {inputError ? (
-            <p className="mt-4 text-sm text-destructive">{inputError}</p>
-          ) : null}
-          {!inputError && error ? (
-            <p className="mt-4 text-sm text-destructive">{error}</p>
-          ) : null}
+          {inputError ? <p className="mt-4 text-sm text-destructive">{inputError}</p> : null}
+          {!inputError && error ? <p className="mt-4 text-sm text-destructive">{error}</p> : null}
         </div>
 
         <p className="mt-6 text-center text-[11.5px] uppercase tracking-[0.16em] text-muted-strong">

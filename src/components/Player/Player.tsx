@@ -1,42 +1,20 @@
 import { useState } from 'react';
-import {
-  ChevronUp,
-  Heart,
-  ListMusic,
-  Pause,
-  Play,
-  Repeat,
-  Repeat1,
-  Shuffle,
-  SkipBack,
-  SkipForward,
-  Volume2,
-} from 'lucide-react';
+import { ChevronUp, Heart, ListMusic } from 'lucide-react';
 import usePlayer from '@/hooks/usePlayer';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 import Queue from '@/components/Queue/Queue';
 import NowPlayingView from '@/components/NowPlayingView/NowPlayingView';
 import { Button } from '../ui/button';
+import TransportControls from './TransportControls';
+import ProgressBar from './ProgressBar';
+import VolumeSlider from './VolumeSlider';
 
-export default function Player() {
-  const {
-    queue,
-    currentIndex,
-    currentSong,
-    isPlaying,
-    volume,
-    shuffle,
-    repeat,
-    currentTime,
-    duration,
-    togglePlay,
-    next,
-    prev,
-    seek,
-    setVolume,
-    toggleShuffle,
-    cycleRepeat,
-  } = usePlayer();
+type PlayerProps = {
+  variant?: 'bar' | 'expanded';
+};
+
+export default function Player({ variant = 'bar' }: PlayerProps) {
+  const { queue, currentIndex, currentSong } = usePlayer();
 
   const [queueOpen, setQueueOpen] = useState(false);
   const [nowPlayingOpen, setNowPlayingOpen] = useState(false);
@@ -47,30 +25,60 @@ export default function Player() {
     { responseType: 'blobUrl', skip: !currentSong?.coverArt }
   );
 
-  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
-
-  const formatTime = (secs: number): string => {
-    if (!isFinite(secs) || isNaN(secs)) return '0:00';
-    const m = Math.floor(secs / 60);
-    const s = Math.floor(secs % 60);
-    return `${m}:${s.toString().padStart(2, '0')}`;
-  };
-
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (duration <= 0) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const ratio = (e.clientX - rect.left) / rect.width;
-    seek(Math.max(0, Math.min(duration, ratio * duration)));
-  };
-
-  const handleVolumeClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const ratio = (e.clientX - rect.left) / rect.width;
-    setVolume(Math.max(0, Math.min(1, ratio)));
-  };
+  const nextSong = queue[currentIndex + 1] ?? null;
+  const { data: nextCoverSrc } = useNavidromeRequest<string>(
+    '/rest/getCoverArt.view',
+    { id: nextSong?.coverArt, size: 64 },
+    { responseType: 'blobUrl', skip: !nextSong?.coverArt }
+  );
 
   if (!currentSong) {
-    return <></>;
+    return variant === 'bar' ? <></> : null;
+  }
+
+  if (variant === 'expanded') {
+    // Use a different layout for the "Now Playing" view
+    // with different info
+    return (
+      <div
+        className="grid items-center gap-7 rounded-[18px] border border-hairline bg-[rgba(15,15,15,0.76)] px-5.5 py-4.5 shadow-2xl backdrop-blur-lg grid-cols-[1fr_auto_1fr]"
+      >
+        {/* Left (next track preview) */}
+        <div className="flex min-w-0 items-center gap-3">
+          {nextSong ? (
+            <>
+              <div className="h-10.5 w-10.5 shrink-0 overflow-hidden rounded-[5px] bg-panel-2">
+                {nextCoverSrc && (
+                  <img src={nextCoverSrc} alt="" className="h-full w-full object-cover" />
+                )}
+              </div>
+              <div className="min-w-0">
+                <p className="text-[10px] font-bold uppercase tracking-[0.13em] text-muted-strong">
+                  Up next
+                </p>
+                <p className="mt-0.5 truncate text-[13px] text-ink-2">
+                  {nextSong.title}
+                  {nextSong.artist && <span className="text-ink-3"> &mdash; {nextSong.artist}</span>}
+                </p>
+              </div>
+            </>
+          ) : (
+            <span className="text-[12px] text-ink-3">End of queue</span>
+          )}
+        </div>
+
+        {/* Center (transport + progress) */}
+        <div className="flex flex-col items-center gap-3" style={{ minWidth: 'min(540px, 42vw)' }}>
+          <TransportControls />
+          <ProgressBar />
+        </div>
+
+        {/* Right (volume) */}
+        <div className="flex items-center justify-end gap-3.5">
+          <VolumeSlider />
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -83,7 +91,7 @@ export default function Player() {
             aria-label="Open now playing view"
             onClick={() => setNowPlayingOpen(true)}
             variant="icon-transparent"
-            className="group flex min-w-0 items-center gap-3 rounded-md p-0.5 transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-(--accent-soft)"
+            className="group flex min-w-0 items-center gap-3 rounded-md p-0.5 transition-opacity hover:opacity-80 focus:outline-none"
           >
             <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-sm bg-panel-2">
               {coverArtSrc && (
@@ -111,99 +119,13 @@ export default function Player() {
 
         {/* Center (controls + progress) */}
         <div className="flex flex-col items-center gap-2">
-          <div className="flex items-center gap-2.5">
-            <Button
-              type="button"
-              aria-label="Shuffle"
-              onClick={toggleShuffle}
-              variant="icon-transparent"
-              className={`${shuffle ? 'text-accent-gold' : 'text-ink-3'}`}
-            >
-              <Shuffle className="h-3.75 w-3.75" />
-            </Button>
-
-            <Button type="button" aria-label="Previous" onClick={prev} variant="icon-transparent">
-              <SkipBack className="h-3.75 w-3.75 fill-current" />
-            </Button>
-
-            <Button
-              type="button"
-              aria-label={isPlaying ? 'Pause' : 'Play'}
-              onClick={togglePlay}
-              className="grid h-8.5 w-8.5 place-items-center rounded-full bg-foreground text-background transition hover:scale-105 hover:bg-accent-gold"
-            >
-              {isPlaying ? (
-                <Pause className="h-3 w-3 fill-current" />
-              ) : (
-                <Play className="h-3 w-3 fill-current" />
-              )}
-            </Button>
-
-            <Button type="button" aria-label="Next" onClick={next} variant="icon-transparent">
-              <SkipForward className="h-3.75 w-3.75 fill-current" />
-            </Button>
-
-            <Button
-              type="button"
-              aria-label="Repeat"
-              onClick={cycleRepeat}
-              variant="icon-transparent"
-              className={`${repeat !== 'none' ? 'text-accent-gold' : 'text-ink-3'}`}
-            >
-              {repeat === 'one' ? (
-                <Repeat1 className="h-3.75 w-3.75" />
-              ) : (
-                <Repeat className="h-3.75 w-3.75" />
-              )}
-            </Button>
-          </div>
-
-          {/* Progress bar */}
-          <div className="grid w-full max-w-135 items-center gap-2.5 progress-bar-wrapper">
-            <span className="text-center text-[10.5px] tabular-nums text-muted-strong">
-              {formatTime(currentTime)}
-            </span>
-
-            <div
-              role="slider"
-              aria-label="Seek"
-              aria-valuenow={Math.round(currentTime)}
-              aria-valuemin={0}
-              aria-valuemax={Math.round(duration)}
-              tabIndex={0}
-              className="relative h-0.75 cursor-pointer overflow-hidden rounded-sm bg-hairline-2"
-              onClick={handleProgressClick}
-            >
-              <div
-                className="h-full rounded-sm bg-accent-gold transition-none"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-
-            <span className="text-center text-[10.5px] tabular-nums text-muted-strong">
-              {formatTime(duration)}
-            </span>
-          </div>
+          <TransportControls compact />
+          <ProgressBar className="max-w-135" />
         </div>
 
         {/* Right (volume + queue) */}
         <div className="flex items-center justify-end gap-3.5">
-          <div className="flex min-w-25 items-center gap-2">
-            <Volume2 className="h-3.5 w-3.5 shrink-0 text-ink-3" />
-            <div
-              role="slider"
-              aria-label="Volume"
-              aria-valuenow={Math.round(volume * 100)}
-              aria-valuemin={0}
-              aria-valuemax={100}
-              tabIndex={0}
-              className="h-0.75 flex-1 cursor-pointer overflow-hidden rounded-sm bg-hairline-2"
-              onClick={handleVolumeClick}
-            >
-              <div className="h-full rounded-sm bg-ink-2" style={{ width: `${volume * 100}%` }} />
-            </div>
-          </div>
-
+          <VolumeSlider />
           <Button
             type="button"
             aria-label="Queue"
@@ -218,8 +140,6 @@ export default function Player() {
       </div>
 
       <Queue
-        queue={queue}
-        currentIndex={currentIndex}
         isOpen={queueOpen}
         onClose={() => setQueueOpen(false)}
       />

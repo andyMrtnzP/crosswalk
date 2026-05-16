@@ -50,11 +50,7 @@ export default function Queue({ variant = 'popover', isOpen, onClose }: QueuePro
           <p className="px-2 pb-2 pt-3 text-[10px] font-bold uppercase tracking-[0.15em] text-muted-strong">
             Now playing
           </p>
-          <QueueRow
-            song={currentSong}
-            onClick={() => playQueue(queue, currentIndex)}
-            isPlaying
-          />
+          <QueueRow song={currentSong} onClick={() => playQueue(queue, currentIndex)} isPlaying />
         </>
       )}
 
@@ -104,18 +100,11 @@ export default function Queue({ variant = 'popover', isOpen, onClose }: QueuePro
         <h2 className="font-serif text-2xl font-normal tracking-[-0.02em] text-foreground">
           Queue
         </h2>
-        <Button
-          type="button"
-          aria-label="Close queue"
-          onClick={onClose}
-          variant="icon-transparent"
-        >
+        <Button type="button" aria-label="Close queue" onClick={onClose} variant="icon-transparent">
           <X className="h-3.5 w-3.5" />
         </Button>
       </div>
-      <div className="flex-1 overflow-y-auto px-2.5 pb-4">
-        {listBody}
-      </div>
+      <div className="flex-1 overflow-y-auto px-2.5 pb-4">{listBody}</div>
     </div>
   );
 }

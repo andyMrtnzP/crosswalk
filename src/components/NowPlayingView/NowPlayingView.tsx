@@ -1,11 +1,4 @@
-import {
-  ChevronDown,
-  Heart,
-  ListPlus,
-  MoreHorizontal,
-  Pause,
-  Play,
-} from 'lucide-react';
+import { ChevronDown, Heart, ListPlus, MoreHorizontal, Pause, Play } from 'lucide-react';
 import usePlayer from '@/hooks/usePlayer';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 import Queue from '@/components/Queue/Queue';
@@ -18,13 +11,7 @@ type Props = {
 };
 
 export default function NowPlayingView({ isOpen, onClose }: Props) {
-  const {
-    queue,
-    currentIndex,
-    currentSong,
-    isPlaying,
-    togglePlay,
-  } = usePlayer();
+  const { queue, currentIndex, currentSong, isPlaying, togglePlay } = usePlayer();
 
   const { data: largeCoverSrc } = useNavidromeRequest<string>(
     '/rest/getCoverArt.view',
@@ -95,7 +82,10 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
             {/* Track info */}
             <div className="flex flex-col gap-3.5">
               <div className="flex items-center gap-2.5">
-                <span className="npv-now-playing-dot h-1.5 w-1.5 rounded-full bg-accent-gold" aria-hidden />
+                <span
+                  className="npv-now-playing-dot h-1.5 w-1.5 rounded-full bg-accent-gold"
+                  aria-hidden
+                />
                 <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-accent-gold">
                   Now playing
                 </span>

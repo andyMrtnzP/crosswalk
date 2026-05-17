@@ -35,7 +35,7 @@ export const formatRuntime = (seconds?: number): string | null => {
 };
 
 export const sortByDateDesc = <T extends { created?: string }>(arr: T[]): T[] => {
-  return arr.sort((a, b) => (b.created ?? '').localeCompare(a.created ?? ''));
+  return [...arr].sort((a, b) => (b.created ?? '').localeCompare(a.created ?? ''));
 };
 
 export const getAlbumMetadata = (album: AlbumRecord): string | undefined => {

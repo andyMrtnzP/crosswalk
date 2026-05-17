@@ -1,6 +1,6 @@
 # Crosswalk
 
-A web client for [Navidrome](https://www.navidrome.org/) (and any Subsonic-compatible music servers). Early development A _lot_ of this is unfinished., stay tunned, stay tunned.
+A web client for [Navidrome](https://www.navidrome.org/) (and any Subsonic-compatible music servers). Early development A _lot_ of this is unfinished, stay tunned.
 
 <img src="./public/player.png" alt="Crosswalk player" />
 

@@ -33,7 +33,7 @@ export default function Player({ variant = 'bar' }: PlayerProps) {
   );
 
   if (!currentSong) {
-    return variant === 'bar' ? <></> : null;
+    return <></>;
   }
 
   if (variant === 'expanded') {

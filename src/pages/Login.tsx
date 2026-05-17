@@ -61,7 +61,7 @@ export default function Login() {
             <label className="grid gap-2">
               <span className="section-eyebrow">Password</span>
               <input
-                className="h-10 w-full rounded-md border border-hairline bg-panel px-3 text-sm text-foreground outline-none transition placeholder:text-muted-strong focus:border-hairline-2 focus:ring-2 focus:ring-(--accent-soft)"
+                className="h-10 w-full rounded-md border border-hairline bg-panel px-3 text-sm text-foreground outline-none transition placeholder:text-muted-strong focus:border-hairline-2 focus:ring-2 focus:ring-accent-soft"
                 type="password"
                 autoComplete="current-password"
                 value={password}

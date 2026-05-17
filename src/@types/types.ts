@@ -21,17 +21,14 @@ export type Playlist = {
   changed?: string;
 };
 
-export type SubsonicResponse = {
+export type SubsonicResponse<T> = {
   'subsonic-response': {
     status: 'ok' | 'failed';
     error?: {
       code?: number;
       message?: string;
     };
-    albumList2?: {
-      album?: AlbumRecord[];
-    };
-  };
+  } & T;
 };
 
 export type RequestParams = Record<string, string | number | boolean | null | undefined>;
@@ -77,14 +74,11 @@ export type NavItem = {
   icon: React.ComponentType<{ className?: string }>;
 };
 
-export type PlaylistsResponse = {
-  'subsonic-response': {
-    status: 'ok' | 'failed';
-    playlists?: {
-      playlist?: Playlist[];
-    };
+export type PlaylistsResponse = SubsonicResponse<{
+  playlists?: {
+    playlist?: Playlist[];
   };
-};
+}>;
 
 export type ArtistRecord = {
   id: string;
@@ -99,15 +93,12 @@ export type ArtistIndex = {
   artist?: ArtistRecord[];
 };
 
-export type ArtistsResponse = {
-  'subsonic-response': {
-    status: 'ok' | 'failed';
-    artists?: {
-      ignoredArticles?: string;
-      index?: ArtistIndex[];
-    };
+export type ArtistsResponse = SubsonicResponse<{
+  artists?: {
+    ignoredArticles?: string;
+    index?: ArtistIndex[];
   };
-};
+}>;
 
 export type Song = {
   id: string;
@@ -133,32 +124,23 @@ export type AlbumDetail = AlbumRecord & {
   song?: Song[];
 };
 
-export type AlbumDetailResponse = {
-  'subsonic-response': {
-    status: 'ok' | 'failed';
-    album?: AlbumDetail;
-  };
-};
+export type AlbumDetailResponse = SubsonicResponse<{
+  album?: AlbumDetail;
+}>;
 
-export type AlbumList2Response = {
-  'subsonic-response': {
-    status: 'ok' | 'failed';
-    albumList2?: {
-      album?: AlbumRecord[];
-    };
+export type AlbumList2Response = SubsonicResponse<{
+  albumList2?: {
+    album?: AlbumRecord[];
   };
-};
+}>;
 
 export type ArtistDetail = ArtistRecord & {
   album?: AlbumRecord[];
 };
 
-export type ArtistDetailResponse = {
-  'subsonic-response': {
-    status: 'ok' | 'failed';
-    artist?: ArtistDetail;
-  };
-};
+export type ArtistDetailResponse = SubsonicResponse<{
+  artist?: ArtistDetail;
+}>;
 
 export type ArtistInfo2 = {
   biography?: string;
@@ -169,21 +151,15 @@ export type ArtistInfo2 = {
   largeImageUrl?: string;
 };
 
-export type ArtistInfo2Response = {
-  'subsonic-response': {
-    status: 'ok' | 'failed';
-    artistInfo2?: ArtistInfo2;
-  };
-};
+export type ArtistInfo2Response = SubsonicResponse<{
+  artistInfo2?: ArtistInfo2;
+}>;
 
-export type TopSongsResponse = {
-  'subsonic-response': {
-    status: 'ok' | 'failed';
-    topSongs?: {
-      song?: Song[];
-    };
+export type TopSongsResponse = SubsonicResponse<{
+  topSongs?: {
+    song?: Song[];
   };
-};
+}>;
 
 export type RepeatMode = 'none' | 'one' | 'all';
 

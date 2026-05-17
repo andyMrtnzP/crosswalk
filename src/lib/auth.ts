@@ -6,7 +6,7 @@ const CLIENT_NAME = 'crosswalk-web';
 export const buildAuthParams = (username: string, password: string): URLSearchParams => {
   const saltBytes = crypto.getRandomValues(new Uint8Array(8));
   const salt = Array.from(saltBytes)
-    .map(b => b.toString(16).padStart(2, '0'))
+    .map((b) => b.toString(16).padStart(2, '0'))
     .join('');
   const token = md5(password + salt);
 
@@ -17,4 +17,4 @@ export const buildAuthParams = (username: string, password: string): URLSearchPa
     v: SUBSONIC_VERSION,
     c: CLIENT_NAME,
   });
-}
+};

@@ -5,6 +5,7 @@ import type {
   SubsonicEnvelope,
   UseNavidromeRequestResult,
 } from '@/@types/types';
+import { buildAuthParams } from '@/lib/auth';
 import useAuth from './useAuth';
 
 export default function useNavidromeRequest<T>(
@@ -39,12 +40,7 @@ export default function useNavidromeRequest<T>(
     setError(null);
 
     try {
-      const searchParams = new URLSearchParams({
-        u: credentials.username,
-        p: credentials.password,
-        v: '1.16.1',
-        c: 'crosswalk-web',
-      });
+      const searchParams = buildAuthParams(credentials.username, credentials.password);
 
       if (responseType === 'json') {
         searchParams.set('f', 'json');

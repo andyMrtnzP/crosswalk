@@ -1,16 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Song, RepeatMode, AuthCredentials } from '@/@types/types';
+import { buildAuthParams } from '@/lib/auth';
 import useAuth from '@/hooks/useAuth';
 import { PlayerContext } from '@/providers/PlayerContext';
 
 function buildStreamUrl(songId: string, credentials: AuthCredentials): string {
-  const params = new URLSearchParams({
-    id: songId,
-    u: credentials.username,
-    p: credentials.password,
-    v: '1.16.1',
-    c: 'crosswalk-web',
-  });
+  const params = buildAuthParams(credentials.username, credentials.password);
+  params.set('id', songId);
   return `/rest/stream.view?${params.toString()}`;
 }
 

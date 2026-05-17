@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState, type ReactNode } from 'react';
 import type { AuthContextValue, AuthCredentials, SubsonicEnvelope } from '@/@types/types';
+import { buildAuthParams } from '@/lib/auth';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { AuthenticationContext } from './auth-context';
 
@@ -24,13 +25,8 @@ const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
       setIsAuthenticating(true);
 
       try {
-        const params = new URLSearchParams({
-          v: '1.16.1',
-          c: 'crosswalk-web',
-          f: 'json',
-          u: nextCredentials.username,
-          p: nextCredentials.password,
-        });
+        const params = buildAuthParams(nextCredentials.username, nextCredentials.password);
+        params.set('f', 'json');
 
         const response = await fetch(`/rest/ping.view?${params.toString()}`);
         const payload = (await response.json()) as SubsonicEnvelope;

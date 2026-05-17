@@ -2,8 +2,12 @@
   "name": "crosswalk",
   "private": true,
   "version": "0.1.0",
-  "description": "A Navidrome UI",
+  "description": "A Navidrome Player",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andyMrtnzP/crosswalk.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "npm run typecheck && npm run lint && tsc -b && vite build",
@@ -14,7 +18,7 @@
     "prepare": "husky"
   },
   "keywords": [],
-  "author": "andyMrtnz",
+  "author": "andyMrtnzP",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "class-variance-authority": "^0.7.1",

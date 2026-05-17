@@ -21,10 +21,6 @@ export default function VolumeSlider() {
         tabIndex={0}
         className="h-0.75 flex-1 cursor-pointer overflow-hidden rounded-sm bg-hairline-2"
         onClick={handleClick}
-        onKeyDown={(e) => {
-          if (e.key === 'ArrowRight') setVolume(Math.min(1, volume + 0.05));
-          if (e.key === 'ArrowLeft') setVolume(Math.max(0, volume - 0.05));
-        }}
       >
         <div className="h-full rounded-sm bg-ink-2" style={{ width: `${volume * 100}%` }} />
       </div>

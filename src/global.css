@@ -344,3 +344,7 @@
 .npv-play-button {
   box-shadow: 0 16px 36px rgba(232, 182, 90, 0.16);
 }
+
+.username-gradient {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-deep));
+}

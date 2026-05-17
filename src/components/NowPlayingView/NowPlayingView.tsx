@@ -4,6 +4,7 @@ import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 import Queue from '@/components/Queue/Queue';
 import Player from '@/components/Player/Player';
 import { cn, formatPlayingTime } from '@/lib/utils';
+import { Button } from '../ui/button';
 
 type Props = {
   isOpen: boolean;
@@ -40,14 +41,14 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
       <div className="relative z-10 grid h-full overflow-hidden npv-content-grid">
         {/* Top bar with navigation and track info */}
         <div className="flex items-center justify-between gap-4">
-          <button
+          <Button
             type="button"
             onClick={onClose}
-            className="inline-flex items-center gap-2.5 rounded-full border border-hairline bg-[rgba(15,15,15,0.72)] px-3 py-2 text-[12px] font-medium text-ink-2 transition-colors hover:border-hairline-2 hover:text-foreground focus:outline-none"
+            variant='pill'
           >
             <ChevronDown className="h-4 w-4" />
             <span>Back</span>
-          </button>
+          </Button>
 
           <p className="text-[11px] font-[650] uppercase tracking-[0.14em] text-ink-3">
             Now Playing
@@ -131,42 +132,43 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
               )}
 
               <div className="flex flex-wrap items-center gap-2 pt-0.5">
-                <button
+                <Button
                   type="button"
                   aria-label={isPlaying ? 'Pause' : 'Play'}
                   onClick={togglePlay}
-                  className="npv-play-button grid h-11.5 w-11.5 place-items-center rounded-full bg-accent-gold text-on-accent transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-(--accent-soft)"
+                  className="npv-play-button h-11.5 w-11.5 rounded-full"
                 >
                   {isPlaying ? (
                     <Pause className="h-4 w-4 fill-current" />
                   ) : (
                     <Play className="h-4 w-4 fill-current" />
                   )}
-                </button>
+                </Button>
 
-                <button
+                <Button
                   type="button"
-                  className="inline-flex h-8.5 items-center gap-1.5 rounded-full border border-hairline bg-[rgba(15,15,15,0.42)] px-3 text-[12px] text-ink-2 transition hover:border-hairline-2 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-(--accent-soft)"
+                  aria-label="Like"
+                  variant="pill"
                 >
                   <Heart className="h-3.5 w-3.5 fill-current text-accent-gold" />
                   Liked
-                </button>
+                </Button>
 
-                <button
+                <Button
                   type="button"
-                  className="inline-flex h-8.5 items-center gap-1.5 rounded-full border border-hairline bg-[rgba(15,15,15,0.42)] px-3 text-[12px] text-ink-2 transition hover:border-hairline-2 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-(--accent-soft)"
+                  variant="pill"
                 >
                   <ListPlus className="h-3.5 w-3.5" />
                   Add to playlist
-                </button>
+                </Button>
 
-                <button
+                <Button
                   type="button"
                   aria-label="More options"
-                  className="inline-flex h-8.5 w-8.5 items-center justify-center rounded-full border border-hairline bg-[rgba(15,15,15,0.42)] text-[12px] text-ink-2 transition hover:border-hairline-2 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-(--accent-soft)"
+                  variant="pill"
                 >
                   <MoreHorizontal className="h-3.5 w-3.5" />
-                </button>
+                </Button>
               </div>
             </div>
           </div>

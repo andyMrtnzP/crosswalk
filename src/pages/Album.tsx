@@ -4,7 +4,7 @@ import { Clock, Download, Heart, MoreVertical, Play } from 'lucide-react';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 import usePlayer from '@/hooks/usePlayer';
 import type { AlbumDetailResponse } from '@/@types/types';
-import { formatAlbumDuration } from '@/lib/utils';
+import { formatRuntime } from '@/lib/utils';
 import AlbumTrackRow, { TRACK_COLS } from '@/components/AlbumTrackRow/AlbumTrackRow';
 import { Button } from '@/components/ui/button';
 
@@ -73,7 +73,7 @@ export default function Album() {
             {album?.duration != null && (
               <>
                 <span className="h-0.75 w-0.75 rounded-full bg-muted-deep" />
-                <span>{formatAlbumDuration(album.duration)}</span>
+                <span>{formatRuntime(album.duration)}</span>
               </>
             )}
             {album?.year && (

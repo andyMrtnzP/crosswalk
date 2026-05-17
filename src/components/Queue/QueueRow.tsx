@@ -1,5 +1,5 @@
 import type { Song } from '@/@types/types';
-import { cn, formatPlayingTime } from '@/lib/utils';
+import { cn, formatTimecode } from '@/lib/utils';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 
 type QueueRowProps = {
@@ -39,7 +39,7 @@ export function QueueRow({ song, isPlaying = false, onClick }: QueueRowProps) {
         <p className="mt-0.5 truncate text-[11px] text-ink-3">{song.artist}</p>
       </div>
       <span className="shrink-0 text-[10.5px] tabular-nums text-muted-strong">
-        {formatPlayingTime(song.duration)}
+        {formatTimecode(song.duration)}
       </span>
     </div>
   );

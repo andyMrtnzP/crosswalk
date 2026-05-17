@@ -1,6 +1,6 @@
 import type { Song } from '@/@types/types';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
-import { formatTrackDuration } from '@/lib/utils';
+import { formatTimecode } from '@/lib/utils';
 import { Play } from 'lucide-react';
 import AnimatedEqBars from '../AnimatedEqBars/AnimatedEqBars';
 
@@ -70,7 +70,7 @@ export default function PopularTrackRow({
 
       {/* Duration */}
       <p className="text-right text-[11.5px] tabular-nums text-ink-3">
-        {formatTrackDuration(song.duration)}
+        {formatTimecode(song.duration)}
       </p>
     </div>
   );

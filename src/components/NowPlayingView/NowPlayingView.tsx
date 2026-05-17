@@ -3,7 +3,7 @@ import usePlayer from '@/hooks/usePlayer';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 import Queue from '@/components/Queue/Queue';
 import Player from '@/components/Player/Player';
-import { cn, formatPlayingTime } from '@/lib/utils';
+import { cn, formatTimecode } from '@/lib/utils';
 import { Button } from '../ui/button';
 
 type Props = {
@@ -113,7 +113,7 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
                   {currentSong.duration != null && (
                     <span>
                       <strong className="font-semibold text-ink-2">
-                        {formatPlayingTime(currentSong.duration)}
+                        {formatTimecode(currentSong.duration)}
                       </strong>{' '}
                       track length
                     </span>

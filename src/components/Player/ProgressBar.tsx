@@ -1,5 +1,5 @@
 import usePlayer from '@/hooks/usePlayer';
-import { cn, formatPlayingTime } from '@/lib/utils';
+import { cn, formatTimecode } from '@/lib/utils';
 
 type ProgressBarProps = {
   className?: string;
@@ -18,7 +18,7 @@ export default function ProgressBar({ className }: ProgressBarProps) {
   return (
     <div className={cn('grid w-full items-center gap-2.5 progress-bar-wrapper', className)}>
       <span className="text-center text-[10.5px] tabular-nums text-muted-strong">
-        {formatPlayingTime(currentTime)}
+        {formatTimecode(currentTime)}
       </span>
 
       <div
@@ -42,7 +42,7 @@ export default function ProgressBar({ className }: ProgressBarProps) {
       </div>
 
       <span className="text-center text-[10.5px] tabular-nums text-muted-strong">
-        {formatPlayingTime(duration)}
+        {formatTimecode(duration)}
       </span>
     </div>
   );

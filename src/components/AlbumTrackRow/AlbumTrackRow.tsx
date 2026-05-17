@@ -1,6 +1,6 @@
 import { Heart, Play } from 'lucide-react';
 import type { Song } from '@/@types/types';
-import { cn, formatTrackDuration } from '@/lib/utils';
+import { cn, formatTimecode } from '@/lib/utils';
 import AnimatedEqBars from '../AnimatedEqBars/AnimatedEqBars';
 import { Button } from '../ui/button';
 
@@ -57,7 +57,7 @@ export default function AlbumTrackRow({
 
       {/* Duration */}
       <p className="text-right text-[12px] tabular-nums text-ink-3">
-        {formatTrackDuration(song.duration)}
+        {formatTimecode(song.duration)}
       </p>
 
       {/* Heart */}

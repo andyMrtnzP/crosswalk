@@ -36,16 +36,10 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
 
   useEffect(() => {
     shuffleRef.current = shuffle;
-  }, [shuffle]);
-  useEffect(() => {
     repeatRef.current = repeat;
-  }, [repeat]);
-  useEffect(() => {
     queueRef.current = queue;
-  }, [queue]);
-  useEffect(() => {
     currentIndexRef.current = currentIndex;
-  }, [currentIndex]);
+  }, [shuffle, repeat, queue, currentIndex]);
 
   // Attach persistent audio event listeners once
   useEffect(() => {

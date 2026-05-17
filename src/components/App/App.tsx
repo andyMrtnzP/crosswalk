@@ -11,7 +11,7 @@ import Login from '@/pages/Login';
 import useAuth from '@/hooks/useAuth';
 import Albums from '@/pages/Albums';
 
-function App() {
+export default function App() {
   const { isAuthenticated } = useAuth();
 
   if (!isAuthenticated) {
@@ -36,5 +36,3 @@ function App() {
     </BrowserRouter>
   );
 }
-
-export default App;

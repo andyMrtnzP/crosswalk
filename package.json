@@ -10,12 +10,12 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "prettier": "prettier --config .prettierrc --write --log-level error \"src/**/*.{js,ts,json,css}\" vite.config.ts eslint.config.js",
+    "prettier": "prettier --config .prettierrc --write --log-level error \"src/**/*.{js,ts,json,css}\" vite.config.ts eslint.config.js README.md",
     "prepare": "husky"
   },
   "keywords": [],
   "author": "andyMrtnz",
-  "license": "ISC",
+  "license": "AGPL-3.0-or-later",
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

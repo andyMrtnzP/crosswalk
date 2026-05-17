@@ -12,10 +12,11 @@ type AuthenticationProviderProps = {
 
 const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
   const {
-    get: getCredentials,
-    set: setCredentials,
-    del: deleteCredentials,
+    get: readFromStorage,
+    set: writeToStorage,
+    del: removeFromStorage,
   } = useLocalStorage<AuthCredentials>(AUTH_STORAGE_KEY);
+  const [credentials, setCredentials] = useState<AuthCredentials | null>(() => readFromStorage());
   const [error, setError] = useState<string | null>(null);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
@@ -36,35 +37,38 @@ const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
           throw new Error(subsonic?.error?.message ?? 'Invalid Navidrome credentials.');
         }
 
+        writeToStorage(nextCredentials);
         setCredentials(nextCredentials);
         setError(null);
         return true;
       } catch (caughtError) {
-        deleteCredentials();
+        removeFromStorage();
+        setCredentials(null);
         setError(caughtError instanceof Error ? caughtError.message : 'Unable to authenticate.');
         return false;
       } finally {
         setIsAuthenticating(false);
       }
     },
-    [deleteCredentials, setCredentials]
+    [writeToStorage, removeFromStorage]
   );
 
   const logout = useCallback(() => {
-    deleteCredentials();
+    removeFromStorage();
+    setCredentials(null);
     setError(null);
-  }, [deleteCredentials]);
+  }, [removeFromStorage]);
 
   const value = useMemo<AuthContextValue>(
     () => ({
-      credentials: getCredentials(),
-      isAuthenticated: getCredentials() !== null,
+      credentials,
+      isAuthenticated: credentials !== null,
       isAuthenticating,
       error,
       login,
       logout,
     }),
-    [isAuthenticating, error, login, logout, getCredentials]
+    [credentials, isAuthenticating, error, login, logout]
   );
 
   return <AuthenticationContext.Provider value={value}>{children}</AuthenticationContext.Provider>;

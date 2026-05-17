@@ -16,7 +16,7 @@ const buttonVariants = cva(
         'icon-transparent': 'text-ink-3 transition-colors hover:text-foreground',
         link: 'bg-transparent text-[11.5px] uppercase tracking-[0.08em] text-ink-3 transition-colors hover:text-accent-gold',
         glow: 'mt-2 inline-flex h-10 w-full items-center justify-center rounded-md bg-accent-gold text-sm font-semibold text-on-accent shadow-(--shadow-accent) transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60',
-        pill: 'border border-input bg-background text-foreground hover:bg-secondary rounded-full bg-accent/80 gap-2'
+        pill: 'border border-input bg-background text-foreground hover:bg-secondary rounded-full bg-accent/80 gap-2',
       },
       size: {
         default: 'h-10 px-4 py-2',

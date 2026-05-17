@@ -26,10 +26,12 @@ export default function Sidebar({ onLogout, username }: SidebarProps) {
   const activeClass = `${baseClass} bg-panel-3 text-foreground before:-ml-2.5 before:mr-2 before:block before:h-[14px] before:w-[2px] before:flex-shrink-0 before:rounded-[1px] before:bg-accent-gold before:content-['']`;
 
   return (
-    <aside className={cn(
-      `sticky top-0 flex flex-col gap-6.5 overflow-y-auto border-r border-hairline bg-background px-4.5 pt-7 pb-6 [&::-webkit-scrollbar]:hidden`,
-      currentSong ? 'h-[calc(100vh-76px)]' : 'h-screen'
-    )}>
+    <aside
+      className={cn(
+        `sticky top-0 flex flex-col gap-6.5 overflow-y-auto border-r border-hairline bg-background px-4.5 pt-7 pb-6 [&::-webkit-scrollbar]:hidden`,
+        currentSong ? 'h-[calc(100vh-76px)]' : 'h-screen'
+      )}
+    >
       <div className="mb-1 flex items-center gap-2.5 px-2">
         <span className="brand-mark">
           <img src="/logo.svg" alt="Crosswalk logo" className="h-6 w-6" />
@@ -57,11 +59,7 @@ export default function Sidebar({ onLogout, username }: SidebarProps) {
             <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-strong">
               Playlists
             </p>
-            <Button
-              type="button"
-              aria-label="Add playlist"
-              variant="icon-transparent"
-            >
+            <Button type="button" aria-label="Add playlist" variant="icon-transparent">
               <Plus className="h-2.75 w-2.75" strokeWidth={2.5} />
             </Button>
           </div>
@@ -81,9 +79,7 @@ export default function Sidebar({ onLogout, username }: SidebarProps) {
         variant="icon-transparent"
         className="mt-auto flex w-full items-center gap-2.5 rounded-lg border border-hairline p-2.5 text-left transition-colors hover:border-hairline-2 py-6 cursor-pointer"
       >
-        <span
-          className="grid h-7.5 w-7.5 shrink-0 place-items-center rounded-full text-[11px] font-bold text-on-accent username-gradient"
-        >
+        <span className="grid h-7.5 w-7.5 shrink-0 place-items-center rounded-full text-[11px] font-bold text-on-accent username-gradient">
           {initials}
         </span>
         <span className="min-w-0 flex-1">
@@ -94,10 +90,7 @@ export default function Sidebar({ onLogout, username }: SidebarProps) {
             Sign out
           </span>
         </span>
-        <ChevronRight
-          className="h-3.25 w-3.25 shrink-0 text-muted-strong"
-          strokeWidth={2}
-        />
+        <ChevronRight className="h-3.25 w-3.25 shrink-0 text-muted-strong" strokeWidth={2} />
       </Button>
     </aside>
   );

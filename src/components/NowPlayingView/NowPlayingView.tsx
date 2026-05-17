@@ -41,11 +41,7 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
       <div className="relative z-10 grid h-full overflow-hidden npv-content-grid">
         {/* Top bar with navigation and track info */}
         <div className="flex items-center justify-between gap-4">
-          <Button
-            type="button"
-            onClick={onClose}
-            variant='pill'
-          >
+          <Button type="button" onClick={onClose} variant="pill">
             <ChevronDown className="h-4 w-4" />
             <span>Back</span>
           </Button>
@@ -145,28 +141,17 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
                   )}
                 </Button>
 
-                <Button
-                  type="button"
-                  aria-label="Like"
-                  variant="pill"
-                >
+                <Button type="button" aria-label="Like" variant="pill">
                   <Heart className="h-3.5 w-3.5 fill-current text-accent-gold" />
                   Liked
                 </Button>
 
-                <Button
-                  type="button"
-                  variant="pill"
-                >
+                <Button type="button" variant="pill">
                   <ListPlus className="h-3.5 w-3.5" />
                   Add to playlist
                 </Button>
 
-                <Button
-                  type="button"
-                  aria-label="More options"
-                  variant="pill"
-                >
+                <Button type="button" aria-label="More options" variant="pill">
                   <MoreHorizontal className="h-3.5 w-3.5" />
                 </Button>
               </div>

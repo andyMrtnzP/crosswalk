@@ -26,7 +26,7 @@ export default function PlaylistNavItem({
         type="button"
         onClick={() => onClick?.(playlist)}
         title={playlist.name}
-        variant='icon-transparent'
+        variant="icon-transparent"
         className={
           isActive
             ? 'grid w-full grid-cols-[24px_1fr] items-center gap-2.5 rounded-md bg-panel-3 px-2.5 py-1.5 text-left text-[13px] text-foreground transition-colors'
@@ -34,11 +34,7 @@ export default function PlaylistNavItem({
         }
       >
         {coverArtUrl ? (
-          <img
-            src={coverArtUrl}
-            alt=""
-            className="h-6 w-6 shrink-0 rounded-[3px] object-cover"
-          />
+          <img src={coverArtUrl} alt="" className="h-6 w-6 shrink-0 rounded-[3px] object-cover" />
         ) : (
           <span className="grid h-6 w-6 shrink-0 place-items-center rounded-[3px] bg-panel-3 text-ink-3">
             <Music className="h-3 w-3" />

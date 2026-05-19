@@ -1,14 +1,19 @@
 import LibraryCard from '@/components/LibraryCard/LibraryCard';
-import useNavidromeRequest from '@/hooks/useNavidromeRequest';
-import type { AlbumList2Response } from '@/@types/types';
+import useNavidromePagination from '@/hooks/useNavidromePagination';
+import type { AlbumList2Response, AlbumRecord } from '@/@types/types';
 import { getAlbumMetadata } from '@/lib/utils';
 
 export default function Albums() {
-  const { data: albumData } = useNavidromeRequest<AlbumList2Response>('/rest/getAlbumList2.view', {
-    type: 'newest',
-  });
-
-  const albums = albumData?.['subsonic-response']?.albumList2?.album ?? [];
+  const {
+    items: albums,
+    isLoading,
+    hasMore,
+    sentinelRef,
+  } = useNavidromePagination<AlbumList2Response, AlbumRecord>(
+    '/rest/getAlbumList2.view',
+    (response) => response['subsonic-response']?.albumList2?.album,
+    { type: 'newest' }
+  );
 
   return (
     <>
@@ -19,6 +24,7 @@ export default function Albums() {
           </h1>
           <h2 className="flex items-baseline gap-2.5 font-display text-[18px] font-medium tracking-[-0.01em] text-ink-3">
             {albums.length} {albums.length === 1 ? 'item' : 'items'}
+            {hasMore && '+'}
           </h2>
         </div>
 
@@ -37,6 +43,12 @@ export default function Albums() {
                 ))}
               </div>
             </div>
+          )}
+
+          {hasMore && <div ref={sentinelRef} className="h-1" aria-hidden />}
+
+          {isLoading && (
+            <p className="text-center text-ink-3 text-sm py-4">Loading more…</p>
           )}
         </div>
       </section>

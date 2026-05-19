@@ -47,9 +47,7 @@ export default function Albums() {
 
           {hasMore && <div ref={sentinelRef} className="h-1" aria-hidden />}
 
-          {isLoading && (
-            <p className="text-center text-ink-3 text-sm py-4">Loading more…</p>
-          )}
+          {isLoading && <p className="text-center text-ink-3 text-sm py-4">Loading more…</p>}
         </div>
       </section>
     </>

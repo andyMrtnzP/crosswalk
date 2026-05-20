@@ -10,7 +10,7 @@ function scrobble(songId: string, credentials: AuthCredentials, submission: bool
   const params = buildAuthParams(credentials.username, credentials.password);
   params.set('id', songId);
   params.set('submission', String(submission));
-  fetch(`/rest/scrobble.view?${params.toString()}`).catch(() => { });
+  fetch(`/rest/scrobble.view?${params.toString()}`).catch(() => {});
 }
 
 function buildStreamUrl(songId: string, credentials: AuthCredentials): string {
@@ -187,7 +187,6 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [togglePlay]);
 
-
   // scrobble
   useEffect(() => {
     if (!credentials || !currentSong) return;
@@ -209,7 +208,6 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
     audio.addEventListener('timeupdate', onTimeUpdate);
     return () => audio.removeEventListener('timeupdate', onTimeUpdate);
   }, [currentSong?.id, credentials?.username]); // eslint-disable-line react-hooks/exhaustive-deps
-
 
   const cycleRepeat = useCallback(() => {
     setRepeat((r) => {

@@ -68,9 +68,7 @@ export default function Playlist() {
             <p className="text-[13px] leading-[1.55] text-ink-2">{playlist.comment}</p>
           )}
           <div className="mt-1 flex flex-wrap items-center gap-3 text-[12px] text-ink-3">
-            {playlist?.owner && (
-              <span className="font-medium text-ink-2">{playlist.owner}</span>
-            )}
+            {playlist?.owner && <span className="font-medium text-ink-2">{playlist.owner}</span>}
             {playlist?.owner && <span className="h-0.75 w-0.75 rounded-full bg-muted-deep" />}
             {playlist?.songCount != null && (
               <span>
@@ -88,11 +86,7 @@ export default function Playlist() {
 
         {/* Actions */}
         <div className="flex items-center gap-2.5 self-end">
-          <Button
-            type="button"
-            onClick={() => playPlaylist(songs, 0)}
-            variant="main"
-          >
+          <Button type="button" onClick={() => playPlaylist(songs, 0)} variant="main">
             <Play className="h-3 w-3 fill-current" />
             Play
           </Button>

@@ -4,6 +4,15 @@ import { buildAuthParams } from '@/lib/auth';
 import useAuth from '@/hooks/useAuth';
 import { PlayerContext } from '@/providers/PlayerContext';
 
+const SCROBBLE_MIN_SECONDS = 60;
+
+function scrobble(songId: string, credentials: AuthCredentials, submission: boolean): void {
+  const params = buildAuthParams(credentials.username, credentials.password);
+  params.set('id', songId);
+  params.set('submission', String(submission));
+  fetch(`/rest/scrobble.view?${params.toString()}`).catch(() => { });
+}
+
 function buildStreamUrl(songId: string, credentials: AuthCredentials): string {
   const params = buildAuthParams(credentials.username, credentials.password);
   params.set('id', songId);
@@ -177,6 +186,30 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [togglePlay]);
+
+
+  // scrobble
+  useEffect(() => {
+    if (!credentials || !currentSong) return;
+    const audio = audioRef.current!;
+
+    scrobble(currentSong.id, credentials, false);
+
+    let scrobbled = false;
+    const onTimeUpdate = () => {
+      if (scrobbled) return;
+      const dur = audio.duration;
+      if (!isFinite(dur) || dur <= 0) return;
+      if (audio.currentTime >= dur / 2 || audio.currentTime >= SCROBBLE_MIN_SECONDS) {
+        scrobbled = true;
+        scrobble(currentSong.id, credentials, true);
+      }
+    };
+
+    audio.addEventListener('timeupdate', onTimeUpdate);
+    return () => audio.removeEventListener('timeupdate', onTimeUpdate);
+  }, [currentSong?.id, credentials?.username]); // eslint-disable-line react-hooks/exhaustive-deps
+
 
   const cycleRepeat = useCallback(() => {
     setRepeat((r) => {

@@ -5,6 +5,7 @@ import Album from '@/pages/Album';
 import Artist from '@/pages/Artist';
 import Artists from '@/pages/Artists';
 import Library from '@/pages/Library';
+import Playlist from '@/pages/Playlist';
 import Playlists from '@/pages/Playlists';
 import Search from '@/pages/Search';
 import Login from '@/pages/Login';
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/library" element={<Library />} />
           <Route path="/artists" element={<Artists />} />
+          <Route path="/playlist/:id" element={<Playlist />} />
           <Route path="/playlists" element={<Playlists />} />
           <Route path="/albums" element={<Albums />} />
           <Route path="*" element={<Navigate to="/" replace />} />

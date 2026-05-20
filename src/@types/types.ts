@@ -80,6 +80,17 @@ export type PlaylistsResponse = SubsonicResponse<{
   };
 }>;
 
+export type PlaylistDetail = Playlist & {
+  comment?: string;
+  owner?: string;
+  public?: boolean;
+  entry?: Song[];
+};
+
+export type PlaylistDetailResponse = SubsonicResponse<{
+  playlist?: PlaylistDetail;
+}>;
+
 export type ArtistRecord = {
   id: string;
   name: string;

@@ -57,6 +57,7 @@ export default function Library() {
                   coverArtId={playlist.coverArt}
                   title={playlist.name}
                   meta={getPlaylistMetadata(playlist)}
+                  to={`/playlist/${playlist.id}`}
                 />
               ))}
             </div>

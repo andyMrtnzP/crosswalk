@@ -8,6 +8,7 @@ import { sanitizeHTML } from '@/lib/utils';
 import ArtistHero from '@/components/ArtistHero/ArtistHero';
 import { Button } from '@/components/ui/button';
 import PopularTrackRow from '@/components/PopularTrackRow/PopularTrackRow';
+import { recordRecentlyPlayed } from '@/lib/crosswalkApi';
 
 export default function Artist() {
   const { id } = useParams<{ id: string }>();
@@ -37,8 +38,10 @@ export default function Artist() {
   const sortedAlbums = [...albums].sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
 
   const playTopSongs = (startIndex = 0) => {
-    if (topSongs.length > 0) {
-      player.playQueue(topSongs, startIndex);
+    if (topSongs.length === 0) return;
+    player.playQueue(topSongs, startIndex);
+    if (artist?.id) {
+      recordRecentlyPlayed('artist', artist.id).catch(() => {});
     }
   };
 

@@ -3,8 +3,9 @@ import { Clock, Download, Heart, MoreVertical, Play } from 'lucide-react';
 
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 import usePlayer from '@/hooks/usePlayer';
-import type { AlbumDetailResponse } from '@/@types/types';
+import type { AlbumDetailResponse, Song } from '@/@types/types';
 import { formatRuntime } from '@/lib/utils';
+import { recordRecentlyPlayed } from '@/lib/crosswalkApi';
 import AlbumTrackRow, { TRACK_COLS } from '@/components/AlbumTrackRow/AlbumTrackRow';
 import { Button } from '@/components/ui/button';
 
@@ -19,6 +20,14 @@ export default function Album() {
   );
 
   const album = albumData?.['subsonic-response']?.album;
+
+  const playAlbum = (queueSongs: Song[], startIndex: number) => {
+    if (queueSongs.length === 0) return;
+    player.playQueue(queueSongs, startIndex);
+    if (album?.id) {
+      recordRecentlyPlayed('album', album.id).catch(() => {});
+    }
+  };
 
   const { data: coverArtSrc } = useNavidromeRequest<string>(
     '/rest/getCoverArt.view',
@@ -87,11 +96,7 @@ export default function Album() {
 
         {/* Actions */}
         <div className="flex items-center gap-2.5 self-end">
-          <Button
-            type="button"
-            onClick={() => songs.length > 0 && player.playQueue(songs, 0)}
-            variant="main"
-          >
+          <Button type="button" onClick={() => playAlbum(songs, 0)} variant="main">
             <Play className="h-3 w-3 fill-current" />
             Play
           </Button>
@@ -127,7 +132,7 @@ export default function Album() {
             key={song.id}
             song={song}
             index={i + 1}
-            onPlay={() => player.playQueue(songs, i)}
+            onPlay={() => playAlbum(songs, i)}
             isCurrentlyPlaying={player.currentSong?.id === song.id}
           />
         ))}

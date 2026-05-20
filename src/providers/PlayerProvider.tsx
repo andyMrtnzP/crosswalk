@@ -158,6 +158,26 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
 
   const toggleShuffle = useCallback(() => setShuffle((s) => !s), []);
 
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.code !== 'Space' && e.key !== ' ') return;
+
+      const target = e.target as HTMLElement | null;
+      if (target) {
+        const tag = target.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target.isContentEditable) {
+          return;
+        }
+      }
+
+      e.preventDefault();
+      togglePlay();
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [togglePlay]);
+
   const cycleRepeat = useCallback(() => {
     setRepeat((r) => {
       if (r === 'none') return 'all';

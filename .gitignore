@@ -3,6 +3,7 @@ data/metadata/*
 !data/metadata/.gitkeep
 data/music/*
 !data/music/.gitkeep
+data/.crosswalk/
 
 **/.DS_Store
 Thumbs.db

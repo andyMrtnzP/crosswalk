@@ -14,7 +14,9 @@ export default function Artists() {
   return (
     <section>
       <div className="flex flex-col items-baseline justify-between gap-6 mx-9 mt-9 pb-3 border-b border-hairline">
-        <h1 className="font-display text-[38px] font-normal leading-none tracking-[-0.02em]">Artists</h1>
+        <h1 className="font-display text-[38px] font-normal leading-none tracking-[-0.02em]">
+          Artists
+        </h1>
         <h2 className="flex items-baseline gap-2.5 font-display text-[18px] font-medium tracking-[-0.01em] text-ink-3">
           {artists.length} {artists.length === 1 ? 'artist' : 'artists'}
         </h2>
@@ -27,7 +29,11 @@ export default function Artists() {
                 key={artist.id}
                 coverArtId={artist.coverArt}
                 title={artist.name}
-                meta={artist.albumCount != null ? `${artist.albumCount} ${artist.albumCount === 1 ? 'album' : 'albums'}` : undefined}
+                meta={
+                  artist.albumCount != null
+                    ? `${artist.albumCount} ${artist.albumCount === 1 ? 'album' : 'albums'}`
+                    : undefined
+                }
                 variant="artist"
                 to={`/artist/${artist.id}`}
               />
@@ -39,4 +45,3 @@ export default function Artists() {
     </section>
   );
 }
-

@@ -36,13 +36,14 @@ export default function Search() {
     <section>
       <div className="mx-9 mt-9 pb-3 border-b border-hairline">
         <h1 className="font-display text-[38px] font-normal leading-none tracking-[-0.02em]">
-          Results for{' '}
-          <span className="text-accent-gold italic">&ldquo;{query}&rdquo;</span>
+          Results for <span className="text-accent-gold italic">&ldquo;{query}&rdquo;</span>
         </h1>
       </div>
 
       {isLoading && <p className="py-10 text-center text-sm text-ink-3">Searching…</p>}
-      {!isLoading && !hasResults && <p className="py-10 text-center text-sm text-ink-3">No results found.</p>}
+      {!isLoading && !hasResults && (
+        <p className="py-10 text-center text-sm text-ink-3">No results found.</p>
+      )}
 
       {hasResults && (
         <div className="px-6 pt-4 pb-15">

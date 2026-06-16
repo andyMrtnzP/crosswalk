@@ -16,10 +16,15 @@ export default function SearchBar() {
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const wrapRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => { setValue(urlQuery); }, [urlQuery]);
+  useEffect(() => {
+    setValue(urlQuery);
+  }, [urlQuery]);
 
   useEffect(() => {
-    if (!value.trim()) { setDebouncedQuery(''); return; }
+    if (!value.trim()) {
+      setDebouncedQuery('');
+      return;
+    }
     const t = setTimeout(() => setDebouncedQuery(value.trim()), 350);
     return () => clearTimeout(t);
   }, [value]);
@@ -48,10 +53,16 @@ export default function SearchBar() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const q = value.trim();
-    if (q) { navigate(`/search?q=${encodeURIComponent(q)}`); setIsOpen(false); }
+    if (q) {
+      navigate(`/search?q=${encodeURIComponent(q)}`);
+      setIsOpen(false);
+    }
   };
 
-  const goTo = (path: string) => { navigate(path); setIsOpen(false); };
+  const goTo = (path: string) => {
+    navigate(path);
+    setIsOpen(false);
+  };
 
   return (
     <form onSubmit={handleSubmit} className="w-full justify-self-center">
@@ -60,9 +71,19 @@ export default function SearchBar() {
         <input
           type="search"
           value={value}
-          onChange={(e) => { setValue(e.target.value); if (e.target.value.trim()) setIsOpen(true); }}
-          onFocus={() => { if (value.trim()) setIsOpen(true); }}
-          onKeyDown={(e) => { if (e.key === 'Escape') { setIsOpen(false); (e.target as HTMLElement).blur(); } }}
+          onChange={(e) => {
+            setValue(e.target.value);
+            if (e.target.value.trim()) setIsOpen(true);
+          }}
+          onFocus={() => {
+            if (value.trim()) setIsOpen(true);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              setIsOpen(false);
+              (e.target as HTMLElement).blur();
+            }
+          }}
           placeholder="Search songs, artists, albums…"
           className={cn(
             'relative z-10 w-full py-2 pl-9 pr-10 text-[13px] text-foreground placeholder:text-muted-strong focus:outline-none focus:ring-0 transition-colors duration-150',
@@ -79,7 +100,6 @@ export default function SearchBar() {
 
         {showFloat && (
           <div className="absolute left-1/2 top-1/2 z-0 w-[calc(100%+28px)] -translate-x-1/2 -translate-y-4.5 rounded-xl border border-accent-gold/15 bg-[rgba(15,15,15,0.92)] pt-13.5 px-3 pb-3 shadow-[0_22px_70px_rgba(0,0,0,0.52),0_0_0_1px_rgba(255,255,255,0.02)_inset] backdrop-blur-[18px]">
-
             {songs.map((song, i) => (
               <QuickSearchItem
                 key={song.id}
@@ -87,7 +107,7 @@ export default function SearchBar() {
                 title={song.title}
                 subtitle={`Song · ${song.artist ?? ''}`}
                 shape="square"
-                onClick={() => song.albumId ? goTo(`/album/${song.albumId}`) : undefined}
+                onClick={() => (song.albumId ? goTo(`/album/${song.albumId}`) : undefined)}
                 badge={i === 0 ? 'Enter' : undefined}
                 highlight={i === 0}
               />
@@ -126,7 +146,9 @@ export default function SearchBar() {
                 <span className="block truncate text-[12.5px] font-medium text-foreground">
                   Search all for &ldquo;{value.trim()}&rdquo;
                 </span>
-                <span className="mt-px block text-[11px] text-muted-strong">Songs, albums, artists</span>
+                <span className="mt-px block text-[11px] text-muted-strong">
+                  Songs, albums, artists
+                </span>
               </span>
               <span className="shrink-0 rounded-full border border-hairline-2 px-1.75 py-0.75 text-[10px] text-muted-strong">
                 ⌘K

@@ -172,6 +172,14 @@ export type TopSongsResponse = SubsonicResponse<{
   };
 }>;
 
+export type Search2Response = SubsonicResponse<{
+  searchResult2?: {
+    artist?: ArtistRecord[];
+    album?: AlbumRecord[];
+    song?: Song[];
+  };
+}>;
+
 export type RepeatMode = 'none' | 'one' | 'all';
 
 export type PlayerContextValue = {

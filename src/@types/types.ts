@@ -189,6 +189,7 @@ export type PlayerContextValue = {
   isPlaying: boolean;
   volume: number;
   shuffle: boolean;
+  shuffleOrder: number[];
   repeat: RepeatMode;
   currentTime: number;
   duration: number;

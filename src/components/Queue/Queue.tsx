@@ -18,13 +18,16 @@ type QueuePanelProps = {
 type QueueProps = QueuePopoverProps | QueuePanelProps;
 
 export default function Queue({ variant = 'popover', isOpen, onClose }: QueueProps) {
-  const { queue, currentIndex, playQueue } = usePlayer();
+  const { queue, currentIndex, shuffle, shuffleOrder, playQueue } = usePlayer();
 
   if (variant === 'popover' && !isOpen) return null;
 
   const currentSong = queue[currentIndex] ?? null;
-  const played = queue.slice(0, currentIndex);
-  const upcoming = queue.slice(currentIndex + 1);
+  const order =
+    shuffle && shuffleOrder.length === queue.length ? shuffleOrder : queue.map((_, i) => i);
+  const pos = order.indexOf(currentIndex);
+  const played = order.slice(0, pos);
+  const upcoming = order.slice(pos + 1);
 
   const listBody = (
     <>
@@ -37,9 +40,9 @@ export default function Queue({ variant = 'popover', isOpen, onClose }: QueuePro
           <p className="px-2 pb-2 pt-3 text-[10px] font-bold uppercase tracking-[0.15em] text-muted-strong">
             Played
           </p>
-          {played.map((song, i) => (
-            <div key={song.id} className="opacity-40">
-              <QueueRow song={song} onClick={() => playQueue(queue, i)} />
+          {played.map((qi) => (
+            <div key={queue[qi]!.id} className="opacity-40">
+              <QueueRow song={queue[qi]!} onClick={() => playQueue(queue, qi)} />
             </div>
           ))}
         </>
@@ -59,12 +62,8 @@ export default function Queue({ variant = 'popover', isOpen, onClose }: QueuePro
           <p className="px-2 pb-2 pt-3 text-[10px] font-bold uppercase tracking-[0.15em] text-muted-strong">
             Up next
           </p>
-          {upcoming.map((song, i) => (
-            <QueueRow
-              key={song.id}
-              song={song}
-              onClick={() => playQueue(queue, currentIndex + 1 + i)}
-            />
+          {upcoming.map((qi) => (
+            <QueueRow key={queue[qi]!.id} song={queue[qi]!} onClick={() => playQueue(queue, qi)} />
           ))}
         </>
       )}

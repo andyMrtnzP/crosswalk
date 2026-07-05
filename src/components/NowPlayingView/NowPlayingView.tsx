@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { flushSync } from 'react-dom';
 import { Link } from 'react-router-dom';
 import {
   AlignLeft,
@@ -35,6 +36,18 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
   const { lines, synced, hasLyrics } = useLyrics(currentSong?.id);
 
   const [view, setView] = useState<NpvView>('player');
+
+  // animation
+  const changeView = (next: NpvView) => {
+    const doc = document as Document & {
+      startViewTransition?: (cb: () => void) => void;
+    };
+    if (doc.startViewTransition) {
+      doc.startViewTransition(() => flushSync(() => setView(next)));
+    } else {
+      setView(next);
+    }
+  };
 
   const largeCoverSrc = useCoverArt(currentSong?.coverArt, 800);
 
@@ -207,7 +220,7 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
                 key={id}
                 type="button"
                 disabled={disabled}
-                onClick={() => setView(id)}
+                onClick={() => changeView(id)}
                 aria-pressed={activeView === id}
                 className={cn(
                   'flex items-center gap-1.5 rounded-full px-3.5 py-1.5 transition-colors',

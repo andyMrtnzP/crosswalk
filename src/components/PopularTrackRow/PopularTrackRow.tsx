@@ -1,5 +1,6 @@
 import type { Song } from '@/@types/types';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import useContextMenu from '@/hooks/useContextMenu';
 import { formatTimecode } from '@/lib/utils';
 import { Play } from 'lucide-react';
 import AnimatedEqBars from '../AnimatedEqBars/AnimatedEqBars';
@@ -31,11 +32,13 @@ export default function PopularTrackRow({
   isCurrentlyPlaying,
   onPlay,
 }: PopularRowProps) {
+  const { openSongMenu } = useContextMenu();
   return (
     <div
       className={`group grid cursor-pointer items-center gap-3.5 rounded-md px-2 py-2.25 transition-colors hover:bg-panel-2 ${isCurrentlyPlaying ? 'bg-panel-2' : ''}`}
       style={{ gridTemplateColumns: '24px 40px 1fr 60px' }}
       onClick={onPlay}
+      onContextMenu={(e) => openSongMenu(e, song, onPlay)}
     >
       <div className="relative h-4 text-center text-[12.5px] tabular-nums text-ink-3">
         {isCurrentlyPlaying && <AnimatedEqBars />}

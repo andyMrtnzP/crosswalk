@@ -194,6 +194,8 @@ export type PlayerContextValue = {
   currentTime: number;
   duration: number;
   playQueue: (songs: Song[], startIndex?: number) => void;
+  playNext: (song: Song) => void;
+  addToQueue: (song: Song) => void;
   togglePlay: () => void;
   next: () => void;
   prev: () => void;

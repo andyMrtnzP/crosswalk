@@ -4,12 +4,15 @@ import App from './components/App/App';
 import { AuthenticationProvider } from '@/providers/AuthenticationProvider';
 import './global.css';
 import PlayerProvider from './providers/PlayerProvider';
+import ContextMenuProvider from './providers/ContextMenuProvider';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthenticationProvider>
       <PlayerProvider>
-        <App />
+        <ContextMenuProvider>
+          <App />
+        </ContextMenuProvider>
       </PlayerProvider>
     </AuthenticationProvider>
   </StrictMode>

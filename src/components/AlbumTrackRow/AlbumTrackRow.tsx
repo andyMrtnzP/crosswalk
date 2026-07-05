@@ -1,6 +1,7 @@
 import { Heart, Play } from 'lucide-react';
 import type { Song } from '@/@types/types';
 import { cn, formatTimecode } from '@/lib/utils';
+import useContextMenu from '@/hooks/useContextMenu';
 import AnimatedEqBars from '../AnimatedEqBars/AnimatedEqBars';
 import { Button } from '../ui/button';
 
@@ -19,11 +20,13 @@ export default function AlbumTrackRow({
   onPlay,
   isCurrentlyPlaying = false,
 }: AlbumTrackRowProps) {
+  const { openSongMenu } = useContextMenu();
   return (
     <div
       className={`group relative grid cursor-pointer items-center gap-4 rounded-md px-3 py-2.25 transition-colors hover:bg-panel-2 ${isCurrentlyPlaying ? 'bg-panel-2' : ''}`}
       style={{ gridTemplateColumns: TRACK_COLS }}
       onClick={onPlay}
+      onContextMenu={(e) => openSongMenu(e, song, onPlay)}
     >
       {isCurrentlyPlaying && (
         <span className="absolute bottom-2 left-0 top-2 w-0.5 rounded-sm bg-accent-gold" />

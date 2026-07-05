@@ -1,6 +1,7 @@
 import type { Song } from '@/@types/types';
 import { cn, formatTimecode } from '@/lib/utils';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import useContextMenu from '@/hooks/useContextMenu';
 
 type QueueRowProps = {
   song: Song;
@@ -9,6 +10,7 @@ type QueueRowProps = {
 };
 
 export function QueueRow({ song, isPlaying = false, onClick }: QueueRowProps) {
+  const { openSongMenu } = useContextMenu();
   const { data: coverUrl } = useNavidromeRequest<string>(
     '/rest/getCoverArt.view',
     { id: song.coverArt, size: 64 },
@@ -19,6 +21,7 @@ export function QueueRow({ song, isPlaying = false, onClick }: QueueRowProps) {
     <div
       role="button"
       onClick={onClick}
+      onContextMenu={(e) => openSongMenu(e, song, () => onClick?.())}
       className={cn(
         'grid items-center gap-2.5 rounded-lg p-2 transition-colors grid-cols-[34px_1fr_auto]',
         isPlaying

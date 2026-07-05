@@ -131,6 +131,23 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
     if (shuffleRef.current) setShuffleOrder(shuffledOrder(songs.length, startIndex));
   }, []);
 
+  const playNext = useCallback((song: Song) => {
+    const insertAt = currentIndexRef.current + 1;
+    setQueue((q) => [...q.slice(0, insertAt), song, ...q.slice(insertAt)]);
+    setShuffleOrder((order) => {
+      if (order.length === 0) return order; // not shuffling
+      const shifted = order.map((i) => (i >= insertAt ? i + 1 : i));
+      const curPos = shifted.indexOf(currentIndexRef.current);
+      return [...shifted.slice(0, curPos + 1), insertAt, ...shifted.slice(curPos + 1)];
+    });
+  }, []);
+
+  const addToQueue = useCallback((song: Song) => {
+    const newIndex = queueRef.current.length;
+    setQueue((q) => [...q, song]);
+    setShuffleOrder((order) => (order.length === 0 ? order : [...order, newIndex]));
+  }, []);
+
   const togglePlay = useCallback(() => {
     const audio = audioRef.current!;
     if (audio.paused) {
@@ -267,6 +284,8 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
         currentTime,
         duration,
         playQueue,
+        playNext,
+        addToQueue,
         togglePlay,
         next,
         prev,

@@ -64,7 +64,7 @@ export default function LyricsView({ lines, synced, currentTime, onSeek }: Lyric
       ref={containerRef}
       onWheel={onManualScroll}
       onTouchMove={onManualScroll}
-      className="h-full overflow-y-auto px-1 py-[38vh]"
+      className="h-full min-h-0 self-stretch overflow-y-auto px-1 py-[38vh]"
       style={{ scrollbarWidth: 'none', maskImage: fade, WebkitMaskImage: fade }}
     >
       {lines.map((line, i) => {

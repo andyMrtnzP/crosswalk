@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   AlignLeft,
   ChevronDown,
@@ -77,11 +78,31 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
       </h1>
 
       <p className="text-[14px] leading-[1.35] text-ink-2">
-        {currentSong.artist}
+        {currentSong.artistId ? (
+          <Link
+            to={`/artist/${currentSong.artistId}`}
+            onClick={onClose}
+            className="hover:text-foreground hover:underline"
+          >
+            {currentSong.artist}
+          </Link>
+        ) : (
+          currentSong.artist
+        )}
         {currentSong.album && (
           <>
             <span className="mx-1.5 text-ink-3">·</span>
-            {currentSong.album}
+            {currentSong.albumId ? (
+              <Link
+                to={`/album/${currentSong.albumId}`}
+                onClick={onClose}
+                className="hover:text-foreground hover:underline"
+              >
+                {currentSong.album}
+              </Link>
+            ) : (
+              currentSong.album
+            )}
           </>
         )}
         {currentSong.year && (
@@ -207,30 +228,40 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
           </span>
         </div>
 
-        {activeView === 'cover' && (
-          <div className="grid min-h-0 items-center npv-stage-grid">
-            <div className="w-[min(58vh,520px)] justify-self-center">{coverEl}</div>
-            <Queue variant="panel" />
-          </div>
-        )}
+        {/* Single grid across views so the Queue node (and its scroll) is
+            preserved when switching. Only the main column and the optional
+            lyrics column change. */}
+        <div
+          className={cn(
+            // grid-rows pins the single row to the stage height so columns can't
+            // grow it to their content (the Queue would otherwise spill below).
+            'grid min-h-0 grid-rows-[minmax(0,1fr)] items-center',
+            activeView === 'lyrics' ? 'npv-stage-grid-lyrics' : 'npv-stage-grid'
+          )}
+        >
+          {activeView === 'cover' && (
+            <div key="main" className="flex min-h-0 items-center justify-center">
+              <div className="w-[min(58vh,520px)]">{coverEl}</div>
+            </div>
+          )}
 
-        {activeView === 'player' && (
-          <div className="grid min-h-0 items-center npv-stage-grid">
-            <div className="grid min-h-0 items-center npv-left-grid">
+          {activeView === 'player' && (
+            <div key="main" className="grid min-h-0 items-center npv-left-grid">
               {coverEl}
               {makeInfo(false)}
             </div>
-            <Queue variant="panel" />
-          </div>
-        )}
+          )}
 
-        {activeView === 'lyrics' && (
-          <div className="grid min-h-0 items-stretch npv-stage-grid-lyrics">
-            <div className="flex min-h-0 flex-col gap-5 self-center">
+          {activeView === 'lyrics' && (
+            <div key="main" className="flex min-h-0 flex-col justify-center gap-5">
               <div className="w-[min(26vh,200px)]">{coverEl}</div>
               {makeInfo(true)}
             </div>
+          )}
+
+          {activeView === 'lyrics' && (
             <LyricsView
+              key="lyrics"
               lines={lines}
               synced={synced}
               currentTime={currentTime}
@@ -239,9 +270,10 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
                 if (!isPlaying) togglePlay();
               }}
             />
-            <Queue variant="panel" />
-          </div>
-        )}
+          )}
+
+          <Queue key="queue" variant="panel" />
+        </div>
 
         {/* Controls */}
         <Player variant="expanded" />

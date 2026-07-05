@@ -182,6 +182,24 @@ export type Search2Response = SubsonicResponse<{
   };
 }>;
 
+// OpenSubsonic songLyrics extension (getLyricsBySongId). `start` is in ms.
+export type LyricLine = {
+  start?: number;
+  value: string;
+};
+
+export type StructuredLyrics = {
+  synced?: boolean;
+  lang?: string;
+  line?: LyricLine[];
+};
+
+export type LyricsResponse = SubsonicResponse<{
+  lyricsList?: {
+    structuredLyrics?: StructuredLyrics[];
+  };
+}>;
+
 export type RepeatMode = 'none' | 'one' | 'all';
 
 export type PlayerContextValue = {

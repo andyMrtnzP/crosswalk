@@ -348,3 +348,60 @@
 .username-gradient {
   background: linear-gradient(135deg, var(--accent-gold), var(--accent-deep));
 }
+
+.library-grid {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.library-grid > *:nth-child(n + 5) {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .library-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .library-grid > *:nth-child(-n + 6) {
+    display: block;
+  }
+  .library-grid > *:nth-child(n + 7) {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .library-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .library-grid > *:nth-child(-n + 8) {
+    display: block;
+  }
+  .library-grid > *:nth-child(n + 9) {
+    display: none;
+  }
+}
+
+@media (min-width: 1280px) {
+  .library-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .library-grid > *:nth-child(-n + 10) {
+    display: block;
+  }
+  .library-grid > *:nth-child(n + 11) {
+    display: none;
+  }
+}
+
+@media (min-width: 1536px) {
+  .library-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .library-grid > *:nth-child(-n + 12) {
+    display: block;
+  }
+  .library-grid > *:nth-child(n + 13) {
+    display: none;
+  }
+}

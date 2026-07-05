@@ -14,15 +14,20 @@ export default function Library() {
   const { data: artistsData } = useNavidromeRequest<ArtistsResponse>('/rest/getArtists.view');
   const { data: albumData } = useNavidromeRequest<AlbumList2Response>('/rest/getAlbumList2.view', {
     type: 'newest',
+    size: 12,
   });
 
-  const playlists = sortByDateDesc(
-    (playlistsData?.['subsonic-response']?.playlists?.playlist ?? []).slice(0, 6)
+  const allPlaylists = sortByDateDesc(
+    playlistsData?.['subsonic-response']?.playlists?.playlist ?? []
   );
-  const artists = (artistsData?.['subsonic-response']?.artists?.index ?? [])
-    .flatMap((group) => group.artist ?? [])
-    .slice(0, 6);
-  const albums = (albumData?.['subsonic-response']?.albumList2?.album ?? []).slice(0, 6);
+  const allArtists = (artistsData?.['subsonic-response']?.artists?.index ?? []).flatMap(
+    (group) => group.artist ?? []
+  );
+  const allAlbums = albumData?.['subsonic-response']?.albumList2?.album ?? [];
+  const albumTotal = allArtists.reduce((sum, artist) => sum + (artist.albumCount ?? 0), 0);
+  const playlists = allPlaylists.slice(0, 12);
+  const artists = allArtists.slice(0, 12);
+  const albums = allAlbums.slice(0, 12);
 
   return (
     <section>
@@ -32,12 +37,12 @@ export default function Library() {
         </h1>
         <div className="text-[12px] tracking-[0.04em] tabular-nums text-ink-3">
           <span className="text-ink-2">
-            {playlists.length + artists.length}{' '}
-            {playlists.length + artists.length === 1 ? 'item' : 'items'}
+            {allPlaylists.length + allArtists.length}{' '}
+            {allPlaylists.length + allArtists.length === 1 ? 'item' : 'items'}
           </span>
           {' · '}
-          {playlists.length} {playlists.length === 1 ? 'playlist' : 'playlists'} · {artists.length}{' '}
-          {artists.length === 1 ? 'artist' : 'artists'}
+          {allPlaylists.length} {allPlaylists.length === 1 ? 'playlist' : 'playlists'} ·{' '}
+          {allArtists.length} {allArtists.length === 1 ? 'artist' : 'artists'}
         </div>
       </div>
 
@@ -46,11 +51,11 @@ export default function Library() {
           <div className="mb-12">
             <LibrarySectionHeader
               title="Playlists"
-              count={`${playlists.length} total`}
+              count={`${allPlaylists.length} total`}
               action="View All"
               to="/playlists"
             />
-            <div className="grid grid-cols-2 gap-5.5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+            <div className="library-grid">
               {playlists.map((playlist) => (
                 <LibraryCard
                   key={playlist.id}
@@ -68,11 +73,11 @@ export default function Library() {
           <div className="mb-12">
             <LibrarySectionHeader
               title="Albums"
-              count={`${albums.length} total`}
+              count={`${albumTotal} total`}
               action="View All"
               to="/albums"
             />
-            <div className="grid grid-cols-2 gap-5.5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+            <div className="library-grid">
               {albums.map((album) => (
                 <LibraryCard
                   key={album.id}
@@ -90,10 +95,10 @@ export default function Library() {
           <div className="mb-12">
             <LibrarySectionHeader
               title="Artists"
-              count={`${artists.length} total`}
+              count={`${allArtists.length} total`}
               action="View All"
             />
-            <div className="grid grid-cols-2 gap-5.5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+            <div className="library-grid">
               {artists.map((artist) => (
                 <LibraryCard
                   key={artist.id}

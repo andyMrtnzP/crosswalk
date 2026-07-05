@@ -2,6 +2,7 @@ import { Heart, Play } from 'lucide-react';
 import type { Song } from '@/@types/types';
 import { cn, formatTimecode } from '@/lib/utils';
 import useContextMenu from '@/hooks/useContextMenu';
+import useStarred from '@/hooks/useStarred';
 import AnimatedEqBars from '../AnimatedEqBars/AnimatedEqBars';
 import { Button } from '../ui/button';
 
@@ -21,6 +22,7 @@ export default function AlbumTrackRow({
   isCurrentlyPlaying = false,
 }: AlbumTrackRowProps) {
   const { openSongMenu } = useContextMenu();
+  const { starred, toggle } = useStarred(song.id, !!song.starred);
   return (
     <div
       className={`group relative grid cursor-pointer items-center gap-4 rounded-md px-3 py-2.25 transition-colors hover:bg-panel-2 ${isCurrentlyPlaying ? 'bg-panel-2' : ''}`}
@@ -66,11 +68,15 @@ export default function AlbumTrackRow({
       {/* Heart */}
       <Button
         type="button"
-        aria-label={`Like ${song.title}`}
-        onClick={(e) => e.stopPropagation()}
+        aria-label={starred ? `Unlike ${song.title}` : `Like ${song.title}`}
+        aria-pressed={starred}
+        onClick={(e) => {
+          e.stopPropagation();
+          toggle();
+        }}
         variant="icon-invisible"
       >
-        <Heart className="h-3.5 w-3.5" />
+        <Heart className={cn('h-3.5 w-3.5', starred && 'fill-current text-accent-gold')} />
       </Button>
     </div>
   );

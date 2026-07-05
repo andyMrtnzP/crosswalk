@@ -9,6 +9,7 @@ export type AlbumRecord = {
   coverArt?: string;
   songCount?: number;
   duration?: number;
+  starred?: string;
 };
 
 export type Playlist = {
@@ -97,6 +98,7 @@ export type ArtistRecord = {
   coverArt?: string;
   albumCount?: number;
   artistImageUrl?: string;
+  starred?: string;
 };
 
 export type ArtistIndex = {

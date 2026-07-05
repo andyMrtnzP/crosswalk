@@ -3,8 +3,9 @@ import { Clock, Download, Heart, MoreVertical, Play } from 'lucide-react';
 
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 import usePlayer from '@/hooks/usePlayer';
+import useStarred from '@/hooks/useStarred';
 import type { AlbumDetailResponse, Song } from '@/@types/types';
-import { formatRuntime } from '@/lib/utils';
+import { cn, formatRuntime } from '@/lib/utils';
 import { recordRecentlyPlayed } from '@/lib/crosswalkApi';
 import AlbumTrackRow, { TRACK_COLS } from '@/components/AlbumTrackRow/AlbumTrackRow';
 import { Button } from '@/components/ui/button';
@@ -20,6 +21,7 @@ export default function Album() {
   );
 
   const album = albumData?.['subsonic-response']?.album;
+  const { starred, toggle: toggleStar } = useStarred(album?.id ?? '', !!album?.starred, 'album');
 
   const playAlbum = (queueSongs: Song[], startIndex: number) => {
     if (queueSongs.length === 0) return;
@@ -100,8 +102,14 @@ export default function Album() {
             <Play className="h-3 w-3 fill-current" />
             Play
           </Button>
-          <Button type="button" aria-label="Like album" variant="icon">
-            <Heart className="h-4 w-4" />
+          <Button
+            type="button"
+            aria-label={starred ? 'Unlike album' : 'Like album'}
+            aria-pressed={starred}
+            onClick={toggleStar}
+            variant="icon"
+          >
+            <Heart className={cn('h-4 w-4', starred && 'fill-current text-accent-gold')} />
           </Button>
           <Button type="button" aria-label="Download" variant="icon">
             <Download className="h-4 w-4" />

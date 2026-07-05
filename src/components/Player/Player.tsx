@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { ChevronUp, Heart, ListMusic } from 'lucide-react';
 import usePlayer from '@/hooks/usePlayer';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import useStarred from '@/hooks/useStarred';
+import { cn } from '@/lib/utils';
 import Queue from '@/components/Queue/Queue';
 import NowPlayingView from '@/components/NowPlayingView/NowPlayingView';
 import { Button } from '../ui/button';
@@ -15,6 +17,7 @@ type PlayerProps = {
 
 export default function Player({ variant = 'bar' }: PlayerProps) {
   const { queue, currentIndex, currentSong } = usePlayer();
+  const { starred, toggle: toggleStar } = useStarred(currentSong?.id ?? '', !!currentSong?.starred);
 
   const [queueOpen, setQueueOpen] = useState(false);
   const [nowPlayingOpen, setNowPlayingOpen] = useState(false);
@@ -112,8 +115,15 @@ export default function Player({ variant = 'bar' }: PlayerProps) {
               <p className="mt-0.5 truncate text-[11.5px] text-ink-3">{currentSong.artist}</p>
             </div>
           </Button>
-          <Button type="button" aria-label="Like" variant="icon" className="border-0">
-            <Heart className="h-3.75 w-3.75 fill-current" />
+          <Button
+            type="button"
+            aria-label={starred ? 'Unlike' : 'Like'}
+            aria-pressed={starred}
+            onClick={toggleStar}
+            variant="icon"
+            className="border-0"
+          >
+            <Heart className={cn('h-3.75 w-3.75', starred && 'fill-current text-accent-gold')} />
           </Button>
         </div>
 

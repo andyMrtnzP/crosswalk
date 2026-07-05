@@ -5,15 +5,18 @@ import { AuthenticationProvider } from '@/providers/AuthenticationProvider';
 import './global.css';
 import PlayerProvider from './providers/PlayerProvider';
 import ContextMenuProvider from './providers/ContextMenuProvider';
+import StarProvider from './providers/StarProvider';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthenticationProvider>
-      <PlayerProvider>
-        <ContextMenuProvider>
-          <App />
-        </ContextMenuProvider>
-      </PlayerProvider>
+      <StarProvider>
+        <PlayerProvider>
+          <ContextMenuProvider>
+            <App />
+          </ContextMenuProvider>
+        </PlayerProvider>
+      </StarProvider>
     </AuthenticationProvider>
   </StrictMode>
 );

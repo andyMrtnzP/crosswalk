@@ -4,6 +4,7 @@ import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 import Queue from '@/components/Queue/Queue';
 import Player from '@/components/Player/Player';
 import { cn, formatTimecode } from '@/lib/utils';
+import useStarred from '@/hooks/useStarred';
 import { Button } from '../ui/button';
 
 type Props = {
@@ -13,6 +14,7 @@ type Props = {
 
 export default function NowPlayingView({ isOpen, onClose }: Props) {
   const { queue, currentIndex, currentSong, isPlaying, togglePlay } = usePlayer();
+  const { starred, toggle: toggleStar } = useStarred(currentSong?.id ?? '', !!currentSong?.starred);
 
   const { data: largeCoverSrc } = useNavidromeRequest<string>(
     '/rest/getCoverArt.view',
@@ -141,9 +143,17 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
                   )}
                 </Button>
 
-                <Button type="button" aria-label="Like" variant="pill">
-                  <Heart className="h-3.5 w-3.5 fill-current text-accent-gold" />
-                  Liked
+                <Button
+                  type="button"
+                  aria-label={starred ? 'Unlike' : 'Like'}
+                  aria-pressed={starred}
+                  onClick={toggleStar}
+                  variant="pill"
+                >
+                  <Heart
+                    className={cn('h-3.5 w-3.5', starred && 'fill-current text-accent-gold')}
+                  />
+                  {starred ? 'Liked' : 'Like'}
                 </Button>
 
                 <Button type="button" variant="pill">

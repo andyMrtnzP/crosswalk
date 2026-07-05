@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { mkdir } from 'node:fs/promises';
+import type { Low } from 'lowdb';
 import { JSONFilePreset } from 'lowdb/node';
 
 export type RecentlyPlayedItem = {
@@ -18,4 +19,4 @@ const defaultData: DatabaseSchema = { recentlyPlayed: [] };
 
 await mkdir(DB_DIR, { recursive: true });
 
-export const db = await JSONFilePreset<DatabaseSchema>(DB_FILE, defaultData);
+export const db: Low<DatabaseSchema> = await JSONFilePreset<DatabaseSchema>(DB_FILE, defaultData);

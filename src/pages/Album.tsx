@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { Clock, Download, Heart, MoreVertical, Play } from 'lucide-react';
 
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import useCoverArt from '@/hooks/useCoverArt';
 import usePlayer from '@/hooks/usePlayer';
 import useStarred from '@/hooks/useStarred';
 import type { AlbumDetailResponse, Song } from '@/@types/types';
@@ -31,11 +32,7 @@ export default function Album() {
     }
   };
 
-  const { data: coverArtSrc } = useNavidromeRequest<string>(
-    '/rest/getCoverArt.view',
-    { id: album?.coverArt, size: 400 },
-    { responseType: 'blobUrl', skip: !album?.coverArt }
-  );
+  const coverArtSrc = useCoverArt(album?.coverArt, 400);
 
   const songs = album?.song ?? [];
 

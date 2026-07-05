@@ -1,18 +1,14 @@
 import { Music } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import type { Playlist } from '@/@types/types';
-import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import useCoverArt from '@/hooks/useCoverArt';
 
 export type PlaylistNavItemProps = {
   playlist: Playlist;
 };
 
 export default function PlaylistNavItem({ playlist }: PlaylistNavItemProps) {
-  const { data: coverArtUrl } = useNavidromeRequest<string>(
-    '/rest/getCoverArt.view',
-    { id: playlist.coverArt, size: 48 },
-    { responseType: 'blobUrl' }
-  );
+  const coverArtUrl = useCoverArt(playlist.coverArt, 48);
 
   const baseClass =
     'grid w-full grid-cols-[24px_1fr] items-center gap-2.5 rounded-md px-2.5 py-1.5 text-left text-[13px] transition-colors';

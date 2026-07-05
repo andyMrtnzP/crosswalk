@@ -11,7 +11,7 @@ import {
   Play,
 } from 'lucide-react';
 import usePlayer from '@/hooks/usePlayer';
-import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import useCoverArt from '@/hooks/useCoverArt';
 import useStarred from '@/hooks/useStarred';
 import useLyrics from '@/hooks/useLyrics';
 import Queue from '@/components/Queue/Queue';
@@ -35,11 +35,7 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
 
   const [view, setView] = useState<NpvView>('player');
 
-  const { data: largeCoverSrc } = useNavidromeRequest<string>(
-    '/rest/getCoverArt.view',
-    { id: currentSong?.coverArt, size: 800 },
-    { responseType: 'blobUrl', skip: !currentSong?.coverArt }
-  );
+  const largeCoverSrc = useCoverArt(currentSong?.coverArt, 800);
 
   if (!currentSong) return null;
 

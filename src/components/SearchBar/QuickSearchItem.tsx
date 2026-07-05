@@ -1,4 +1,4 @@
-import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import useCoverArt from '@/hooks/useCoverArt';
 import { cn } from '@/lib/utils';
 
 export type QuickSearchItemProps = {
@@ -20,11 +20,7 @@ export default function QuickSearchItem({
   badge,
   highlight,
 }: QuickSearchItemProps) {
-  const { data: src } = useNavidromeRequest<string>(
-    '/rest/getCoverArt.view',
-    { id: coverArtId, size: 60 },
-    { responseType: 'blobUrl', skip: !coverArtId }
-  );
+  const src = useCoverArt(coverArtId, 60);
 
   return (
     <button

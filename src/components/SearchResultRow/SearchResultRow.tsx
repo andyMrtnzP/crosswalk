@@ -1,4 +1,4 @@
-import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import useCoverArt from '@/hooks/useCoverArt';
 import { cn } from '@/lib/utils';
 
 type SearchResultRowProps = {
@@ -18,11 +18,7 @@ export default function SearchResultRow({
   isPlaying,
   onClick,
 }: SearchResultRowProps) {
-  const { data: src } = useNavidromeRequest<string>(
-    '/rest/getCoverArt.view',
-    { id: coverArtId, size: 80 },
-    { responseType: 'blobUrl', skip: !coverArtId }
-  );
+  const src = useCoverArt(coverArtId, 80);
   return (
     <button
       type="button"

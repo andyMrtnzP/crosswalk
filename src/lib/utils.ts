@@ -34,6 +34,14 @@ export const formatRuntime = (seconds?: number): string | null => {
   return h > 0 ? `${h}h ${m}m` : `${m}m`;
 };
 
+export const serializeParams = (params?: Record<string, unknown>): string => {
+  const entries = Object.entries(params ?? {})
+    .filter(([, value]) => value !== null && value !== undefined)
+    .map(([key, value]) => [key, String(value)] as const)
+    .sort(([left], [right]) => left.localeCompare(right));
+  return JSON.stringify(entries);
+};
+
 export const sortByDateDesc = <T extends { created?: string }>(arr: T[]): T[] => {
   return [...arr].sort((a, b) => (b.created ?? '').localeCompare(a.created ?? ''));
 };

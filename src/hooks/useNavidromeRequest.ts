@@ -6,6 +6,7 @@ import type {
   UseNavidromeRequestResult,
 } from '@/@types/types';
 import { buildAuthParams } from '@/lib/auth';
+import { serializeParams } from '@/lib/utils';
 import useAuth from './useAuth';
 
 export default function useNavidromeRequest<T>(
@@ -22,14 +23,7 @@ export default function useNavidromeRequest<T>(
   const responseType = options?.responseType ?? 'json';
   const skip = options?.skip ?? false;
 
-  const serializedParams = useMemo(() => {
-    const entries = Object.entries(params ?? {})
-      .filter(([, value]) => value !== null && value !== undefined)
-      .map(([key, value]) => [key, String(value)] as const)
-      .sort(([left], [right]) => left.localeCompare(right));
-
-    return JSON.stringify(entries);
-  }, [params]);
+  const serializedParams = useMemo(() => serializeParams(params), [params]);
 
   const refetch = useCallback(async () => {
     if (skip || !credentials?.username || !credentials?.password) {

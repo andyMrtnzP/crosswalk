@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import useAuth from '@/hooks/useAuth';
-import { buildAuthParams } from '@/lib/auth';
+import { buildRestUrl } from '@/lib/auth';
 import type { StarType } from './StarContext';
 import { StarContext } from './StarContext';
 
@@ -26,9 +26,16 @@ export default function StarProvider({ children }: { children: React.ReactNode }
       const next = !current;
       setOverrides((prev) => ({ ...prev, [id]: next })); // optimistic
 
-      const params = buildAuthParams(credentials.username, credentials.password);
-      params.set(type === 'album' ? 'albumId' : type === 'artist' ? 'artistId' : 'id', id);
-      fetch(`/rest/${next ? 'star' : 'unstar'}.view?${params.toString()}`)
+      const idKey = type === 'album' ? 'albumId' : type === 'artist' ? 'artistId' : 'id';
+      const url = buildRestUrl(
+        `${next ? 'star' : 'unstar'}.view`,
+        credentials.username,
+        credentials.password,
+        {
+          [idKey]: id,
+        }
+      );
+      fetch(url)
         .then((res) => {
           if (!res.ok) throw new Error(`star failed: ${res.status}`);
         })

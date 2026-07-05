@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Song, RepeatMode, AuthCredentials } from '@/@types/types';
-import { buildAuthParams } from '@/lib/auth';
+import { buildRestUrl } from '@/lib/auth';
 import useAuth from '@/hooks/useAuth';
 import { PlayerContext } from '@/providers/PlayerContext';
 
@@ -8,29 +8,30 @@ const SCROBBLE_MIN_SECONDS = 60;
 
 // Fisher-Yates permutation of [0..n-1], with `first` moved to position 0
 function shuffledOrder(n: number, first: number): number[] {
-  const a = Array.from({ length: n }, (_, i) => i);
+  const a = Array.from({ length: n }, (_, i) => i) as number[];
   for (let i = n - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(Math.random() * (i + 1)) as number;
+    // @ts-expect-error TS thinks i and j are possibly out of bounds, but they are not.
     [a[i], a[j]] = [a[j], a[i]];
   }
   if (first >= 0 && first < n) {
-    const p = a.indexOf(first);
+    const p = a.indexOf(first) as number;
+    // @ts-expect-error TS thinks 0 and p are possibly out of bounds, but they are not.
     [a[0], a[p]] = [a[p], a[0]];
   }
   return a;
 }
 
 function scrobble(songId: string, credentials: AuthCredentials, submission: boolean): void {
-  const params = buildAuthParams(credentials.username, credentials.password);
-  params.set('id', songId);
-  params.set('submission', String(submission));
-  fetch(`/rest/scrobble.view?${params.toString()}`).catch(() => {});
+  const url = buildRestUrl('scrobble.view', credentials.username, credentials.password, {
+    id: songId,
+    submission,
+  });
+  fetch(url).catch(() => {});
 }
 
 function buildStreamUrl(songId: string, credentials: AuthCredentials): string {
-  const params = buildAuthParams(credentials.username, credentials.password);
-  params.set('id', songId);
-  return `/rest/stream.view?${params.toString()}`;
+  return buildRestUrl('stream.view', credentials.username, credentials.password, { id: songId });
 }
 
 export default function PlayerProvider({ children }: { children: React.ReactNode }) {

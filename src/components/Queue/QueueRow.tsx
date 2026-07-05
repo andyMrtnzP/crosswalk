@@ -1,6 +1,6 @@
 import type { Song } from '@/@types/types';
 import { cn, formatTimecode } from '@/lib/utils';
-import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import useCoverArt from '@/hooks/useCoverArt';
 import useContextMenu from '@/hooks/useContextMenu';
 
 type QueueRowProps = {
@@ -11,11 +11,7 @@ type QueueRowProps = {
 
 export function QueueRow({ song, isPlaying = false, onClick }: QueueRowProps) {
   const { openSongMenu } = useContextMenu();
-  const { data: coverUrl } = useNavidromeRequest<string>(
-    '/rest/getCoverArt.view',
-    { id: song.coverArt, size: 64 },
-    { responseType: 'blobUrl', skip: !song.coverArt }
-  );
+  const coverUrl = useCoverArt(song.coverArt, 64);
 
   return (
     <div

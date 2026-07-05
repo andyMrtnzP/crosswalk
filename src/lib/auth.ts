@@ -18,3 +18,14 @@ export const buildAuthParams = (username: string, password: string): URLSearchPa
     c: CLIENT_NAME,
   });
 };
+
+export const buildRestUrl = (
+  endpoint: string,
+  username: string,
+  password: string,
+  params?: Record<string, string | number | boolean>
+): string => {
+  const search = buildAuthParams(username, password);
+  Object.entries(params ?? {}).forEach(([key, value]) => search.set(key, String(value)));
+  return `/rest/${endpoint}?${search.toString()}`;
+};

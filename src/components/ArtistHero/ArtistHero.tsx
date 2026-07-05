@@ -1,6 +1,7 @@
 import { Heart } from 'lucide-react';
 import type { ArtistDetail, ArtistInfo2Response } from '@/@types/types';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import useCoverArt from '@/hooks/useCoverArt';
 import useStarred from '@/hooks/useStarred';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
@@ -14,11 +15,7 @@ export default function ArtistHero(artist: ArtistDetail) {
   );
   const artistInfo = artistInfoData?.['subsonic-response']?.artistInfo2;
 
-  const { data: heroBlobSrc } = useNavidromeRequest<string>(
-    '/rest/getCoverArt.view',
-    { id: artist?.coverArt, size: 800 },
-    { responseType: 'blobUrl', skip: !artist?.coverArt }
-  );
+  const heroBlobSrc = useCoverArt(artist?.coverArt, 800);
   const heroBgUrl = artistInfo?.largeImageUrl || heroBlobSrc || null;
 
   if (!artist || !artistInfo) {

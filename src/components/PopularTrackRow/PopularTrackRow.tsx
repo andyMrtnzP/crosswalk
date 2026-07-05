@@ -1,16 +1,12 @@
 import type { Song } from '@/@types/types';
-import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import useCoverArt from '@/hooks/useCoverArt';
 import useContextMenu from '@/hooks/useContextMenu';
 import { formatTimecode } from '@/lib/utils';
 import { Play } from 'lucide-react';
 import AnimatedEqBars from '../AnimatedEqBars/AnimatedEqBars';
 
 const Thumb = ({ coverArt }: { coverArt?: string }) => {
-  const { data: src } = useNavidromeRequest<string>(
-    '/rest/getCoverArt.view',
-    { id: coverArt, size: 80 },
-    { responseType: 'blobUrl', skip: !coverArt }
-  );
+  const src = useCoverArt(coverArt, 80);
 
   return (
     <div className="h-10 w-10 shrink-0 overflow-hidden rounded bg-panel-3">

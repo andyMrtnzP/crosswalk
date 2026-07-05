@@ -1,6 +1,6 @@
 import { Play, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import useCoverArt from '@/hooks/useCoverArt';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 
@@ -21,11 +21,7 @@ export default function LibraryCard({
   to,
   onPlay,
 }: LibraryCardProps) {
-  const { data: src } = useNavidromeRequest<string>(
-    '/rest/getCoverArt.view',
-    { id: coverArtId, size: 400 },
-    { responseType: 'blobUrl', skip: !coverArtId }
-  );
+  const src = useCoverArt(coverArtId, 400);
 
   const isArtist = variant === 'artist';
   const styles = {

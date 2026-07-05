@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ChevronUp, Heart, ListMusic } from 'lucide-react';
 import usePlayer from '@/hooks/usePlayer';
-import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import useCoverArt from '@/hooks/useCoverArt';
 import useStarred from '@/hooks/useStarred';
 import { cn } from '@/lib/utils';
 import Queue from '@/components/Queue/Queue';
@@ -22,18 +22,10 @@ export default function Player({ variant = 'bar' }: PlayerProps) {
   const [queueOpen, setQueueOpen] = useState(false);
   const [nowPlayingOpen, setNowPlayingOpen] = useState(false);
 
-  const { data: coverArtSrc } = useNavidromeRequest<string>(
-    '/rest/getCoverArt.view',
-    { id: currentSong?.coverArt, size: 96 },
-    { responseType: 'blobUrl', skip: !currentSong?.coverArt }
-  );
+  const coverArtSrc = useCoverArt(currentSong?.coverArt, 96);
 
   const nextSong = queue[currentIndex + 1] ?? null;
-  const { data: nextCoverSrc } = useNavidromeRequest<string>(
-    '/rest/getCoverArt.view',
-    { id: nextSong?.coverArt, size: 64 },
-    { responseType: 'blobUrl', skip: !nextSong?.coverArt }
-  );
+  const nextCoverSrc = useCoverArt(nextSong?.coverArt, 64);
 
   if (!currentSong) {
     return <></>;

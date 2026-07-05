@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { Clock, Download, Heart, MoreVertical, Play } from 'lucide-react';
 
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import useCoverArt from '@/hooks/useCoverArt';
 import usePlayer from '@/hooks/usePlayer';
 import type { PlaylistDetailResponse, Song } from '@/@types/types';
 import { formatRuntime } from '@/lib/utils';
@@ -21,11 +22,7 @@ export default function Playlist() {
 
   const playlist = playlistData?.['subsonic-response']?.playlist;
 
-  const { data: coverArtSrc } = useNavidromeRequest<string>(
-    '/rest/getCoverArt.view',
-    { id: playlist?.coverArt, size: 400 },
-    { responseType: 'blobUrl', skip: !playlist?.coverArt }
-  );
+  const coverArtSrc = useCoverArt(playlist?.coverArt, 400);
 
   const songs = playlist?.entry ?? [];
 

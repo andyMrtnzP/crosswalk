@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { RequestParams } from '@/@types/types';
+import { serializeParams } from '@/lib/utils';
 import useNavidromeRequest from './useNavidromeRequest';
 
 type PaginationOptions = {
@@ -23,13 +24,7 @@ export default function useNavidromePagination<TResponse, TItem>(
 ): UseNavidromePaginationResult<TItem> {
   const pageSize = options?.pageSize ?? 20;
 
-  const baseParamsKey = useMemo(() => {
-    const entries = Object.entries(params ?? {})
-      .filter(([, value]) => value !== null && value !== undefined)
-      .map(([key, value]) => [key, String(value)] as const)
-      .sort(([left], [right]) => left.localeCompare(right));
-    return JSON.stringify(entries);
-  }, [params]);
+  const baseParamsKey = useMemo(() => serializeParams(params), [params]);
 
   const [offset, setOffset] = useState(0);
   const [items, setItems] = useState<TItem[]>([]);

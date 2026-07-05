@@ -76,13 +76,10 @@ export default function LyricsView({ lines, synced, currentTime, onSeek }: Lyric
             ref={active ? activeRef : null}
             onClick={seekable ? () => onSeek!(line.time) : undefined}
             className={cn(
-              'max-w-3xl origin-left py-2 font-serif tracking-[-0.02em] transition-all duration-300 ease-out',
+              'max-w-3xl origin-left py-2 font-serif text-[34px] font-medium leading-[1.22] tracking-[-0.02em] transition-[scale,color] duration-300 ease-out',
               active
-                ? 'text-[38px] font-semibold leading-[1.15] text-foreground'
-                : cn(
-                    'text-[25px] font-medium leading-[1.28]',
-                    synced ? 'text-ink-3/40' : 'text-ink-2'
-                  ),
+                ? 'scale-100 text-foreground'
+                : cn('scale-[0.72]', synced ? 'text-ink-3/40' : 'text-ink-2'),
               seekable && 'cursor-pointer hover:text-ink-2'
             )}
           >

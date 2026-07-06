@@ -1,3 +1,4 @@
+import type { MouseEvent } from 'react';
 import { Play, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import useCoverArt from '@/hooks/useCoverArt';
@@ -11,6 +12,7 @@ export type LibraryCardProps = {
   variant?: 'default' | 'artist';
   to?: string;
   onPlay?: () => void;
+  onContextMenu?: (event: MouseEvent) => void;
 };
 
 export default function LibraryCard({
@@ -20,6 +22,7 @@ export default function LibraryCard({
   variant = 'default',
   to,
   onPlay,
+  onContextMenu,
 }: LibraryCardProps) {
   const src = useCoverArt(coverArtId, 400);
 
@@ -36,7 +39,7 @@ export default function LibraryCard({
   };
 
   const Comp = (
-    <div className="group min-w-0 cursor-pointer">
+    <div className="group min-w-0 cursor-pointer" onContextMenu={onContextMenu}>
       <div
         className={cn(`relative aspect-square overflow-hidden bg-panel-2`, styles[variant].wrapper)}
         style={{ boxShadow: '0 1px 0 var(--hairline)' }}

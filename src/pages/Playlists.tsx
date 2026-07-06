@@ -1,11 +1,11 @@
 import LibraryCard from '@/components/LibraryCard/LibraryCard';
-import useNavidromeRequest from '@/hooks/useNavidromeRequest';
-import type { PlaylistsResponse } from '@/@types/types';
+import usePlaylists from '@/hooks/usePlaylists';
+import useContextMenu from '@/hooks/useContextMenu';
 import { getPlaylistMetadata } from '@/lib/utils';
 
 export default function Playlists() {
-  const { data, isLoading } = useNavidromeRequest<PlaylistsResponse>('/rest/getPlaylists.view');
-  const playlists = data?.['subsonic-response']?.playlists?.playlist ?? [];
+  const { playlists, isLoading } = usePlaylists();
+  const { openPlaylistMenu } = useContextMenu();
 
   return (
     <section>
@@ -27,6 +27,9 @@ export default function Playlists() {
                 title={playlist.name}
                 meta={getPlaylistMetadata(playlist)}
                 to={`/playlist/${playlist.id}`}
+                onContextMenu={(e) =>
+                  openPlaylistMenu(e, { id: playlist.id, name: playlist.name })
+                }
               />
             ))}
           </div>

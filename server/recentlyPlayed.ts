@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { db, type RecentlyPlayedItem } from './db';
+import { db, type RecentlyPlayedItem } from './db.js';
 
 const MAX_ENTRIES = 50;
 const VALID_TYPES: ReadonlyArray<RecentlyPlayedItem['type']> = ['album', 'playlist', 'artist'];
@@ -30,9 +30,10 @@ recentlyPlayedRouter.post('/', async (req, res) => {
   }
 
   const { type, id } = req.body;
-  const filtered = db.data.recentlyPlayed.filter((item) => !(item.type === type && item.id === id));
+  const filtered = db.data.recentlyPlayed.filter(
+    (item) => !(item.type === type && item.id === id)
+  );
   db.data.recentlyPlayed = [{ type, id }, ...filtered].slice(0, MAX_ENTRIES);
   await db.write();
-
   res.json({ recentlyPlayed: db.data.recentlyPlayed });
 });

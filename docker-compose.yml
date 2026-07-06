@@ -1,13 +1,25 @@
 services:
+  crosswalk:
+    image: crosswalk:lastest
+    build:
+      context: .
+      tags:
+        - latest
+      dockerfile: ./Dockerfile
+    ports:
+      - 5173:3001
+    environment:
+      - NAVIDOME_URL=example-navidome:4533
   navidrome:
+    container_name: example-navidome
     image: deluan/navidrome:latest
     user: 1000:1000 # should be owner of volumes
     ports:
-      - "4533:4533"
+      - '4533:4533'
     restart: unless-stopped
     # environment:
-      # Optional: put your config options customization here. Examples:
-      # ND_LOGLEVEL: debug
+    # Optional: put your config options customization here. Examples:
+    # ND_LOGLEVEL: debug
     volumes:
-      - "./data/metadata:/data"
-      - "./data/music:/music:ro"
+      - './data/metadata:/data'
+      - './data/music:/music:ro'

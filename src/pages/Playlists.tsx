@@ -27,9 +27,7 @@ export default function Playlists() {
                 title={playlist.name}
                 meta={getPlaylistMetadata(playlist)}
                 to={`/playlist/${playlist.id}`}
-                onContextMenu={(e) =>
-                  openPlaylistMenu(e, { id: playlist.id, name: playlist.name })
-                }
+                onContextMenu={(e) => openPlaylistMenu(e, { id: playlist.id, name: playlist.name })}
               />
             ))}
           </div>

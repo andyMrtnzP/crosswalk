@@ -8,9 +8,8 @@ const listeners = new Set<() => void>();
 export const notifyPlaylistsChanged = () => listeners.forEach((fn) => fn());
 
 export default function usePlaylists() {
-  const { data, isLoading, refetch } = useNavidromeRequest<PlaylistsResponse>(
-    '/rest/getPlaylists.view'
-  );
+  const { data, isLoading, refetch } =
+    useNavidromeRequest<PlaylistsResponse>('/rest/getPlaylists.view');
   useEffect(() => {
     const fn = () => void refetch();
     listeners.add(fn);

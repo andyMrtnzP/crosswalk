@@ -29,9 +29,7 @@ export default function Sidebar({ onLogout, username }: SidebarProps) {
   useEffect(() => {
     const el = listRef.current;
     if (!el) return;
-    const ro = new ResizeObserver(() =>
-      setMaxItems(Math.floor(el.clientHeight / PLAYLIST_ROW_H))
-    );
+    const ro = new ResizeObserver(() => setMaxItems(Math.floor(el.clientHeight / PLAYLIST_ROW_H)));
     ro.observe(el);
     return () => ro.disconnect();
   }, []);

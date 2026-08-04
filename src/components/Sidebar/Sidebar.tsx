@@ -4,6 +4,7 @@ import { ChevronRight, Plus } from 'lucide-react';
 import usePlaylists, { notifyPlaylistsChanged } from '@/hooks/usePlaylists';
 import usePlayer from '@/hooks/usePlayer';
 import useAuth from '@/hooks/useAuth';
+import useToast from '@/hooks/useToast';
 import PlaylistNavItem from './PlaylistNavItem/PlaylistNavItem';
 import { NAV_ITEMS, type PlaylistDetailResponse } from '@/@types/types';
 import { Button } from '../ui/button';
@@ -19,6 +20,7 @@ export default function Sidebar({ onLogout, username }: SidebarProps) {
   const { playlists } = usePlaylists();
   const { currentSong } = usePlayer();
   const { credentials } = useAuth();
+  const { toast } = useToast();
   const navigate = useNavigate();
   const [adding, setAdding] = useState(false);
   const [name, setName] = useState('');
@@ -51,6 +53,7 @@ export default function Sidebar({ onLogout, username }: SidebarProps) {
     const payload = (await res.json()) as PlaylistDetailResponse;
     cancelAdd();
     notifyPlaylistsChanged();
+    toast(`Created “${trimmed}”`);
     const id = payload['subsonic-response']?.playlist?.id;
     if (id) navigate(`/playlist/${id}`);
   };

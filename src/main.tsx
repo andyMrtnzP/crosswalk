@@ -6,15 +6,18 @@ import './global.css';
 import PlayerProvider from './providers/PlayerProvider';
 import ContextMenuProvider from './providers/ContextMenuProvider';
 import StarProvider from './providers/StarProvider';
+import ToastProvider from './providers/ToastProvider';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthenticationProvider>
       <StarProvider>
         <PlayerProvider>
-          <ContextMenuProvider>
-            <App />
-          </ContextMenuProvider>
+          <ToastProvider>
+            <ContextMenuProvider>
+              <App />
+            </ContextMenuProvider>
+          </ToastProvider>
         </PlayerProvider>
       </StarProvider>
     </AuthenticationProvider>

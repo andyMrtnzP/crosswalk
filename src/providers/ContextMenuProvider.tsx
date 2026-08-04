@@ -15,6 +15,7 @@ import type { Playlist, PlaylistDetailResponse, Song } from '@/@types/types';
 import usePlayer from '@/hooks/usePlayer';
 import useAuth from '@/hooks/useAuth';
 import useCoverArt from '@/hooks/useCoverArt';
+import useToast from '@/hooks/useToast';
 import { buildRestUrl } from '@/lib/auth';
 import { recordRecentlyPlayed } from '@/lib/crosswalkApi';
 import usePlaylists, { notifyPlaylistsChanged } from '@/hooks/usePlaylists';
@@ -63,6 +64,7 @@ export default function ContextMenuProvider({ children }: { children: React.Reac
   const { playQueue, playNext, addToQueue } = usePlayer();
   const { credentials } = useAuth();
   const { playlists } = usePlaylists();
+  const { toast } = useToast();
   const [menu, setMenu] = useState<MenuState | null>(null);
   const [confirm, setConfirm] = useState<PlaylistTarget | null>(null);
   const [pickerSong, setPickerSong] = useState<Song | null>(null);
@@ -98,17 +100,31 @@ export default function ContextMenuProvider({ children }: { children: React.Reac
         song,
         items: [
           { label: 'Play', icon: Play, onSelect: onPlay },
-          { label: 'Play Next', icon: ListStart, onSelect: () => playNext(song) },
-          { label: 'Add to Queue', icon: ListPlus, onSelect: () => addToQueue(song) },
+          {
+            label: 'Play Next',
+            icon: ListStart,
+            onSelect: () => {
+              playNext(song);
+              toast(`“${song.title}” will play next`);
+            },
+          },
+          {
+            label: 'Add to Queue',
+            icon: ListPlus,
+            onSelect: () => {
+              addToQueue(song);
+              toast(`Added “${song.title}” to queue`);
+            },
+          },
           { label: 'Add to Playlist', icon: ListMusic, onSelect: () => {}, addToPlaylist: true },
         ],
       });
     },
-    [playNext, addToQueue]
+    [playNext, addToQueue, toast]
   );
 
   const addToPlaylist = useCallback(
-    async (playlistId: string, song: Song) => {
+    async (playlistId: string, playlistName: string, song: Song) => {
       if (!credentials) return;
       const url = buildRestUrl('updatePlaylist.view', credentials.username, credentials.password, {
         playlistId,
@@ -116,8 +132,9 @@ export default function ContextMenuProvider({ children }: { children: React.Reac
       });
       await fetch(url);
       notifyPlaylistsChanged();
+      toast(`Added to “${playlistName}”`);
     },
-    [credentials]
+    [credentials, toast]
   );
 
   const openPlaylistMenu = useCallback(
@@ -140,12 +157,19 @@ export default function ContextMenuProvider({ children }: { children: React.Reac
             icon: ListStart,
             // Reverse so repeated insert-after-current lands them in order.
             onSelect: () =>
-              void fetchEntries(target.id).then((s) => [...s].reverse().forEach(playNext)),
+              void fetchEntries(target.id).then((s) => {
+                [...s].reverse().forEach(playNext);
+                if (s.length) toast(`${s.length} songs will play next`);
+              }),
           },
           {
             label: 'Add to Queue',
             icon: ListPlus,
-            onSelect: () => void fetchEntries(target.id).then((s) => s.forEach(addToQueue)),
+            onSelect: () =>
+              void fetchEntries(target.id).then((s) => {
+                s.forEach(addToQueue);
+                if (s.length) toast(`Added ${s.length} songs to queue`);
+              }),
           },
           {
             label: 'Delete',
@@ -156,7 +180,7 @@ export default function ContextMenuProvider({ children }: { children: React.Reac
         ],
       });
     },
-    [fetchEntries, playQueue, playNext, addToQueue]
+    [fetchEntries, playQueue, playNext, addToQueue, toast]
   );
 
   useEffect(() => {
@@ -188,8 +212,9 @@ export default function ContextMenuProvider({ children }: { children: React.Reac
     });
     await fetch(url);
     notifyPlaylistsChanged();
+    toast(`Deleted “${confirm.name}”`);
     setConfirm(null);
-  }, [confirm, credentials]);
+  }, [confirm, credentials, toast]);
 
   const items = menu?.items ?? [];
   const menuHeight = items.length * MENU_ITEM_H + 12;
@@ -237,7 +262,7 @@ export default function ContextMenuProvider({ children }: { children: React.Reac
                           key={pl.id}
                           playlist={pl}
                           onSelect={() => {
-                            void addToPlaylist(pl.id, menuSong);
+                            void addToPlaylist(pl.id, pl.name, menuSong);
                             close();
                           }}
                         />
@@ -354,7 +379,7 @@ export default function ContextMenuProvider({ children }: { children: React.Reac
                       key={pl.id}
                       playlist={pl}
                       onSelect={() => {
-                        void addToPlaylist(pl.id, pickerSong);
+                        void addToPlaylist(pl.id, pl.name, pickerSong);
                         setPickerSong(null);
                       }}
                     />

@@ -5,6 +5,7 @@ import useNavidromeRequest from '@/hooks/useNavidromeRequest';
 import useCoverArt from '@/hooks/useCoverArt';
 import usePlayer from '@/hooks/usePlayer';
 import useStarred from '@/hooks/useStarred';
+import useContextMenu from '@/hooks/useContextMenu';
 import type { AlbumDetailResponse, Song } from '@/@types/types';
 import { cn, formatRuntime } from '@/lib/utils';
 import { recordRecentlyPlayed } from '@/lib/crosswalkApi';
@@ -14,6 +15,7 @@ import { Button } from '@/components/ui/button';
 export default function Album() {
   const { id } = useParams<{ id: string }>();
   const player = usePlayer();
+  const { openAlbumMenu } = useContextMenu();
 
   const { data: albumData } = useNavidromeRequest<AlbumDetailResponse>(
     '/rest/getAlbum.view',
@@ -111,7 +113,12 @@ export default function Album() {
           <Button type="button" aria-label="Download" variant="icon">
             <Download className="h-4 w-4" />
           </Button>
-          <Button type="button" aria-label="More options" variant="icon">
+          <Button
+            type="button"
+            aria-label="More options"
+            variant="icon"
+            onClick={(e) => openAlbumMenu(e, songs)}
+          >
             <MoreVertical className="h-4 w-4" />
           </Button>
         </div>

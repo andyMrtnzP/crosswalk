@@ -137,6 +137,44 @@ export default function ContextMenuProvider({ children }: { children: React.Reac
     [credentials, toast]
   );
 
+  const openAlbumMenu = useCallback(
+    (event: MouseEvent, songs: Song[]) => {
+      event.preventDefault();
+      if (songs.length === 0) return;
+      const play = (order: (s: Song[]) => Song[]) => {
+        const entries = order(songs);
+        if (entries.length === 0) return;
+        playQueue(entries, 0);
+      };
+      setMenu({
+        x: event.clientX,
+        y: event.clientY,
+        items: [
+          { label: 'Play', icon: Play, onSelect: () => play((s) => s) },
+          { label: 'Shuffle', icon: Shuffle, onSelect: () => play(shuffle) },
+          {
+            label: 'Play Next',
+            icon: ListStart,
+            // Reverse so repeated insert-after-current lands them in order.
+            onSelect: () => {
+              [...songs].reverse().forEach(playNext);
+              toast(`${songs.length} songs will play next`);
+            },
+          },
+          {
+            label: 'Add to Queue',
+            icon: ListPlus,
+            onSelect: () => {
+              songs.forEach(addToQueue);
+              toast(`Added ${songs.length} songs to queue`);
+            },
+          },
+        ],
+      });
+    },
+    [playQueue, playNext, addToQueue, toast]
+  );
+
   const openPlaylistMenu = useCallback(
     (event: MouseEvent, target: PlaylistTarget) => {
       event.preventDefault();
@@ -226,7 +264,7 @@ export default function ContextMenuProvider({ children }: { children: React.Reac
 
   return (
     <ContextMenuContext.Provider
-      value={{ openSongMenu, openPlaylistMenu, openPlaylistPicker: setPickerSong }}
+      value={{ openSongMenu, openAlbumMenu, openPlaylistMenu, openPlaylistPicker: setPickerSong }}
     >
       {children}
       {menu &&

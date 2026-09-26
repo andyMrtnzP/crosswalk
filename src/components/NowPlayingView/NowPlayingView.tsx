@@ -174,11 +174,7 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
           {starred ? 'Liked' : 'Like'}
         </Button>
 
-        <Button
-          type="button"
-          variant="pill"
-          onClick={() => openPlaylistPicker(currentSong)}
-        >
+        <Button type="button" variant="pill" onClick={() => openPlaylistPicker(currentSong)}>
           <ListPlus className="h-3.5 w-3.5" />
           Add to playlist
         </Button>

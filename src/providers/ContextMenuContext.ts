@@ -7,6 +7,7 @@ export type PlaylistTarget = { id: string; name: string };
 export type ContextMenuValue = {
   openSongMenu: (event: MouseEvent, song: Song, onPlay: () => void) => void;
   openPlaylistMenu: (event: MouseEvent, target: PlaylistTarget) => void;
+  openPlaylistPicker: (song: Song) => void;
 };
 
 export const ContextMenuContext = createContext<ContextMenuValue | null>(null);

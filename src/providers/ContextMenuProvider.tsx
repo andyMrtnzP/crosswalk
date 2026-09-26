@@ -225,7 +225,7 @@ export default function ContextMenuProvider({ children }: { children: React.Reac
   const menuSong = menu?.song;
 
   return (
-    <ContextMenuContext.Provider value={{ openSongMenu, openPlaylistMenu }}>
+    <ContextMenuContext.Provider value={{ openSongMenu, openPlaylistMenu, openPlaylistPicker: setPickerSong }}>
       {children}
       {menu &&
         createPortal(

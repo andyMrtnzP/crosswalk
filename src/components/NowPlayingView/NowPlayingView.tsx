@@ -16,6 +16,7 @@ import usePlayer from '@/hooks/usePlayer';
 import useCoverArt from '@/hooks/useCoverArt';
 import useStarred from '@/hooks/useStarred';
 import useLyrics from '@/hooks/useLyrics';
+import useContextMenu from '@/hooks/useContextMenu';
 import Queue from '@/components/Queue/Queue';
 import Player from '@/components/Player/Player';
 import LyricsView from '@/components/LyricsView/LyricsView';
@@ -34,6 +35,7 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
     usePlayer();
   const { starred, toggle: toggleStar } = useStarred(currentSong?.id ?? '', !!currentSong?.starred);
   const { lines, synced, hasLyrics } = useLyrics(currentSong?.id);
+  const { openSongMenu, openPlaylistPicker } = useContextMenu();
 
   const [view, setView] = useState<NpvView>('player');
 
@@ -172,12 +174,21 @@ export default function NowPlayingView({ isOpen, onClose }: Props) {
           {starred ? 'Liked' : 'Like'}
         </Button>
 
-        <Button type="button" variant="pill">
+        <Button
+          type="button"
+          variant="pill"
+          onClick={() => openPlaylistPicker(currentSong)}
+        >
           <ListPlus className="h-3.5 w-3.5" />
           Add to playlist
         </Button>
 
-        <Button type="button" aria-label="More options" variant="pill">
+        <Button
+          type="button"
+          aria-label="More options"
+          variant="pill"
+          onClick={(e) => openSongMenu(e, currentSong, togglePlay)}
+        >
           <MoreHorizontal className="h-3.5 w-3.5" />
         </Button>
       </div>

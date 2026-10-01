@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import useNavidromeRequest from '@/hooks/useNavidromeRequest';
+import usePlayer from '@/hooks/usePlayer';
+import useContextMenu from '@/hooks/useContextMenu';
 import type { Search2Response } from '@/@types/types';
 import { cn } from '@/lib/utils';
 import QuickSearchItem from './QuickSearchItem';
@@ -9,6 +11,8 @@ import QuickSearchItem from './QuickSearchItem';
 export default function SearchBar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const player = usePlayer();
+  const { openSongMenu } = useContextMenu();
 
   const urlQuery = new URLSearchParams(location.search).get('q') ?? '';
   const [value, setValue] = useState(urlQuery);
@@ -108,6 +112,12 @@ export default function SearchBar() {
                 subtitle={`Song · ${song.artist ?? ''}`}
                 shape="square"
                 onClick={() => (song.albumId ? goTo(`/album/${song.albumId}`) : undefined)}
+                onContextMenu={(e) =>
+                  openSongMenu(e, song, () => {
+                    player.playQueue(songs, i);
+                    setIsOpen(false);
+                  })
+                }
                 badge={i === 0 ? 'Enter' : undefined}
                 highlight={i === 0}
               />

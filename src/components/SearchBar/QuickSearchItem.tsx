@@ -7,6 +7,7 @@ export type QuickSearchItemProps = {
   subtitle: string;
   shape: 'square' | 'circle';
   onClick: () => void;
+  onContextMenu?: (e: React.MouseEvent) => void;
   badge?: string;
   highlight?: boolean;
 };
@@ -17,6 +18,7 @@ export default function QuickSearchItem({
   subtitle,
   shape,
   onClick,
+  onContextMenu,
   badge,
   highlight,
 }: QuickSearchItemProps) {
@@ -26,6 +28,7 @@ export default function QuickSearchItem({
     <button
       type="button"
       onClick={onClick}
+      onContextMenu={onContextMenu}
       className={cn(
         'grid w-full grid-cols-[28px_1fr_auto] items-center gap-2.5 rounded-lg px-2 py-1.75 text-left transition-colors hover:bg-white/5',
         highlight && 'bg-white/[0.035]'
